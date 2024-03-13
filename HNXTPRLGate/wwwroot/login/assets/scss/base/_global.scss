@@ -1,0 +1,99 @@
+// ======================================================
+// Base :: Global
+// ======================================================
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-height: 100vh;
+    font-family: 'Nunito';
+    font-size: 13px;
+    font-weight: 400;
+    color: #fff;
+    background: #161C24;
+    position: relative;
+    width: 100%;
+}
+
+a,
+a:hover {
+    text-decoration: none;
+}
+
+img {
+    border-style: none;
+}
+
+p,
+label {
+    margin: 0;
+}
+
+i {
+    transition: all 0.5s;
+}
+
+ul,
+ol,
+li {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    list-style-type: none;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+    margin: 0;
+}
+
+textarea {
+    overflow: auto;
+}
+
+[type=button]:not(:disabled),
+[type=reset]:not(:disabled),
+[type=submit]:not(:disabled),
+button:not(:disabled) {
+    cursor: pointer;
+}
+
+[type=checkbox],
+[type=radio] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+input,
+textarea,
+button,
+button:active,
+button:focus,
+select,
+select:focus {
+    outline-color: #fff;
+}
+
+input:disabled,
+input[readonly],
+select:disabled,
+select[readonly] {
+    background: #33383e;
+}
+
+select,
+option {
+    background: #313b46;
+    color: #fff;
+}

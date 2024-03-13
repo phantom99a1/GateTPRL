@@ -1,0 +1,63 @@
+.modal {
+
+    &-dialog {
+        &.modal-xl {
+            max-width: 1210px;
+        }
+    }
+
+    &-content {
+        background: #212B36;
+        border-radius: 15px;
+    }
+
+    &-body {
+        padding: 0;
+        max-height: calc(100vh - 150px);
+        height: 100%;
+        overflow-y: scroll;
+        border-radius: 0 0 15px 15px;
+
+        &::-webkit-scrollbar {
+            width: 5px;
+            border-radius: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #c4c4c4;
+            border-radius: 10px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 10px;
+        }
+    }
+
+    &-header {
+        background: #333D49;
+        border-bottom: 0;
+        padding: 24px 40px;
+        border-radius: 15px 15px 0 0;
+
+        .close {
+            opacity: 1;
+        }
+
+        img {
+            width: 21px;
+            height: 21px;
+        }
+    }
+
+    &-title {
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    &-footer {
+        border-top: 0;
+        background: #1A333A
+    }
+}

@@ -1,0 +1,61 @@
+// ======================================================
+// Abstracts :: Variables
+// ======================================================
+
+//set darkmode
+html {
+    --c-wh: #fff;
+    --c-bl: #192834;
+    --c-yl: #ffd500;
+    --c-news: #f7cb30;
+    --c-bl-tran: #1b81bf;
+    --c-gr: #00f100;
+    --c-red: #f10000;
+    --c-violet: #f0f;
+    --c-blue: #0cc;
+    --c-smoke: #b3b3b3;
+    --c-flatlist: #c6ced2;
+    --c-price-board-grid: #0a1014;
+    --c-gray: hsla(0, 0%, 100%, 0.7);
+    --c-br-menu: #2c333a;
+    --c-05: hsla(0, 0%, 100%, 0.5);
+    --c-b2: #b2b2b2;
+    --c-br-thead: #555;
+    --c-br-td: #2d2e2f;
+    --c-br-smoke: #404142;
+    --c-br-666: #666;
+    --c-brb-headpp: #202020;
+    --c-br-grid: #2e4152;
+    --c-br-head: #656565;
+    --c-ccc: #ccc;
+    --c-title-branch: #08b7ee;
+    --c-position: #26a661;
+    --c-sidebar: #6e8ba0;
+    --bg-body: #0a1014;
+    --btnbg-hover: #26a661;
+    --bg-header: #192834;
+    --bg-main: #2f3941;
+    --bg-main-dark: #1e2429;
+    --bg-main-light: #364149;
+    --bg-smoke: rgb(137 137 137 / 37%);
+    --bg-sidebar: #151a1e;
+    --btn-bg: #404e59;
+    --btn-bg-active: #00b22a;
+    --bg-008: hsla(0, 0%, 100%, 0.08);
+    --bg-menu: #16222c;
+    --bg-015: hsla(0, 0%, 57.3%, 0.15);
+    --bg-tran: transparent;
+    --bg-box-chart: #202930;
+    --bg-info: #226c37;
+    --bg-info-active: #142532;
+    --bg-sidebar: #0f181f;
+    --bg-thead: #1D1D1D;
+    --bg-top: #17212b;
+    --bg-menuchild: #222f3a;
+    --bg-menuchild-hv: #37444f;
+    --bg-scroll: #343638;
+}
+
+//set lightmod
+
+html.light {}

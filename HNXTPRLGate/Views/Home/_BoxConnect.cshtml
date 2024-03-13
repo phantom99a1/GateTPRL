@@ -1,0 +1,77 @@
+﻿@using HNXTPRLGate.Resources;
+@using APIMonitor.ObjectInfo;
+@using APIMonitor.Models;
+@model BoxConnectModel;
+@{
+    BoxConnectModel boxConnect = new BoxConnectModel();
+    boxConnect._HNXSystemConnect = Model._HNXSystemConnect != null ? Model._HNXSystemConnect : new HNXSystemConnectModel();
+    boxConnect._KafkaSystemConnect = Model._KafkaSystemConnect != null ? Model._KafkaSystemConnect : new KafkaSystemConnectModel();
+}
+
+<div class="group__box h-100">
+    <div class="group__box-list v1">
+        <div class="box">
+            <div class="box__head">
+                @Resource.lblThongTinKetNoiDenHNX
+            </div>
+            <div class="box__body">
+                <div class="item">
+                    <div class="title">@Resource.lblIP:</div>
+                    <div class="value status">@boxConnect._HNXSystemConnect.IP</div>
+                </div>
+                <div class="item">
+                    <div class="title">@Resource.lblPort:</div>
+                    <div class="value num">@boxConnect._HNXSystemConnect.Port</div>
+                </div>
+                <div class="item">
+                    <div class="title">@Resource.lblStatus:</div>
+                    <div class="value num">@boxConnect._HNXSystemConnect.Status</div>
+                </div>
+                 <div class="item">
+                    <div class="title">Login status:</div>
+                    <div class="value num" style="white-space:pre-wrap;word-break: break-all;">@boxConnect._HNXSystemConnect.LoginStatus</div>
+                </div>
+                <div class="item">
+                    <div class="title">@Resource.lblSequence:</div>
+                    <div class="value">@boxConnect._HNXSystemConnect.Sequence</div>
+                </div>
+                <div class="item">
+                    <div class="title">@Resource.lblLastProcessedSequence:</div>
+                    <div class="value">@boxConnect._HNXSystemConnect.LastSeqProcess</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="box__head">
+                @Resource.lblThongTinketNoiDenKafka
+            </div>
+            <div class="box__body">
+                <div class="item">
+                    <div class="title">@Resource.lblIP :</div>
+                    <div class="value status" style="white-space:pre-wrap">@boxConnect._KafkaSystemConnect.IP</div>
+                </div>
+                <div class="item">
+                    <div class="title">@Resource.lblPort:</div>
+                    <div class="value num">@boxConnect._KafkaSystemConnect.Port</div>
+                </div>
+                <div class="item">
+                    <div class="title">@Resource.lblTopicTradingInfomartion:</div>
+                    <div class="value num" style="white-space:pre-wrap;word-break: break-all;">@boxConnect._KafkaSystemConnect.TopicName_TradingInfomation</div>
+                </div>
+                <div class="item">
+                    <div class="title">@Resource.lblTopicOrderStatus:</div>
+                    <div class="value num" style="white-space:pre-wrap;word-break: break-all;">@boxConnect._KafkaSystemConnect.TopicName_OrderStatus</div>
+                </div>
+                <div class="item">
+                    <div class="title">@Resource.lblTopicOrderExection:</div>
+                    <div class="value num" style="white-space:pre-wrap; word-break: break-all;">@boxConnect._KafkaSystemConnect.TopicName_OrderExecution</div>
+                </div>
+                <div class="item">
+                    <div class="title">@Resource.lblNumberMessageSend:</div>
+                    <div class="value num">@boxConnect._KafkaSystemConnect.NumberMessageSend</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

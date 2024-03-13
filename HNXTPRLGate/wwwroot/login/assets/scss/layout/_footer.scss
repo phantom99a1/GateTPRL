@@ -1,0 +1,15 @@
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(145, 158, 171, 0.16);
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 22px;
+
+    .version {
+        padding: 5px;
+        padding-left: 20px;
+    }
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "Username": "admin",
+    "Password": "27ESzDyxwC9YAlrASnxxyg==", // 12345@Abc
+    "Role": "FULL"
+  },
+  {
+    "Username": "admin2",
+    "Password": "27ESzDyxwC9YAlrASnxxyg==",
+    "Role": "VIEW"
+  }
+]

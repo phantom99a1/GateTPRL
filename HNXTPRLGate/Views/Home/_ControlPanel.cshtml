@@ -1,0 +1,161 @@
+﻿@using HNXTPRLGate.Resources;
+@using CommonLib;
+@{
+}
+<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content ">
+        <div class="modal-header">
+            <h5 class="modal-title">@Resource.lblControlPanel</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <img src="/assets/image/icon/ic_close.svg" alt="img" width="21" height="21">
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="group group__modal tprl p-0">
+                <div class="group__box-panel">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+                            <a class="nav-item nav-link" id="nav-session-even-tab" data-toggle="tab"
+                               href="#nav-session-even" role="tab" aria-controls="nav-session-even"
+                               aria-selected="false">Change gateway password</a>
+
+                            <a class="nav-item nav-link active" id="nav-info-tab" data-toggle="tab"
+                               href="#nav-info" role="tab" aria-controls="nav-info"
+                               aria-selected="true">Trading session request</a>
+
+                            <a class="nav-item nav-link" id="nav-securities-tab" data-toggle="tab"
+                               href="#nav-securities" role="tab" aria-controls="nav-securities"
+                               aria-selected="false">Securities status request</a>
+                           
+                        </div>
+
+                          
+                    </nav>
+
+                    <div class="tab-content" id="nav-tabContent">
+
+                        <div class="tab-pane fade" id="nav-session-even" role="tabpanel" aria-labelledby="nav-session-even-tab">
+                            <div class="box">
+                                <div class="box__head">Change gateway password</div>
+
+                                <div class="box__body">
+                                    <form action="">
+                                        <div class="form-group">
+                                            <label for="txtOldPassword">Old password *</label>
+                                            <input id="txtOldPassword" type="password" class="form-control" value=""/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="txtNewPassword">New password *</label>
+                                            <input id="txtNewPassword" type="password" class="form-control" value="" />
+                                        </div>
+                                        <div style="font-style:italic;font-size:11px">
+                                            *Mật khẩu gồm 8-20 ký tự, chứa ít nhất 3 trong 4 loại (chữ hoa, chữ thường, số, ký tự đặc biệt)
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="box__foot">
+                                    <div>
+                                        <button class="primary" onclick="btnChangeGwPass()">Submit</button>
+                                    </div>
+                                </div>
+                                <div class="divider"></div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+                            <div class="box">
+                                <div class="box__head">Trading session request</div>
+
+                                <div class="box__body">
+                                    <form action="">
+                                        <div class="form-group sl">
+                                            <label for="cboTradingSessionRequest">Request Mode </label>
+                                            <select id="cboTradingSessionRequest" class="form-control" onchange="TradingSessionRequestChange(this)">
+                                                <option value="@TradingCode.AllSymbol">Tất cả chứng khoán</option>
+                                                <option value="@TradingCode.AllTable" selected>Tất cả bảng</option>
+                                                <option value="@TradingCode.WithTable">Theo bảng</option>
+                                                <option value="@TradingCode.WithSymbol">Theo mã chứng khoán</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="txtName">Name</label>
+                                            <input id="txtName" type="text" class="form-control" value="" disabled style="background-color: #848883;" />
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="box__foot">
+                                    <div>
+                                        <button class="primary" onclick="btnTradingSessionRequest()">Submit</button>
+                                    </div>
+                                </div>
+                                <div class="divider"></div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="nav-securities" role="tabpanel" aria-labelledby="nav-securities-tab">
+                            <div class="box">
+                                <div class="box__head">Securities status request</div>
+
+                                <div class="box__body">
+                                    <form action="">
+                                        <div class="form-group sl">
+                                            <label for="cboSecurities">Request Mode</label>
+                                            <select id="cboSecurities" class="form-control" onchange="SecuritiesRequestChange(this)">
+                                                <option value="@TradingCode.AllSymbol">Tất cả chứng khoán</option>
+                                                <option value="@TradingCode.WithSymbol">Theo mã chứng khoán</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="txtSecurities">Symbol</label>
+                                            <input id="txtSecurities" type="text" class="form-control" value="" disabled style="background-color: #848883;" />
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="box__foot">
+                                    <div>
+                                        <button class="primary" onclick="btnSecuritiesRequest()">Submit</button>
+                                    </div>
+                                </div>
+                                <div class="divider"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function TradingSessionRequestChange(data) {
+        var gValue = data.value;
+        document.getElementById('txtName').ariaValueMax = "";
+        document.getElementById('txtName').removeAttribute('disabled');
+        document.getElementById('txtName').removeAttribute('style');
+        //
+        if (gValue == 0 || gValue==1)
+        {
+            document.getElementById('txtName').setAttribute('disabled', 'disabled');
+            document.getElementById('txtName').setAttribute('style', 'background-color: #848883;');
+        }
+    }
+    function SecuritiesRequestChange(data)
+    {
+        var gValue = data.value;
+        document.getElementById('txtSecurities').ariaValueMax = "";
+        document.getElementById('txtSecurities').removeAttribute('disabled');
+        document.getElementById('txtSecurities').removeAttribute('style');
+        //
+        if (gValue == 0) {
+            document.getElementById('txtSecurities').setAttribute('disabled', 'disabled');
+            document.getElementById('txtSecurities').setAttribute('style', 'background-color: #848883;');
+        }
+    }
+</script>
+
+

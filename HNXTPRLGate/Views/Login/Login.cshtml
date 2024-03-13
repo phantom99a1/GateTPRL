@@ -1,0 +1,132 @@
+﻿@{
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HNX GATE TPRL LOGIN</title>
+
+    <link rel="stylesheet" href="~/login/assets/vendors/fontawesome/fontawesome-free-6.3.0-web/css/all.min.css">
+    <link rel="stylesheet" href="~/login/assets/vendors/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="~/login/assets/vendors/sweetalert/sweetalert2.css">
+    <link rel="stylesheet" href="~/login/assets/fonts/stylesheet.css">
+    <link rel="stylesheet" href="~/login/assets/scss/main.css">
+
+    <script src="~/assets/js/jquery.min.js"></script>
+
+    <link href="~/notify/animate.min.css" rel="stylesheet" />
+    <link href="~/notify/notify.css" rel="stylesheet" />
+    <script src="~/notify/bootstrap-notify.min.js"></script>
+    <script src="~/notify/bootstrap-notify-init.js"></script>
+    <style>
+        .swal2-content {
+            margin-bottom: 30px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="root">
+        <div class="wrap__login">
+            <div class="flex-login">
+                <div class="flex-login--top">
+                    <a href="#">
+                        <img src="/login/assets/image/img/login-page-logo.png" alt="page-logo" width="62" height="56">
+                    </a>
+
+                    <span>Công ty Cổ phần Chứng khoán SSI</span>
+                </div>
+
+                <div class="flex-login--bottom">
+                    <div class="box-login">
+                        <h2 class="box-login--text">Monitor Gate Trái Phiếu Riêng Lẻ</h2>
+
+                        <h3>Đăng Nhập</h3>
+
+                        <div class="block-login">
+                            <form action="javascript:;">
+                                <div class="field-login">
+                                    <input class="field-login--account" type="text" id="txtUserName" placeholder="Tài khoản" autocomplete="off">
+                                    <img src="/login/assets/image/icon/ic_account.svg" alt="" width="16" height="16">
+                                </div>
+
+                                <div class="field-login">
+                                    <input class="field-login--password" type="password" id="txtPassword" placeholder="Mật khẩu" autocomplete="off">
+                                    <img src="/login/assets/image/icon/ic_password.svg" alt="" width="16" height="16">
+                                </div>
+
+                               @* <div class="save-password">
+                                    <input type="checkbox" id="checkbox-save">
+                                    <label for="checkbox-save">Ghi nhớ mật khẩu</label>
+                                </div>*@
+
+                                <button class="btn-login" onclick="fnLogin()">Đăng nhập</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="copyright">
+                    <p>Copy right 2022. Bản quyền thuộc về Công ty Cổ phần Giải pháp và Dịch vụ phần mềm Nam Việt</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/assets/vendors/sweetalert/sweetalert2-init.js"></script>
+    <script src="~/assets/vendors/sweetalert/sweetalert2.js"></script>
+    <script src="~/assets/vendors/bootstrap/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+        function fnLogin(){
+            var userName=$("#txtUserName").val();
+            var passWord = $("#txtPassword").val();
+            if (userName == '' || userName == null) {
+                nvsError("Vui lòng nhập tài khoản.");
+                $("#txtUserName").focus();
+                return;
+            }
+            if (passWord == '' || passWord == null) {
+                nvsError("Vui lòng nhập mật khẩu.");
+                $("#txtPassword").focus();
+                return;
+            }
+
+            try {
+                $.ajax({
+                    type: "POST",
+                    url: "/login",
+                    data: {
+                        "userName": userName,
+                        "passWord": passWord
+                    },
+                    success: function (data) {
+                        if (data.code > 0) {
+                            //nvsSuccess(data.message);
+                            //$('#txtUserName').val('');
+                            //$('#txtPassword').val('');
+                            window.location.href = "/";
+                        }
+                        else {
+                            nvsError(data.message);
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data.error);
+                        nvsError(data.error);
+                    }
+                });
+            } catch (e) {
+                SpinLoading(false);
+                console.log(e);
+            }
+        }
+    </script>
+</body>
+
+</html>

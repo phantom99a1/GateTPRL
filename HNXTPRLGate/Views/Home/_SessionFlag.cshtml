@@ -1,0 +1,35 @@
+﻿@using HNXTPRLGate.Resources;
+@using APIMonitor.ObjectInfo;
+@model BoxConnectModel;
+@{
+    string tradingStatus = "N/A";
+    BoxConnectModel _BoxConnect = new BoxConnectModel();
+    _BoxConnect = Model != null ? Model : new BoxConnectModel();
+    if (!string.IsNullOrEmpty(_BoxConnect.Session))
+    {
+        if (_BoxConnect.Session == "Dang giao dich")
+        {
+            tradingStatus = "Đang giao dịch";
+        }
+        else if (_BoxConnect.Session == "Tam dung giao dich")
+        {
+            tradingStatus = "Tạm dừng giao dịch";
+        }
+        else if (_BoxConnect.Session == "Ket thuc nhan lenh")
+        {
+            tradingStatus = "Kết thúc nhận lệnh";
+        }
+        else if (_BoxConnect.Session == "Cho nhan lenh")
+        {
+            tradingStatus = "Chờ nhận lệnh";
+        }
+        else if (_BoxConnect.Session == "Dong cua thi truong")
+        {
+            tradingStatus = "Đóng cửa thị trường";
+        }
+    }
+
+}
+<div class="header_info-content">
+    @Resource.lblTrangThaiGiaoDich: <span>@tradingStatus</span>
+</div>

@@ -1,0 +1,196 @@
+﻿0,Thanh cong
+-1,Loi khong xac dinh
+-31000,Ma Trai phieu khong ton tai!
+-31001,"Trai phieu dang bi tam ngung GD, khong duoc phep dat lenh!"
+-31002,Tham so buoc gia cua trai phieu khong ton tai!
+-31003,Gia giao dich phai chia het cho buoc gia!
+-31004,Gia giao dich phai lon hon hoac bang gia san!
+-31005,Gia giao dich phai nho hon hoac bang gia tran
+-31006,Tham so ve gia khong ton tai!
+-31007,Tham so ve khoi luong khong ton tai!
+-31008,Khoi luong dat khong duoc vuot qua khoi luong dang ky giao dich cua trai phieu!
+-31009,Khoi luong dat phai lon hon khoi luong giao dich toi thieu
+-31010,Tham so lo giao dich khong ton tai!
+-31011,Khoi luong phai chia het cho lo giao dich!
+-31012,Khoi luong phai lon hon 0!
+-31013,Gia giao dich phai lon hon 0!
+-31014,Bang giao dich cua trai phieu khong ton tai!
+-31015,Bang giao dich dang ngung hoat dong!
+-31016,Thi truong giao dich khong ton tai!
+-31017,Thi truong giao dich dang ngung hoat dong!
+-31018,"TCPH cua Ma trai phieu nay dang ngung hoat dong, khong duoc phep nhap lenh!"
+-31019,Tham so bo quy dinh giao dich khong ton tai!
+-31020,Khong ton tai dai khoi luong giao dich toi thieu tuong ung voi menh gia cua TP!
+-31021,Gia tri thanh toan gui vao phai lon hon 0
+-31022,Gia tri giao dich theo menh gia cua Repos khong duoc nho hon gia tri giao dich toi thieu
+-31023,Gia cua lenh thi truong (ATO/ATC/MP) phai = 0
+-32000,Tham so ve Trang thai giao dich khong ton tai!
+-32001,Thi truong chua nhan lenh!
+-32002,Phien giao dich hien tai dang tam ngung nhan lenh!
+-32003,Lich giao dich cua trai phieu khong ton tai!
+-32004,Tham so phien giao dich khong ton tai!
+-32005,Loai lenh giao dich khong ton tai!
+-32006,Phien hien tai khong cho phep giao dich loai lenh nay!
+-32007,Bo lich giao dich khong ton tai!
+-32008,"Ngay hien tai la ngay nghi, khong duoc phep giao dich!"
+-32009,"Ngay hien tai khong phai ngay giao dich, khong duoc phep nhap lenh!"
+-32010,Lich giao dich cua thi truong khong ton tai!
+-32011,Khong ton tai NormalType
+-32012,Phien giao dich chua thiet lap tham so cho giao dich Outright!
+-32013,Khong ton tai ReposType
+-32014,So luong thanh vien nhan lenh khong duoc nho hon so luong toi thieu!
+-32015,Chu ky thanh toan khong duoc nho hon chu ky thanh toan toi thieu!
+-32016,Chu ky thanh toan khong duoc lon hon chu ky thanh toan toi da
+-32017,"Tag SetMethod sai gia tri (phai bang 1,2,3)"
+-32018,Ngay thanh toan lan 1 phai la ngay giao dich
+-32019,Ngay thanh toan lan 1 phai la ngay giao dich
+-32020,Ngay thanh toan lan 2 phai la ngay giao dich
+-32021,Ngay thanh toan lan 2 phai la ngay giao dich
+-32022,Ngay ket thuc GD phai la ngay giao dich
+-32023,Ngay ket thuc GD phai la ngay giao dich
+-32024,Phien giao dich da ket thuc nhan lenh!
+-32025,Ky han Repos nho hon ky  han Repos toi thieu trong tham so giao dich Repos
+-32026,Ky han Repos lon hon ky  han Repos toi da trong tham so giao dich Repos
+-32027,Ty le phong ve rui ro nho hon ty le phong ve rui ro toi thieu
+-32028,Ty le phong ve rui ro lon hon ty le phong ve rui ro toi da
+-32029,Trai phieu co lai suat tha noi khong duoc giao dich Repos
+-32030,Khong ton tai match type cho giao dich Khoi luong thong thuong
+-32031,Dieu kien huy cua lenh thi truong sai
+-32032,Chu ky thanh toan khong dung quy dinh!
+-32033,Phuong thuc thanh toan GD phai la thanh toan tuong lai
+-32034,He thong khong cho phep thanh toan tuong lai
+-32999,Cac bang giao dich khong cho phep nhap lenh Inquiry!
+-33000,So tai khoan phai chua 10 ky tu!
+-33001,"Ky tu thu 4 trong tai khoan phai thuoc cac gia tri {A,E,B,F,P,C}"
+-33002,Thanh vien khong ton tai!
+-33003,"Thanh vien dang bi Tam ngung giao dich hoac Ngung giao dich, khong duoc phep nhap lenh!"
+-33004,"Thanh vien nhap lenh phai la giao dich giao dich. Truong hop nhap lenh ho, thanh vien duoc nhap lenh ho khong duoc la giao dich giao dich thong thuong!"
+-33005,Tai khoan nhap lenh cua thanh vien khong hop le!
+-33006,Thanh vien chua den ngay duoc phep tham gia giao dich tai bang hoac da het han giao dich tai bang!
+-33007,Thanh vien khong duoc phep giao dich tai Bang nay!
+-33008,Thanh vien khong duoc phep giao dich ban moi gioi!
+-33009,Thanh vien khong duoc phep giao dich ban tu doanh!
+-33010,Thanh vien khong duoc phep giao dich mua moi gioi!
+-33011,Thanh vien khong duoc phep giao dich mua tu doanh!
+-33012,Ma thanh vien dat lenh trong tag 448 khong dung side mua/ban!
+-33013,Trang thai tai khoan nhap lenh khong hop le
+-33014,Tai khoan nhap lenh khong nam trong danh sach tai khoan nhan ve tu VSD.
+-33015,NDT khong thuoc doi tuong giao dich cua ma trai phieu nay
+-33016,Thanh vien nhap lenh la thanh vien giao dich dac biet nen chi duoc giao dich tu doanh
+-33017,Thanh vien nhap lenh la Thanh vien giao dich dac biet nen khong duoc phep nhap lenh cua Thanh vien khac
+-33018, Khong duoc dat lenh ho cho tai khoan tu doanh cua Thanh vien giao dich dac biet //khong duoc dat lenh ho cho TK tu doanh cua TV GD dac biet
+-33019,Trang thai tai khoan luu ky khong hop le trong bang nhan ve tu VSD
+-33020,Thanh vien trong nuoc phai dat tk tu doanh la A hoac P
+-33021,Thanh vien nuoc ngoai phai dat tai khoan tu doanh E
+-33022,Khong duoc phep nhap lenh ho thanh vien luu ky la CTCK
+-33023,Tai khoan luu ky ben mua va ben ban khong duoc trung nhau
+-33024,NDT khong thuoc doi tuong giao dich ma trai phieu nay!
+-33025,NDT khong thuoc doi tuong giao dich ma trai phieu nay!
+-33026,NDT khong thuoc doi tuong giao dich ma trai phieu nay!
+-33027,Khong ton tai hop dong tao lap thi truong cua Thanh vien voi trai phieu
+-33028,Khong duoc nhap MM 1 chieu theo hop dong
+-33029,Khong duoc nhap MM 2 chieu theo hop dong
+-33030,Khong duoc nhap MM 2 chieu thay the theo hop dong
+-33031,Tai khoan tao lap thi truong khong dung voi thong tin lenh
+-33032,Khoi luong nho hon khoi luong toi thieu trong hop dong tao lap thi truong
+-33033,Sai nguong yet gia
+-33034,Sai loai lenh MM sai Special_type trong msg D
+-33035,Lai suat repos khong duoc nho hon gia tri toi thieu
+-33036,Lai suat repos khong duoc  lon hon gia tri toi da
+-33037,So chu so thap phan cua ty le PVRR vuot qua quy dinh
+-33038,So chu so thap phan cua lai suat repos vuot qua quy dinh
+-33039,Thanh vien khong duoc phep nhap lenh MM
+-34000,Trang thai lenh khong hop le hoac So hieu lenh khong ton tai!
+-34001,Trang thai lenh khong hop le de sua/huy/dong!
+-34002,Gia tri tag 54 phai bang 1 hoac 2!
+-34003,Thanh vien khong ton tai trong danh sach thanh vien duoc nhan lenh!
+-34004,Tag 549 trong lenh thoa thuan Out khong dung
+-34005,Ngay giao dich dau tien phai la ngay giao dich lon hon ngay giao dich hien tai!
+-34006,Ngay thanh toan phai lon hon ngay bat dau giao dich!
+-34007,Thanh vien thuc hien sua huy khong dung side mua/ban voi thong tin lenh goc!
+-34008,Khong duoc phep sua lenh tuong lai!
+-34009,He thong khong cho phep sua lenh thanh toan cuoi ngay/tuong lai!
+-34010,He thong khong cho phep sua Khoi luong!
+-34011,He thong khong cho phep sua So tai khoan!
+-34012,He thong khong cho phep sua Gia giao dich!
+-34013,He thong khong cho phep sua Ngay bat dau giao dich!
+-34014,Gia tri tag 563 khong hop le!
+-34015,"Lenh Inquiry da duoc thuc hien, khong duoc phep thao tac!"
+-34016,Ma trai phieu khong hop le voi thong tin trong lenh Inquiry!
+-34017,Gia tri giao dich theo menh gia phai bang Gia tri giao dich trong lenh Inquiry!
+-34019,Lenh thanh toan ngay khong duoc phep sua/huy!
+-34020,Gia tri tag 298 hoac 694 khong hop le
+-34021,"Lenh Inquiry da dong, khong duoc phep thao tac!"
+-34022,Thanh vien dat Firm khong nam trong nhom thanh vien duoc nhap lenh!
+-34023,Khong duoc sua phuong thuc thanh toan voi da thuc hien
+-34024,Thanh vien thuc hien xac nhan khong dung voi lenh dat trong lenh bao cao giao dich
+-34025,Side cua lenh xac nhan khong dung
+-34026,He thong khong cho phep huy lenh!
+-34027,He thong khong cho phep huy lenh thanh tan cuoi ngay/tuong lai!
+-34028,Sua vuot qua so lan sua cho phep!
+-34029,Ngay bat dau giao dich hoac ngay thanh toan phai bang ngay giao dich cua he thong!
+-34030,Khong ton tai thong tin Room
+-34031,Khoi luong dat vuot qua Room!
+-34032,Ngay ket thuc giao dich Repos phai nho hon hoac bang ngay thanh toan lan 2
+-34033,Tai khoan luu ky cua NDT thuc hien lenh khong dung co Moi gioi/tu doanh cua lenh Inquiry!
+-34034,Gia tri tag 549 hoac 563 khong hop le!
+-34035,Khong cho sua ky han Repos khi sua repos da thuc hien
+-34036,Khong cho sua Lai suat Repos khi sua repos da thuc hien
+-34037,Khong cho sua ty le phong ve rui ro khi sua repos da thuc hien
+-34038,Khoang ngay tu ngay TT lan 2 toi ngay chot huy ma TP nho hon tham so maxday_setday_to_canday
+-34039,Phuong thuc thanh toan firm khac voi thong tin lenh Inquiry trong he thong
+-34040,Ky han Repos firm khac voi thong tin lenh Inquiry trong he thong
+-34041,Ngay thanh toan lan 1 firm khac voi thong tin lenh Inquiry trong he thong
+-34042,"Khong cho sua ma TP doi voi tat ca lenh chua thuc hien, da thuc hien"
+-34043,Ngay thanh toan lan 2 phai = ngay thanh toan lan 1 + ky han repos
+-34044,Gia tri theo menh gia trong Inquiry khong chia het cho menh gia TP trong lenh
+-34045,Khong duoc phep sua lenh Repo lan 2 do lenh da qua thoi han duoc phep sua!
+-34046,Ngay bat dau giao dich firm khac in
+-34047,Khong cho sua ngay thanh toan lan 1 khi sua lenh da thuc hien
+-34048,Khong cho sua Side doi voi giao dich khop lenh
+-34049,Loai lenh khong duoc phep sua
+-34050,Loai lenh khong duoc phep huy
+-34051,Khong cho phep sua lenh giao dich khop thong thuong
+-34052,Khong cho phep huy lenh giao dich thong thuong
+-34053,Loi khi nhap inquiry khong theo ma TP ma khong nhap thong tin chung
+-34054,Loi khi loai lenh khong dung voi msgtype
+-34055,Ngay thanh toan lan 2 phai lon hon hoac bang ngay giao dich hien tai
+-34056,"Thong tin cua lenh khong dung hoac lenh da bi sua, khong duoc phep thuc hien"
+-34998,Message Type gui trong tag 35 khong hop le!
+-34999,"Lenh dang bi treo, khong duoc phep thao tac!"
+-70001,"Chua dang nhap, khong the gui cac message khac"
+-70002,CTCK da logon. Khong the logon!
+-70003,CTCK da logout.Khong the logout! 
+-70004,Logon sai username va password
+-70005,Message dat lenh khong hop le
+-70006,Message huy lenh khong hop le
+-70007,Message sua lenh khong hop le
+-70008,Loai message khong duoc ho tro
+-70009,Khong phai la message FIX
+-70010,Gui sai port
+-70011,Sai ten nguoi gui
+-70012,Nguoi gui khong co trong he thong
+-70013,Vuot qua buffersize
+-70014,Ma trai phieu khong ton tai
+-70015,Sai ma RSA 
+-70100,Sai dieu kien thi truong
+-70101,Khong ket noi duoc den Bussiness Server
+-70102,Khong co Bussiness Server san sang ket noi
+-70103,Da ket noi. Khong the ket noi lai. 
+-71100,Trai phieu khong hop le 
+-71101,"So hieu lenh sua, huy khong hop le "
+-71048,Side khong dung. Side phai la mua hoac ban
+-71090,Do dai cua mat khau khong hop le 
+-71099,Loi khi he thong xu ly bi tre gay ra loi 
+-70020,User da bi tam dung.
+-70080,Loai yeu cau khong dung
+-70200,Sai thanh vien
+-71110,Ma bang khong hop le
+-70017,Logon sai dia chi IP
+-70020,Trader da bi tam dung!
+-70021,Tam dung gui lenh cua CTCK
+-70022,Reject lenh do lenh bi trung client_id lien tiep
+-70023,Sai phuong thuc thanh toan
+-70024,Trader den han doi mat khau!
+-70025,Trader bi khoa
+-70027,"Mat khau phai chua 3 trong 4 loai (chu hoa, chu thuong, so hoac ky tu)"

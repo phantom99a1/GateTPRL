@@ -1,0 +1,160 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Exe</OutputType>
+    <AssemblyVersion>0.6.32</AssemblyVersion>
+    <FileVersion>0.6.32.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="LogHNXData\**" />
+    <Compile Remove="LogMWData\**" />
+    <Content Remove="LogHNXData\**" />
+    <Content Remove="LogMWData\**" />
+    <EmbeddedResource Remove="LogHNXData\**" />
+    <EmbeddedResource Remove="LogMWData\**" />
+    <None Remove="LogHNXData\**" />
+	  <None Remove="LogMWData\**" />
+	  <None Remove="LogMWData\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\image\icon\ic_check.svg" />
+    <None Include="wwwroot\assets\image\icon\ic_close.svg" />
+    <None Include="wwwroot\assets\image\icon\ic_computer.svg" />
+    <None Include="wwwroot\assets\image\icon\ic_computer_ac.svg" />
+    <None Include="wwwroot\assets\image\icon\ic_divider.svg" />
+    <None Include="wwwroot\assets\image\icon\ic_dropdowm.svg" />
+    <None Include="wwwroot\assets\image\icon\ic_path.svg" />
+    <None Include="wwwroot\assets\image\icon\ic_user.svg" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-Black.svg" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-Black.woff2" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-Bold.svg" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-Bold.woff2" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-ExtraBold.svg" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-ExtraBold.woff2" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-ExtraLight.svg" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-ExtraLight.woff2" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-Light.svg" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-Light.woff2" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-Medium.svg" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-Medium.woff2" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-Regular.svg" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-Regular.woff2" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-SemiBold.svg" />
+    <None Include="wwwroot\login\assets\fonts\Nunito-SemiBold.woff2" />
+    <None Include="wwwroot\login\assets\image\icon\ic_account.svg" />
+    <None Include="wwwroot\login\assets\image\icon\ic_check.svg" />
+    <None Include="wwwroot\login\assets\image\icon\ic_close.svg" />
+    <None Include="wwwroot\login\assets\image\icon\ic_computer.svg" />
+    <None Include="wwwroot\login\assets\image\icon\ic_computer_ac.svg" />
+    <None Include="wwwroot\login\assets\image\icon\ic_divider.svg" />
+    <None Include="wwwroot\login\assets\image\icon\ic_dropdowm.svg" />
+    <None Include="wwwroot\login\assets\image\icon\ic_password.svg" />
+    <None Include="wwwroot\login\assets\image\icon\ic_path.svg" />
+    <None Include="wwwroot\login\assets\image\icon\ic_user.svg" />
+    <None Include="wwwroot\login\assets\scss\abstracts\_mixins.scss" />
+    <None Include="wwwroot\login\assets\scss\abstracts\_variables.scss" />
+    <None Include="wwwroot\login\assets\scss\base\_global.scss" />
+    <None Include="wwwroot\login\assets\scss\base\_reset.scss" />
+    <None Include="wwwroot\login\assets\scss\components\_button.scss" />
+    <None Include="wwwroot\login\assets\scss\components\_loading.scss" />
+    <None Include="wwwroot\login\assets\scss\components\_modal.scss" />
+    <None Include="wwwroot\login\assets\scss\layout\_content.scss" />
+    <None Include="wwwroot\login\assets\scss\layout\_footer.scss" />
+    <None Include="wwwroot\login\assets\scss\layout\_grid.scss" />
+    <None Include="wwwroot\login\assets\scss\layout\_header.scss" />
+    <None Include="wwwroot\login\assets\scss\main.css.map" />
+    <None Include="wwwroot\login\assets\scss\main.scss" />
+    <None Include="wwwroot\login\assets\vendors\bootstrap\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\login\assets\vendors\bootstrap\jquery.slim.min.js" />
+    <None Include="wwwroot\login\assets\vendors\fontawesome\fontawesome-free-6.3.0-web\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\login\assets\vendors\fontawesome\fontawesome-free-6.3.0-web\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\login\assets\vendors\fontawesome\fontawesome-free-6.3.0-web\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\login\assets\vendors\fontawesome\fontawesome-free-6.3.0-web\webfonts\fa-v4compatibility.woff2" />
+    <None Include="wwwroot\login\assets\vendors\sweetalert\sweetalert2-init.js" />
+    <None Include="wwwroot\login\assets\vendors\sweetalert\sweetalert2.js" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Resources\Resource.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resource.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\Resource.en.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Resource.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resource.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Confluent.Kafka.Extensions.OpenTelemetry" Version="0.3.0" />
+	  <PackageReference Include="NLog" Version="5.2.4" />
+	  <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.2" />
+	  <PackageReference Include="OpenTelemetry" Version="1.7.0" />
+	  <PackageReference Include="OpenTelemetry.Contrib.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta2" />
+	  <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.7.0" />
+	  <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.7.0" />
+	  <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.7.0" />
+	  <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.7.0" />
+	  <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.6.0-beta.3" />
+	  <PackageReference Include="OpenTelemetry.Instrumentation.Process" Version="0.5.0-beta.3" />
+	  <PackageReference Include="OpenTelemetry.Instrumentation.Quartz" Version="1.0.0-alpha.3" />
+
+	  <PackageReference Include="RestSharp" Version="110.2.0" />
+	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	  <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+	  <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+	  <PackageReference Include="UAParser" Version="3.1.47" />
+
+  </ItemGroup>
+	
+  <ItemGroup>
+		<Content Update="ConfigApp\appsettings.Development.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Update="ConfigApp\appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\..\logstation\LogStation.csproj" />
+    <ProjectReference Include="..\APIMonitor\APIMonitor.csproj" />
+    <ProjectReference Include="..\APIServer\APIServer.csproj" />
+    <ProjectReference Include="..\CommonLib\CommonLib.csproj" />
+    <ProjectReference Include="..\HNXInterface\HNXInterface.csproj" />
+    <ProjectReference Include="..\PendingQueue\PendingQueue.csproj" />
+    <ProjectReference Include="..\ProcessResponse\BusinessProcessResponse.csproj" />
+    <ProjectReference Include="..\ProcessRev\BusinessProcessAPIReq.csproj" />
+  </ItemGroup>
+	
+	
+  <ItemGroup>
+    <None Update="ConfigApp\Ds mã lỗi.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ConfigApp\ErrorCodeText.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\image\img\" />
+  </ItemGroup>
+  
+</Project>

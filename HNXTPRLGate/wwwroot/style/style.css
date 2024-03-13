@@ -1,0 +1,152 @@
+﻿.loading-container:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    z-index: 999;
+}
+.loading {
+    height: 160px;
+    width: 170px;
+    position: fixed;
+    top: 50%;
+    margin: 0px;
+    padding: 0px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.circle {
+    border: 5px transparent solid;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 69%;
+}
+
+.cyan {
+    top: 0px;
+    border-top: 5px #00AB55 solid;
+    animation-delay: 4s;
+    animation: cyan 1.5s infinite;
+}
+
+    /*:after element = circle at the end of each line.
+:before element = cap in be start of each line*/
+    .cyan:after {
+        position: absolute;
+        content: "";
+        width: 10px;
+        height: 10px;
+        background: #00AB55;
+        border-radius: 69%;
+        right: 5px;
+        top: 10px;
+        box-shadow: 0px 0px 20px #00AB55;
+    }
+
+    .cyan:before {
+        content: " ";
+        width: 5px;
+        height: 5px;
+        position: absolute;
+        background: #00AB55;
+        top: 10px;
+        left: 11px;
+        border-radius: 69%;
+    }
+
+.magenta {
+    left: 0px;
+    bottom: 0px;
+    border-top: 5px #00AB55 solid;
+    animation: magenta 1.5s infinite;
+}
+
+    .magenta:after {
+        position: absolute;
+        content: "";
+        width: 10px;
+        height: 10px;
+        background: #00AB55;
+        border-radius: 69%;
+        right: 5px;
+        top: 10px;
+        box-shadow: 0px 0px 20px #00AB55;
+    }
+
+    .magenta:before {
+        content: " ";
+        width: 5px;
+        height: 5px;
+        position: absolute;
+        background: #00AB55;
+        top: 10px;
+        left: 11px;
+        border-radius: 69%;
+    }
+
+.yellow {
+    right: 0px;
+    bottom: 0px;
+    border-top: 5px #00AB55 solid;
+    animation: yellow 1.5s infinite;
+}
+
+    .yellow:after {
+        position: absolute;
+        content: "";
+        width: 10px;
+        height: 10px;
+        background: #00AB55;
+        border-radius: 69%;
+        right: 5px;
+        top: 10px;
+        box-shadow: 0px 0px 20px #00AB55;
+    }
+
+    .yellow:before {
+        content: " ";
+        width: 5px;
+        height: 5px;
+        position: absolute;
+        background: #00AB55;
+        top: 10px;
+        left: 11px;
+        border-radius: 69%;
+    }
+
+@keyframes cyan {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes magenta {
+    0% {
+        transform: rotate(240deg);
+    }
+
+    100% {
+        transform: rotate(600deg);
+    }
+}
+
+@keyframes yellow {
+    0% {
+        transform: rotate(120deg);
+    }
+
+    100% {
+        transform: rotate(480deg);
+    }
+}

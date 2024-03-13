@@ -1,0 +1,5 @@
+﻿1-12: Outright
+13-30: Repos
+31-33: Nomal
+
+

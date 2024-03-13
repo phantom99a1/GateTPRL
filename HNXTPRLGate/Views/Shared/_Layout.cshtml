@@ -1,0 +1,107 @@
+﻿@using HNXTPRLGate.Resources;
+@using HNXTPRLGate.Helpers;
+@using CommonLib;
+@using APIMonitor.ObjectInfo;
+@using System.Reflection;
+@using static CommonLib.ConfigData;
+@model BoxConnectModel;
+@{
+    Version version = Assembly.GetEntryAssembly().GetName().Version;
+    string getVersion ="v"+ version?.ToString();
+    string getUserName = "";
+    UserInfo userInfo = this.Context.GetCurrentUser();
+    if (userInfo!=null)
+    {
+        getUserName = userInfo.Username;
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor Gate HNX Trái Phiếu Riêng Lẻ</title>
+
+    <link rel="stylesheet" href="~/assets/vendors/fontawesome/fontawesome-free-6.3.0-web/css/all.min.css">
+
+    <link rel="stylesheet" href="~/assets/vendors/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/vendors/sweetalert/sweetalert2.css">
+    <link rel="stylesheet" href="~/assets/fonts/stylesheet.css">
+    <link rel="stylesheet" href="~/assets/scss/main.css">
+    <link href="~/style/style.css" rel="stylesheet" />
+
+    <script src="~/assets/js/jquery.min.js"></script>
+
+    <link href="~/notify/animate.min.css" rel="stylesheet" />
+    <link href="~/notify/notify.css" rel="stylesheet" />
+    <script src="~/notify/bootstrap-notify.min.js"></script>
+    <script src="~/notify/bootstrap-notify-init.js"></script>
+    <style>
+        .swal2-content {
+            margin-bottom: 30px
+        }
+
+        .divLogOut a {
+            cursor: pointer;
+            color: red !important;
+            text-decoration: underline !important;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="root">
+        <header class="header">
+            <div class="container">
+                <div class="header__wrap">
+                    <div class="header__info" id="divSessionFlag">
+                        @await Html.PartialAsync("~/Views/Home/_SessionFlag.cshtml",Model)
+                    </div>
+                    <div class="header__name">@Resource.lblHeThongGateTPRL</div>
+                    <div class="header__controls">
+                        <button class="primary" onclick="fnHoseShowFormControl();">
+                            <span>@Resource.lblControl</span>
+                        </button>
+
+                        <div class="header__user">
+                            <img src="/assets/image/icon/ic_user.svg" alt="user" width="26" height="26" />
+                            <div>
+                                @getUserName
+                            </div>
+                             <div class="divLogOut">
+                               @* <a onclick="fnLogOut()">@Resource.lblLogout</a>*@
+                                <button class="primary" onclick="fnLogOut();" style="background-color:#ee514a">
+                                    <span>Logout</span>
+                                </button>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main">
+            @RenderBody()
+        </div>
+        <footer class="footer">
+            <div class="version">@getVersion</div>
+        </footer>
+    </div>
+
+    <div class="modal fade" id="idPopupControl" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" aria-hidden="true">
+    </div>
+
+    @*<script src="~/assets/vendors/bootstrap/jquery.slim.min.js"></script>*@
+    <script src="~/assets/vendors/sweetalert/sweetalert2-init.js"></script>
+    <script src="~/assets/vendors/sweetalert/sweetalert2.js"></script>
+    <script src="~/assets/vendors/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+    @RenderSection("Scripts", required: false)
+    @RenderSection("InlineScripts", required: false)
+</body>
+</html>

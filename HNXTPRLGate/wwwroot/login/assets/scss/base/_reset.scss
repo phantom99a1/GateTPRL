@@ -1,0 +1,48 @@
+// ======================================================
+// Base :: Reset
+// ======================================================
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    color: #1e1633;
+}
+
+a,
+a:hover,
+a:focus {
+    text-decoration: none;
+}
+
+p {
+    margin: 0;
+}
+
+input,
+textarea {
+    //outline: none;
+}
+
+select {
+    appearance: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+
+input,
+textarea,
+button,
+button:active,
+button:focus {
+    outline-color: #a5cdf2;
+}

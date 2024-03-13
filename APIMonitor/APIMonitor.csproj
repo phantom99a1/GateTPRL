@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="HashiCorp.Vault" Version="0.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\CommonLib\CommonLib.csproj" />
+		<ProjectReference Include="..\HNXInterface\HNXInterface.csproj" />
+		<ProjectReference Include="..\ProcessResponse\BusinessProcessResponse.csproj" />
+		<ProjectReference Include="..\ProcessRev\BusinessProcessAPIReq.csproj" />
+	</ItemGroup>
+</Project>
