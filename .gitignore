@@ -763,3 +763,23 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,vs,visualstudio,visualstudiocode,dotnetcore,aspnetcore
+.vs
+*.suo
+*.user
+bin
+obj
+packages
+*/bin
+*/obj
+*/packages
+**/bin
+**/obj
+**/packages
+LogMWData
+LogHNXData
+*/LogMWData
+**/LogMWData
+*/LogHNXData
+**/LogHNXData
+*/LogOrderData
+**/LogOrderData
