@@ -1,4 +1,5 @@
-﻿using APIMonitor.ObjectInfo;
+﻿using APIMonitor.Helpers;
+using APIMonitor.ObjectInfo;
 using BusinessProcessResponse;
 using CommonLib;
 using HNXInterface;
@@ -154,7 +155,7 @@ namespace HNXTPRLGate.Controllers
 					if (ConfigData.EnableVault)
 					{
 						// Thực hiện cập nhật lại pass trên Vault
-						bool vaultResult = VaultWriteData(newpass);
+						bool vaultResult =VaultHelper.WriteData(newpass);
 						if (vaultResult)
 						{
 							return Json(new { code = res, message = userStatusText });
@@ -232,70 +233,70 @@ namespace HNXTPRLGate.Controllers
 			}
 		}
 
-		private bool VaultWriteData(string passNew)
-		{
-			try
-			{
-				// config
-				VaultConfiguration config = new VaultConfiguration(ConfigData.VaultAddress);
-				//
-				VaultClient vaultClient = new VaultClient(config);
-				//
-				if (string.IsNullOrEmpty(VaultSetting.Token))
-				{
-					VaultResponse<Object> resp = vaultClient.Auth.UserpassLogin(username: ConfigData.VaultUsername, new UserpassLoginRequest(Password: ConfigData.VaultPassword));
-					VaultSetting.Token = resp.ResponseAuth.ClientToken;
-				}
-				vaultClient.SetToken(token: VaultSetting.Token);
+		//private bool VaultWriteData(string passNew)
+		//{
+		//	try
+		//	{
+		//		// config
+		//		VaultConfiguration config = new VaultConfiguration(ConfigData.VaultAddress);
+		//		//
+		//		VaultClient vaultClient = new VaultClient(config);
+		//		//
+		//		if (string.IsNullOrEmpty(VaultSetting.Token))
+		//		{
+		//			VaultResponse<Object> resp = vaultClient.Auth.UserpassLogin(username: ConfigData.VaultUsername, new UserpassLoginRequest(Password: ConfigData.VaultPassword));
+		//			VaultSetting.Token = resp.ResponseAuth.ClientToken;
+		//		}
+		//		vaultClient.SetToken(token: VaultSetting.Token);
 
-				//
-				try
-				{
-					var secretData = new Dictionary<string, string> { { VaultSetting.DataKey, passNew } };
-					// Write a secret
-					var kvRequestData = new KvV2WriteRequest(secretData);
-					vaultClient.Secrets.KvV2Write(ConfigData.VaultPath, kvRequestData, kvV2MountPath: "secrets");
-					Thread.Sleep(1000); // ssi bao sau khi write thì slep lai 1s
-										// Read a secret
-					VaultResponse<KvV2ReadResponse> kvResp = vaultClient.Secrets.KvV2Read(ConfigData.VaultPath, kvV2MountPath: "secrets");
-					//
-					Logger.log.Debug($"VaultResponse when write data = {kvResp.Data.Data}");
-					if (kvResp.Data.Data != null)
-					{
-						VaultDataResponse res = JsonHelper.Deserialize<VaultDataResponse>(kvResp.Data.Data.ToString());
-						//
-						Logger.log.Debug($"Response from Vault success when execute write data with password with data = {kvResp.Data.Data.ToString()}, VaultDataResponse= {JsonHelper.Serialize(res)}");
-						//
-						if (!string.IsNullOrEmpty(res.MemberPass))
-						{
-							ConfigData.Password = res.MemberPass;
-							return true;
-						}
-						else
-						{
-							Logger.log.Error($"Response from Vault when execute write data with key={VaultSetting.DataKey}, respone MemberPass is null.");
-							return false;
-						}
-					}
-					else
-					{
-						Logger.log.Error($"Error response from Vault fail when execute write data with password new.");
-						//
-						return false;
-					}
-				}
-				catch (VaultApiException e)
-				{
-					Logger.log.Error("Failed to read secret with message {0}", e.Message);
-					return false;
-				}
-			}
-			catch (Exception ex)
-			{
-				Logger.log.Error($"Error call VaultWriteData in HomeController  ,Exception: {ex?.ToString()}");
-				return false;
-			}
-		}
+		//		//
+		//		try
+		//		{
+		//			var secretData = new Dictionary<string, string> { { VaultSetting.DataKey, passNew } };
+		//			// Write a secret
+		//			var kvRequestData = new KvV2WriteRequest(secretData);
+		//			vaultClient.Secrets.KvV2Write(ConfigData.VaultPath, kvRequestData, kvV2MountPath: "secrets");
+		//			Thread.Sleep(1000); // ssi bao sau khi write thì slep lai 1s
+		//								// Read a secret
+		//			VaultResponse<KvV2ReadResponse> kvResp = vaultClient.Secrets.KvV2Read(ConfigData.VaultPath, kvV2MountPath: "secrets");
+		//			//
+		//			Logger.log.Debug($"VaultResponse when write data = {kvResp.Data.Data}");
+		//			if (kvResp.Data.Data != null)
+		//			{
+		//				VaultDataResponse res = JsonHelper.Deserialize<VaultDataResponse>(kvResp.Data.Data.ToString());
+		//				//
+		//				Logger.log.Debug($"Response from Vault success when execute write data with password with data = {kvResp.Data.Data.ToString()}, VaultDataResponse= {JsonHelper.Serialize(res)}");
+		//				//
+		//				if (!string.IsNullOrEmpty(res.MemberPass))
+		//				{
+		//					ConfigData.Password = res.MemberPass;
+		//					return true;
+		//				}
+		//				else
+		//				{
+		//					Logger.log.Error($"Response from Vault when execute write data with key={VaultSetting.DataKey}, respone MemberPass is null.");
+		//					return false;
+		//				}
+		//			}
+		//			else
+		//			{
+		//				Logger.log.Error($"Error response from Vault fail when execute write data with password new.");
+		//				//
+		//				return false;
+		//			}
+		//		}
+		//		catch (VaultApiException e)
+		//		{
+		//			Logger.log.Error("Failed to read secret with message {0}", e.Message);
+		//			return false;
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		Logger.log.Error($"Error call VaultWriteData in HomeController  ,Exception: {ex?.ToString()}");
+		//		return false;
+		//	}
+		//}
 
 		[AuthActionFilter(Const_UserRole.Role_Full)]
 		[HttpPost]

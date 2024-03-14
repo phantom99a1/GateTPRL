@@ -108,56 +108,68 @@ namespace APIMonitor
 		{
 			try
 			{
-				// config
-				VaultConfiguration config = new VaultConfiguration(ConfigData.VaultAddress);
-				//
-				VaultClient vaultClient = new VaultClient(config);
-				if (string.IsNullOrEmpty(VaultSetting.Token))
-				{
-					VaultResponse<Object> resp = vaultClient.Auth.UserpassLogin(username: ConfigData.VaultUsername, new UserpassLoginRequest(Password: ConfigData.VaultPassword));
-					VaultSetting.Token = resp.ResponseAuth.ClientToken;
-				}
-				vaultClient.SetToken(token: VaultSetting.Token);
-				//
-				try
-				{
-					//
-					VaultResponse<KvV2ReadResponse> kvResp = vaultClient.Secrets.KvV2Read(ConfigData.VaultPath, kvV2MountPath: "secrets");
-					//
-					Logger.log.Debug($"VaultResponse when write data = {kvResp.Data.Data} when execute query");
-					if (kvResp.Data.Data != null)
-					{
-						Logger.log.Debug($"Response from Vault success when execute query.");
+				string _kvRespData = VaultHelper.ReadData();
+                VaultDataResponse res = JsonHelper.Deserialize<VaultDataResponse>(_kvRespData);
+                if (!string.IsNullOrEmpty(res.MemberPass) && res.MemberPass == p_passold)
+                {
+                    return 1;
+                }
+                else
+                {
+                    Logger.log.Error($"Response from Vault when read data with key={VaultSetting.DataKey}, respone MemberPass is null.");
+                    return -1;
+                }
 
-						//VaultDataResponse res = (VaultDataResponse)kvResp.Data.Data;
-						VaultDataResponse res = JsonHelper.Deserialize<VaultDataResponse>(kvResp.Data.Data.ToString());
+    //            // config
+    //            VaultConfiguration config = new VaultConfiguration(ConfigData.VaultAddress);
+				////
+				//VaultClient vaultClient = new VaultClient(config);
+				//if (string.IsNullOrEmpty(VaultSetting.Token))
+				//{
+				//	VaultResponse<Object> resp = vaultClient.Auth.UserpassLogin(username: ConfigData.VaultUsername, new UserpassLoginRequest(Password: ConfigData.VaultPassword));
+				//	VaultSetting.Token = resp.ResponseAuth.ClientToken;
+				//}
+				//vaultClient.SetToken(token: VaultSetting.Token);
+				////
+				//try
+				//{
+				//	//
+				//	VaultResponse<KvV2ReadResponse> kvResp = vaultClient.Secrets.KvV2Read(ConfigData.VaultPath, kvV2MountPath: "secrets");
+				//	//
+				//	Logger.log.Debug($"VaultResponse when write data = {kvResp.Data.Data} when execute query");
+				//	if (kvResp.Data.Data != null)
+				//	{
+				//		Logger.log.Debug($"Response from Vault success when execute query.");
 
-						//
-						Logger.log.Debug($"Response from Vault success when execute ExecuteAsync auto. | ConfigData.Password ={ConfigData.Password}, VaultDataResponse={JsonHelper.Serialize(res)}");
+				//		//VaultDataResponse res = (VaultDataResponse)kvResp.Data.Data;
+				//		VaultDataResponse res = JsonHelper.Deserialize<VaultDataResponse>(kvResp.Data.Data.ToString());
 
-						//
-						if (!string.IsNullOrEmpty(res.MemberPass) && res.MemberPass == p_passold)
-						{
-							return 1;
-						}
-						else
-						{
-							Logger.log.Error($"Response from Vault when read data with key={VaultSetting.DataKey}, respone MemberPass is null.");
-							return -1;
-						}
-					}
-					else
-					{
-						Logger.log.Error($"Error responsee from vault when execute query with kvResp={kvResp.Data.Data}.");
-						//
-						return 0;
-					}
-				}
-				catch (VaultApiException e)
-				{
-					Logger.log.Error("Failed to read secret with message {0}", e.Message);
-					return -2;
-				}
+				//		//
+				//		Logger.log.Debug($"Response from Vault success when execute ExecuteAsync auto. | ConfigData.Password ={ConfigData.Password}, VaultDataResponse={JsonHelper.Serialize(res)}");
+
+				//		//
+				//		if (!string.IsNullOrEmpty(res.MemberPass) && res.MemberPass == p_passold)
+				//		{
+				//			return 1;
+				//		}
+				//		else
+				//		{
+				//			Logger.log.Error($"Response from Vault when read data with key={VaultSetting.DataKey}, respone MemberPass is null.");
+				//			return -1;
+				//		}
+				//	}
+				//	else
+				//	{
+				//		Logger.log.Error($"Error responsee from vault when execute query with kvResp={kvResp.Data.Data}.");
+				//		//
+				//		return 0;
+				//	}
+				//}
+				//catch (VaultApiException e)
+				//{
+				//	Logger.log.Error("Failed to read secret with message {0}", e.Message);
+				//	return -2;
+				//}
 			}
 			catch (Exception ex)
 			{
@@ -170,49 +182,8 @@ namespace APIMonitor
 		[Route("api-vault-read")]
 		public string ReadQuery()
 		{
-			try
-			{
-				// config
-				VaultConfiguration config = new VaultConfiguration(ConfigData.VaultAddress);
-				//
-				VaultClient vaultClient = new VaultClient(config);
-				if (string.IsNullOrEmpty(VaultSetting.Token))
-				{
-					VaultResponse<Object> resp = vaultClient.Auth.UserpassLogin(username: ConfigData.VaultUsername, new UserpassLoginRequest(Password: ConfigData.VaultPassword));
-					VaultSetting.Token = resp.ResponseAuth.ClientToken;
-				}
-				vaultClient.SetToken(token: VaultSetting.Token);
-				//
-				try
-				{
-					//
-					VaultResponse<KvV2ReadResponse> kvResp = vaultClient.Secrets.KvV2Read(ConfigData.VaultPath, kvV2MountPath: "secrets");
-					//
-					Logger.log.Debug($"VaultResponse when write data = {kvResp.Data.Data} when execute query");
-					if (kvResp.Data.Data != null)
-					{
-						Logger.log.Debug($"Response from Vault success when execute query.");
-						return kvResp.Data.Data.ToString();
-					}
-					else
-					{
-						Logger.log.Error($"Error responsee from vault when execute query with kvResp={kvResp.Data.Data}.");
-						//
-						return "";
-					}
-				}
-				catch (VaultApiException e)
-				{
-					Logger.log.Error("Failed to read secret with message {0}", e.Message);
-					return "";
-				}
-			}
-			catch (Exception ex)
-			{
-				Logger.log.Error($"Error call VaultQuery() in ApiMonitorController  ,Exception: {ex?.ToString()}");
-				return "";
-			}
-		}
+			return VaultHelper.ReadData();
+        }
 
 		[HttpPost]
 		[Route("api-vault-update")]
@@ -220,56 +191,14 @@ namespace APIMonitor
 		{
 			try
 			{
-				// config
-				VaultConfiguration config = new VaultConfiguration(ConfigData.VaultAddress);
-				//
-				VaultClient vaultClient = new VaultClient(config);
-				if (string.IsNullOrEmpty(VaultSetting.Token))
-				{
-					VaultResponse<Object> resp = vaultClient.Auth.UserpassLogin(username: ConfigData.VaultUsername, new UserpassLoginRequest(Password: ConfigData.VaultPassword));
-					VaultSetting.Token = resp.ResponseAuth.ClientToken;
+                bool result= VaultHelper.WriteData(p_passnew);
+				if (result)
+				{ 
+					return 1; 
 				}
-				vaultClient.SetToken(token: VaultSetting.Token);
-				//
-				try
-				{
-					var secretData = new Dictionary<string, string> { { VaultSetting.DataKey, p_passnew } };
-					// Write a secret
-					var kvRequestData = new KvV2WriteRequest(secretData);
-					vaultClient.Secrets.KvV2Write(ConfigData.VaultPath, kvRequestData, kvV2MountPath: "secrets");
-					Thread.Sleep(1000); // ssi bao sau khi write thì slep lai 1s
-										// Read a secret
-					VaultResponse<KvV2ReadResponse> kvResp = vaultClient.Secrets.KvV2Read(ConfigData.VaultPath, kvV2MountPath: "secrets");
-					//
-					//
-					Logger.log.Debug($"VaultResponse when write kvResp.Data={kvResp.Data.Data.ToString()} when execute query");
-					if (kvResp.Data.Data != null)
-					{
-						VaultDataResponse res = JsonHelper.Deserialize<VaultDataResponse>(kvResp.Data.Data.ToString());
-						Logger.log.Debug($"VaultResponse when write VaultDataResponse= {JsonHelper.Serialize(res)} when execute query");
-						//
-						if (!string.IsNullOrEmpty(res.MemberPass))
-						{
-							ConfigData.Password = res.MemberPass;
-							return 1;
-						}
-						else
-						{
-							Logger.log.Error($"Response from Vault when read data with key={VaultSetting.DataKey}, respone MemberPass is null.");
-							return -1;
-						}
-					}
-					else
-					{
-						Logger.log.Error($"Error responsee from vault when execute query with kvResp={kvResp.Data.Data}.");
-						//
-						return 0;
-					}
-				}
-				catch (VaultApiException e)
-				{
-					Logger.log.Error("Failed to read secret with message {0}", e.Message);
-					return -2;
+				else
+				{ 
+					return -1; 
 				}
 			}
 			catch (Exception ex)
