@@ -56,7 +56,7 @@ namespace CommonLib
         public static string TraderID = "003.01GW";
         public static string Password = "";
         public static string PasswordInConfig = ""; // để tạm để test
-		public static string TargetCompID = "";
+        public static string TargetCompID = "";
         public static string TargetSubID = "";
         public static int Heartbeat = 30;
         public static int SafeWindowSize = 100;
@@ -93,11 +93,13 @@ namespace CommonLib
         public static string VaultUsername = "";
         public static string VaultPassword = "";
         public static string VaultPath = "";
-		public static bool EnableVault { get; set; } = true;
-		public static bool EnableMaskSensitiveData { get; set; } = false;
+        public static bool EnableVault { get; set; } = true;
+        public static bool EnableMaskSensitiveData { get; set; } = false;
+
+        public static bool ConnectExchange { get; set; } = false;
 
 
-		public static void InitConfig(IConfiguration configuration)
+        public static void InitConfig(IConfiguration configuration)
         {
             if (configuration != null)
             {
@@ -118,7 +120,7 @@ namespace CommonLib
                 if (configuration["HNXConfig:PortServer"] != null) { PortServer = CommonLib.Utils.ParseInt(configuration["HNXConfig:PortServer"]); }
                 FirmID = configuration["HNXConfig:FirmID"];
                 Username = configuration["HNXConfig:Username"];
-				PasswordInConfig = Utils.DecryptAES(configuration["HNXConfig:Password"], AES_Key, AES_IV);
+                PasswordInConfig = Utils.DecryptAES(configuration["HNXConfig:Password"], AES_Key, AES_IV);
                 TraderID = configuration["HNXConfig:TraderID"];
                 DefaultBufferSize = Utils.ParseInt(configuration["HNXConfig:DefaultBufferSize"]);
                 Heartbeat = Utils.ParseInt(configuration["HNXConfig:Heartbeat"]);
@@ -214,9 +216,13 @@ namespace CommonLib
                 VaultUsername = configuration["VaultAppSettings:Username"];
                 VaultPassword = Utils.DecryptAES(configuration["VaultAppSettings:Password"], AES_Key, AES_IV);
                 VaultPath = configuration["VaultAppSettings:Path"];
-				EnableVault = bool.Parse(configuration["VaultAppSettings:EnableVault"]);
-				EnableMaskSensitiveData = bool.Parse(configuration["EnableMaskSensitiveData"]);
-			}
+                EnableVault = bool.Parse(configuration["VaultAppSettings:EnableVault"]);
+                EnableMaskSensitiveData = bool.Parse(configuration["EnableMaskSensitiveData"]);
+
+                ConnectExchange = bool.Parse(configuration["ConnectExchange"]);
+
+
+            }
         }
 
         public class UserInfo

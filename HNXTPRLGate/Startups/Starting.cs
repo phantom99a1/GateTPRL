@@ -75,7 +75,15 @@ namespace HNXTPRLGate.Startups
                 services.AddSingleton<IValidator<API33OrderCancelAutomaticOrderMatchingRequest>, API33OrderCancelAutomaticOrderMatchingValidator>();
 
                 //
-                services.AddHostedService<HNXTCPService>();
+                if (ConfigData.ConnectExchange)
+                {
+                    CommonLib.Logger.log.Info("Run mode ConnectExchange =true");
+                    services.AddHostedService<HNXTCPService>();
+                }
+                else
+                {
+                    CommonLib.Logger.log.Info("Run mode ConnectExchange =false");
+                }
 
 				CommonLib.Logger.log.Info("InitServices Sucessfull.");
             }
