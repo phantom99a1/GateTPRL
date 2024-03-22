@@ -1,6 +1,7 @@
 ﻿using Confluent.Kafka;
 using Disruptor;
 using Microsoft.Extensions.Configuration;
+using System.Security.Cryptography.Xml;
 
 namespace CommonLib
 {
@@ -98,6 +99,11 @@ namespace CommonLib
 
         public static bool ConnectExchange { get; set; } = false;
 
+        public static string gConnectionString { get; set; } = string.Empty;
+        public static int TimeDelaySaveDB = 1000;
+        public static string formatDateTime = "yyyy-MM-dd HH:mm:ss";
+        public static bool LoopWhenSaveDBError = false;
+
 
         public static void InitConfig(IConfiguration configuration)
         {
@@ -114,7 +120,6 @@ namespace CommonLib
                 LogHNXDataPath = configuration["LogHNXDataPath"];
                 LogOrderPath = configuration["LogOrderDataPath"];
                 //
-                if (configuration["HNXConfig:DefaultBufferSize"] != null) { DefaultBufferSize = CommonLib.Utils.ParseInt(configuration["HNXConfig:DefaultBufferSize"]); }
 
                 IPServer = configuration["HNXConfig:IPServer"];
                 if (configuration["HNXConfig:PortServer"] != null) { PortServer = CommonLib.Utils.ParseInt(configuration["HNXConfig:PortServer"]); }
@@ -122,6 +127,7 @@ namespace CommonLib
                 Username = configuration["HNXConfig:Username"];
                 PasswordInConfig = Utils.DecryptAES(configuration["HNXConfig:Password"], AES_Key, AES_IV);
                 TraderID = configuration["HNXConfig:TraderID"];
+
                 DefaultBufferSize = Utils.ParseInt(configuration["HNXConfig:DefaultBufferSize"]);
                 Heartbeat = Utils.ParseInt(configuration["HNXConfig:Heartbeat"]);
                 SafeWindowSize = Utils.ParseInt(configuration["HNXConfig:SafeWindowSize"]);
@@ -221,6 +227,7 @@ namespace CommonLib
 
                 ConnectExchange = bool.Parse(configuration["ConnectExchange"]);
 
+                gConnectionString = Utils.DecryptAES(configuration["ConnectionString"].ToString(), AES_Key, AES_IV);
 
             }
         }

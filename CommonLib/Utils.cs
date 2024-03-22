@@ -27,7 +27,15 @@ namespace CommonLib
 			return _numberreturn;
 		}
 
-		public static bool Validator_Data_Date(string value)
+        public static decimal ParseDecimalSpan(ReadOnlySpan<char> p_StringValue)
+        {
+            decimal _numberreturn;
+            decimal.TryParse(p_StringValue, out _numberreturn);
+            return _numberreturn;
+        }
+
+
+        public static bool Validator_Data_Date(string value)
 		{
 			DateTime date;
 			return DateTime.TryParseExact(value, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out date);

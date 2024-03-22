@@ -453,4 +453,18 @@
 	{
         public string MemberPass { get; set; } = string.Empty;
 	}
+
+    public static class CodeDefine
+    {
+        public static int None_Process = 0;
+        public static int Success_Process = 1;
+        public static int Fail_Process = -1;
+    }
+
+
+    public static class Data_SoR
+    {
+        public const string Send = "S";
+        public const string Recei = "R";
+    }
 }

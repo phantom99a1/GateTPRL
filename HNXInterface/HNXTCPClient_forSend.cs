@@ -1,6 +1,7 @@
 ﻿using CommonLib;
 using HNX.FIXMessage;
 using LocalMemory;
+using StorageProcess;
 using static CommonLib.CommonDataInCore;
 
 namespace HNXInterface
@@ -86,7 +87,11 @@ namespace HNXInterface
 
                     //
                     ShareMemoryData.c_FileStore.StoreSendMsg(Message.GetMsgType, Message.GetMessageRaw, Message.MsgSeqNum, Message.LastMsgSeqNumProcessed, GateSeqInfo.SerSeq, GateSeqInfo.LastSerProcessSeq, LastSeqMap);
-                   
+                    //
+
+                    // BacND: bổ sung thêm ghi vào DB sau khi gửi sở và save file xong
+                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(Message, Data_SoR.Send);
+
                     //
                     GateSeqInfo.Set_CliSeq(Message.MsgSeqNum);
                     _lasttimeKeapAlive = DateTime.Now.Ticks;
@@ -170,6 +175,7 @@ namespace HNXInterface
                 messageSecurityStatus.SubscriptionRequestType = '0';
                 messageSecurityStatus.SecurityStatusReqID = DateTime.Now.ToString("hhmmss");
             }
+
             return Send2HNX(messageSecurityStatus);
         }
 

@@ -12,6 +12,7 @@ using CommonLib;
 using HNX.FIXMessage;
 using KafkaInterface;
 using LocalMemory;
+using StorageProcess;
 using static CommonLib.CommonData;
 using static CommonLib.CommonDataInCore;
 
@@ -676,6 +677,14 @@ namespace BusinessProcessResponse
                     Logger.ResponseLog.Info($"ReportGateReject -> process reject not match rule with MsgSeqNum(34)={fMsg.MsgSeqNum}; send queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
 
                 }
+                
+                //
+                //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                MessageReject messageReject = new MessageReject();
+                messageReject.RefSeqNum = fMsg.MsgSeqNum;
+                messageReject.Text = p_Text;
+                messageReject.SessionRejectReason = Utils.ParseInt(MapErrorCode(p_Code));
+                SharedStorageProcess.c_DataStorageProcess.EnqueueData(messageReject, Data_SoR.Recei);
                 //
                 Logger.ResponseLog.Info($"ReportGateReject -> End process gate reject not match rule with MsgSeqNum(34) = {fMsg.MsgSeqNum}");
             }

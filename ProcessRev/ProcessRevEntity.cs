@@ -10,11 +10,13 @@
 
 using BusinessProcessResponse;
 using CommonLib;
+using Confluent.Kafka;
 using Disruptor;
 using Disruptor.Dsl;
 using HNX.FIXMessage;
 using HNXInterface;
 using LocalMemory;
+using StorageProcess;
 
 namespace BusinessProcessAPIReq
 {
@@ -67,6 +69,8 @@ namespace BusinessProcessAPIReq
             }
             int MsgSeq = (int)sequence;
             p_MsgData.MsgSeqNum = MsgSeq;
+            //
+
             ShareMemoryData.c_FileStore.StoreRecoverMsg_GateSendHNX(p_MsgData.GetMsgType, c_MsgFactory.Build(p_MsgData), p_MsgData.MsgSeqNum);
             c_iProcessResponse.ResponseApi2Kafka(p_MsgData, MsgSeq);
             Logger.log.Info("Send Data Message {0} with api ID {1} to Kafka", p_MsgData.GetMsgType, p_MsgData.IDRequest);
@@ -218,7 +222,7 @@ namespace BusinessProcessAPIReq
                             Symbol = QuoteCancel.Symbol;
                             break;
 
-                        case MessageType.QuoteResponse: // 35=AI
+                        case MessageType.QuoteResponse: // 35=AJ
                             MessageQuoteResponse QuoteResponse = (MessageQuoteResponse)fMsgBase;
                             ClOrdID = QuoteResponse.ClOrdID;
                             Symbol = QuoteResponse.Symbol;
@@ -303,9 +307,10 @@ namespace BusinessProcessAPIReq
                     if (!preCheck)
                     {
                         c_ResponseInterface.ReportGateReject(fMsgBase, outText, outCode);
-                        return;
                     }
+
                     bool isSend = RetrySendHNX(fMsgBase, ConfigData.RetryQ.Enable);
+                    
                     //Update
                     if (isSend)
                     {
@@ -315,6 +320,9 @@ namespace BusinessProcessAPIReq
                             OrderMemory.Update_Order(ClOrdID, fMsgBase.MsgSeqNum);
                         //Phản hồi về Kafka sau khi gửi sang gate
                         c_ResponseInterface.ResponseGateSend2HNX(fMsgBase);
+                        //
+                        //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                        SharedStorageProcess.c_DataStorageProcess.EnqueueData(fMsgBase, Data_SoR.Send);
                     }
                     else
                     {

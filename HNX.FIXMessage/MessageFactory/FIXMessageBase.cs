@@ -76,15 +76,41 @@ namespace HNX.FIXMessage
             get { return MessageRawEncrypt; }
         }
 
+        /// <summary>
+        /// Lấy giá trị tag 35
+        /// </summary>
         public string GetMsgType
         {
             get { return MsgType; }
         }
 
+        /// <summary>
+        /// Lấy giá trị tag 52
+        /// </summary>
         public DateTime GetSendingTime
         {
             get { return SendingTime; }
         }
+
+        /// <summary>
+        /// Lấy giá trị tag 49
+        /// </summary>
+        public string GetSenderCompID
+        {
+            get { return SenderCompID; }
+        }
+
+
+        /// <summary>
+        /// Lấy giá trị tag 56
+        /// </summary>
+        public string GetTargetCompID
+        {
+            get { return TargetCompID; }
+        }
+
+
+
         public byte[] MessageRawByte;
         //
         public string ApiOrderNo { get; set; }
@@ -95,7 +121,15 @@ namespace HNX.FIXMessage
         public string SenderCompID;
         public string TargetCompID;
         public string TargetSubID;
+
+        /// <summary>
+        /// Lấy giá trị tag 34
+        /// </summary>
         public int MsgSeqNum;
+
+        /// <summary>
+        /// Lấy giá trị tag 369
+        /// </summary>
         public int LastMsgSeqNumProcessed;
 
         public Boolean PossDupFlag;//  message gui la public hay private.

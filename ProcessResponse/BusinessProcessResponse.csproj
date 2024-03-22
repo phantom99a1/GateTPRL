@@ -15,6 +15,7 @@
     <ProjectReference Include="..\CommonLib\CommonLib.csproj" />
     <ProjectReference Include="..\KafkaClient\KafkaClient.csproj" />
     <ProjectReference Include="..\LocalMemory\LocalMemory.csproj" />
+    <ProjectReference Include="..\StorageProcess\StorageProcess.csproj" />
   </ItemGroup>
 
 </Project>

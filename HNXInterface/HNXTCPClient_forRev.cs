@@ -1,7 +1,9 @@
 ﻿using CommonLib;
+using Confluent.Kafka;
 using HNX.FIXMessage;
 using LocalMemory;
 using Microsoft.AspNetCore.Mvc.Filters;
+using StorageProcess;
 
 namespace HNXInterface
 {
@@ -62,6 +64,8 @@ namespace HNXInterface
 
                 case MessageType.Reject:
                     ProcessReject((MessageReject)fMsgBase);
+                    // BacND: bổ sung thêm ghi vào DB sau khi gửi sở và save file xong
+                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(fMsgBase, Data_SoR.Recei);
                     break;
 
                 case MessageType.ResendRequest:
@@ -69,11 +73,15 @@ namespace HNXInterface
                     break;
 
                 case MessageType.SequenceReset:
-                    ProcessSequenceReset((MessageSequenceReset)fMsgBase);
+                    ProcessSequenceReset(fMsgBase);
+                    // BacND: bổ sung thêm ghi vào DB sau khi gửi sở và save file xong
+                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(fMsgBase, Data_SoR.Recei);
                     break;
 
                 case MessageType.Logout:
                     ProcessLogout((MessageLogout)fMsgBase);
+                    // BacND: bổ sung thêm ghi vào DB sau khi gửi sở và save file xong
+                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(fMsgBase, Data_SoR.Recei);
                     break;
             }
             GateSeqInfo.Set_LastCliProcess(fMsgBase.MsgSeqNum);
@@ -117,6 +125,9 @@ namespace HNXInterface
                 MessageLogon _MessageLogon = (MessageLogon)p_FIXMessageBase;
                 int _ServerSuccessSeq = _MessageLogon.LastMsgSeqNumProcessed; //đây là seq mà server đã nhận và xử lý thành công khi bắt tay lại
                 ShareMemoryData.c_LoginStatus = _MessageLogon.Text;
+                //
+                // BacND: bổ sung thêm ghi vào DB sau khi gửi sở và save file xong
+                SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_FIXMessageBase, Data_SoR.Recei);
                 //
                 CommonLib.Logger.log.Info("LOGIN SUCCESS");
 
@@ -214,7 +225,15 @@ namespace HNXInterface
             List<FIXMessageBase> ListResend = c_BackupData.GetMsgfromBackup(BeginSeqNo, EndSeqNo);
             for (int i = 0; i < ListResend.Count; i++)
             {
-                ForResend(c_MsgFactoryFix.Build(ListResend[i]));
+                FIXMessageBase fixMessageBase = ListResend[i];
+                bool result = ForResend(c_MsgFactoryFix.Build(fixMessageBase));
+
+                if (result)
+                {
+                    // BacND: bổ sung thêm ghi vào DB sau khi gửi sở và save file xong
+                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(fixMessageBase, Data_SoR.Recei);
+                }
+
                 Logger.HNXTcpLog.Warn("Resend Message seq {0}", ListResend[i].MsgSeqNum);
                 if (ListResend[i].MsgSeqNum > GateSeqInfo.LastSerProcessSeq + ConfigData.SafeWindowSize)
                 {
@@ -231,22 +250,26 @@ namespace HNXInterface
             }
         }
 
-        private void ForResend(string s)
+        private bool ForResend(string s)
         {
             //Chỉ là Resend thôi, nên ko có xử lý Sequence gì ở đây
             try
             {
                 c_CurrentConnected.WriteString(s);
                 ShareMemoryData.c_FileStore.StoreResendMsg("", s, GateSeqInfo.CliSeq, GateSeqInfo.LastCliProcessSeq, GateSeqInfo.SerSeq, GateSeqInfo.LastSerProcessSeq);
+                //
+                return true;
             }
             catch (Exception ex)
             {
                 Logger.HNXTcpLog.Error(ex, "Send Error {0}", s);
+                return false;
             }
         }
 
-        public void ProcessSequenceReset(MessageSequenceReset SequenceReset)
+        public void ProcessSequenceReset(FIXMessageBase p_fixMsgBase)
         {
+            MessageSequenceReset SequenceReset = (MessageSequenceReset)p_fixMsgBase;
             string _msg = string.Format("Rev SequenceReset by SeqSend ={0}, SeqSerRev={1}, NewSeqNo = {2}", GateSeqInfo.SerSeq, SequenceReset.LastMsgSeqNumProcessed, SequenceReset.NewSeqNo);
             //DungNT
             c_IsAutoReconnect = false;//Tạm thời khóa, ko cho connect lại
