@@ -3,7 +3,10 @@ using Disruptor;
 using Disruptor.Dsl;
 using HNX.FIXMessage;
 using ManagedLayer;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using ObjectInfo;
+using static HNX.FIXMessage.MessageExecOrderRepos;
+using static HNX.FIXMessage.MessageReposBCGDReport;
 
 namespace StorageProcess
 {
@@ -61,13 +64,13 @@ namespace StorageProcess
                     // 1. Bảng MSG_TPRL_INFO (Msg có tag 35 = A và 35 = 5)
                     case MessageType.Logon:
                     case MessageType.Logout:
-                        ProcessSaveMsgType_35_A_35_S(sequence, fixMessageBase, p_ValueSaveEntry.typeMsgIsSendOrRecei);  
+                        ProcessSaveMsgType_35_A_35_S(sequence, fixMessageBase, p_ValueSaveEntry.typeMsgIsSendOrRecei);
                         break;
 
                     // 2.	Bảng MSG_TPRL_REQUEST (Msg có tag 35 = 2, 35 = 4)
                     case MessageType.ResendRequest:
                     case MessageType.SequenceReset:
-                        ProcessSaveMsgType_35_2_35_4(sequence, fixMessageBase, p_ValueSaveEntry.typeMsgIsSendOrRecei);  
+                        ProcessSaveMsgType_35_2_35_4(sequence, fixMessageBase, p_ValueSaveEntry.typeMsgIsSendOrRecei);
                         break;
 
                     // 3. Bảng MSG_TPRL_REJECT (Msg có tag 35 = 3)
@@ -78,7 +81,7 @@ namespace StorageProcess
                     // 4. Bảng MSG_TPRL_SESION (Msg có tag 35 = g và 35 = h)
                     case MessageType.TradingSessionStatusRequest:
                     case MessageType.TradingSessionStatus:
-                        ProcessSaveMsgType_35_h_35_g(sequence, fixMessageBase, p_ValueSaveEntry.typeMsgIsSendOrRecei); 
+                        ProcessSaveMsgType_35_h_35_g(sequence, fixMessageBase, p_ValueSaveEntry.typeMsgIsSendOrRecei);
                         break;
 
                     // 5.	Bảng msg_TPRL_SECURITIES (Msg có tag 35 = f và 35 = e)
@@ -106,9 +109,9 @@ namespace StorageProcess
                         ProcessSaveMsgType_35_AI_AJ_Z_R_S_s_t_u(sequence, fixMessageBase, p_ValueSaveEntry.typeMsgIsSendOrRecei);
                         break;
 
-                    // 8. Bảng MSG_TPRL_REPO (Msg có tag 35 = BE, N01, N02, N03, N04, N05, MA, ME, MC, MR)
-                    case MessageType.UserRequest: // BE
-                    case MessageType.CReposInquiry: // N01
+                    // 8. Bảng MSG_TPRL_REPO (Msg có tag 35 = EE, N01, N02, N03, N04, N05, MA, ME, MC, MR)
+                    case MessageType.ExecOrderRepos: // EE
+                    case MessageType.ReposInquiry: // N01
                     case MessageType.ReposInquiryReport: // N02
                     case MessageType.ReposFirm: // N03
                     case MessageType.ReposFirmReport: // N04
@@ -117,7 +120,7 @@ namespace StorageProcess
                     case MessageType.ReposBCGDModify: // ME
                     case MessageType.ReposBCGDCancel: // MC
                     case MessageType.ReposBCGDReport: // MR
-                        ProcessSaveMsgType_35_BE_N01_N02_N03_N04_N05_MA_ME_MC_MR(sequence, fixMessageBase, p_ValueSaveEntry.typeMsgIsSendOrRecei); 
+                        ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR(sequence, fixMessageBase, p_ValueSaveEntry.typeMsgIsSendOrRecei);
                         break;
 
                     // 10. Bảng msg_TPRL_HNX_CONFIRM (Msg có tag 35 = 8)
@@ -398,10 +401,10 @@ namespace StorageProcess
                 int _return = 0;
                 //while (true)
                 //{
-                Msg_Tprl_Sesion_Info objSaveData = new Msg_Tprl_Sesion_Info();
+                Msg_Tprl_Securities_Info objSaveData = new Msg_Tprl_Securities_Info();
                 if (fixMessageBase.GetMsgType == MessageType.SecurityStatus) // 35=f
                 {
-                    MessageTradingSessionStatus msgData = (MessageTradingSessionStatus)fixMessageBase;
+                    MessageSecurityStatus msgData = (MessageSecurityStatus)fixMessageBase;
 
                     objSaveData.Sor = p_SendOrRecei;
                     objSaveData.Msgtype = fixMessageBase.GetMsgType; // 35
@@ -413,18 +416,36 @@ namespace StorageProcess
                     objSaveData.Text = fixMessageBase.Text;
                     objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed; // 369
                     //
-                    objSaveData.Tradsesreqid = msgData.TradSesReqID;
-                    objSaveData.Tradingsessionid = msgData.TradingSessionID;
-                    objSaveData.Tradsesmode = msgData.TradSesMode.ToString();
-                    objSaveData.Tradsesstatus = msgData.TradSesStatus;
-                    objSaveData.Tradsesstarttime = msgData.TradSesStartTime.ToString(ConfigData.formatDateTime);
+                    objSaveData.Tradingsessionsubid = msgData.TradingSessionSubID;
+                    objSaveData.Securitystatusreqid = msgData.SecurityStatusReqID;
+                    objSaveData.Symbol = msgData.Symbol;
+                    objSaveData.Securitytype = msgData.SecurityType;
+                    objSaveData.Maturitydate = msgData.MaturityDate.ToString("yyyyMMdd");
+                    objSaveData.Issuedate = msgData.IssueDate.ToString("yyyyMMdd");
+                    objSaveData.Issuer = msgData.Issuer;
+                    objSaveData.Highpx = msgData.HighPx;
+                    objSaveData.Lowpx = msgData.LowPx;
+                    objSaveData.Highpxout = msgData.HighPxOut;
+                    objSaveData.Lowpxout = msgData.LowPxOut;
+                    objSaveData.Highpxrep = msgData.HighPxRep;
+                    objSaveData.Lowpxrep = msgData.LowPxRep;
+                    objSaveData.Lastpx = msgData.LastPx;
+                    objSaveData.Securitytradingstatus = msgData.SecurityTradingStatus;
+                    objSaveData.Buyvolume = msgData.BuyVolume;
+                    objSaveData.Dateno = msgData.DateNo;
+                    objSaveData.Totallistingqtty = msgData.TotalListingQtty;
+                    objSaveData.Typerule = msgData.TypeRule;
+                    objSaveData.Allowed_Trading_Subject = msgData.Allowed_Trading_Subject;
+                    objSaveData.Allowed_Trading_Subject_Sell = msgData.Allowed_Trading_Subject_Sell;
+                    objSaveData.Subscriptionrequesttype = "";
+
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.SecurityStatusRequest) // 35=e
                 {
-                    MessageTradingSessionStatusRequest msgData = (MessageTradingSessionStatusRequest)fixMessageBase;
+                    MessageSecurityStatusRequest msgData = (MessageSecurityStatusRequest)fixMessageBase;
 
                     objSaveData.Sor = p_SendOrRecei;
                     objSaveData.Msgtype = fixMessageBase.GetMsgType; // 35
@@ -436,17 +457,35 @@ namespace StorageProcess
                     objSaveData.Text = fixMessageBase.Text;
                     objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed; // 369
                     //
-                    objSaveData.Tradsesreqid = msgData.TradSesReqID;
-                    objSaveData.Tradingsessionid = "";
-                    objSaveData.Tradsesmode = msgData.TradSesMode.ToString();
-                    objSaveData.Tradsesstatus = "";
-                    objSaveData.Tradsesstarttime = "";
+                    objSaveData.Tradingsessionsubid = "";
+                    objSaveData.Securitystatusreqid = msgData.SecurityStatusReqID;
+                    objSaveData.Symbol = msgData.Symbol;
+                    objSaveData.Securitytype = "";
+                    objSaveData.Maturitydate = "";
+                    objSaveData.Issuedate = "";
+                    objSaveData.Issuer = "";
+                    objSaveData.Highpx = 0;
+                    objSaveData.Lowpx = 0;
+                    objSaveData.Highpxout = 0;
+                    objSaveData.Lowpxout = 0;
+                    objSaveData.Highpxrep = 0;
+                    objSaveData.Lowpxrep = 0;
+                    objSaveData.Lastpx = 0;
+                    objSaveData.Securitytradingstatus = 0;
+                    objSaveData.Buyvolume = 0;
+                    objSaveData.Dateno = "";
+                    objSaveData.Totallistingqtty = 0;
+                    objSaveData.Typerule = 0;
+                    objSaveData.Allowed_Trading_Subject = "";
+                    objSaveData.Allowed_Trading_Subject_Sell = "";
+                    objSaveData.Subscriptionrequesttype = "";
+
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                 }
 
-                _return = Msg_tprl_sesionBL.Insert(objSaveData);
+                _return = Msg_tprl_securitiesBL.Insert(objSaveData);
                 if (_return > 0)
                 {
                     Logger.log.Info($"ProcessSaveMsgType | MsgSeqNum: {objSaveData.Msgseqnum}, MsgType: {objSaveData.Msgtype},  -->>> Save to DB sucess");
@@ -493,7 +532,7 @@ namespace StorageProcess
                     objSaveData.Side = msgData.Side.ToString();
                     objSaveData.Orderqty = msgData.OrderQty.ToString();
 
-                    if(msgData.OrdType=="LO")
+                    if (msgData.OrdType == "LO")
                     {
                         objSaveData.Ordtype = "2";
                     }
@@ -557,7 +596,6 @@ namespace StorageProcess
                     objSaveData.Orderqty = msgData.OrderQty.ToString();
                     objSaveData.Ordtype = "";
 
-
                     objSaveData.Price2 = msgData.Price2;
                     objSaveData.Price = 0;
                     objSaveData.Orderqty2 = 0;
@@ -588,7 +626,6 @@ namespace StorageProcess
                     objSaveData.Side = "";
                     objSaveData.Orderqty = "";
                     objSaveData.Ordtype = "";
-
 
                     objSaveData.Price2 = 0;
                     objSaveData.Price = 0;
@@ -640,7 +677,7 @@ namespace StorageProcess
                     objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
                     objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed; // 369
 
-                    objSaveData.Text = msgData.Text; 
+                    objSaveData.Text = msgData.Text;
                     objSaveData.Ordtype = msgData.OrdType;
                     objSaveData.Crosstype = 0;
                     objSaveData.Clordid = msgData.ClOrdID;
@@ -1017,110 +1054,617 @@ namespace StorageProcess
             }
         }
 
-        private void ProcessSaveMsgType_35_BE_N01_N02_N03_N04_N05_MA_ME_MC_MR(long sequence, FIXMessageBase fixMessageBase, string p_SendOrRecei)
+        private void ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR(long sequence, FIXMessageBase fixMessageBase, string p_SendOrRecei)
         {
             try
             {
-                int _return = 0;
+                long _return = 0;
                 //while (true)
                 //{
                 Msg_Tprl_Repo_Info objSaveData = new Msg_Tprl_Repo_Info();
-                //if (fixMessageBase.GetMsgType == MessageType.QuoteStatusReport) // 35=AI
-                //{
-                //    MessageQuoteSatusReport msgData = (MessageQuoteSatusReport)fixMessageBase;
+                bool repoDetailExist = false;
+                List<ReposSideExecOrder> listReposSideExecOrder_EE_N01 = null;
+                List<ReposSide> listReposSide_N03_N04_N05_MA_ME = null;
+                List<ReposSideReposBCGDReport> listReposSideReposBCGDReportList_MR = null;
+                if (fixMessageBase.GetMsgType == MessageType.ExecOrderRepos) // 35=EE
+                {
+                    MessageExecOrderRepos msgData = (MessageExecOrderRepos)fixMessageBase;
 
-                //    objSaveData.Sor = p_SendOrRecei;
-                //    objSaveData.Msgtype = fixMessageBase.GetMsgType; // 35
-                //    objSaveData.Sendercompid = fixMessageBase.GetSenderCompID; // 49
-                //    objSaveData.Targetcompid = fixMessageBase.GetTargetCompID; // 56
-                //    objSaveData.Msgseqnum = msgData.MsgSeqNum; // 34
-                //    objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
-                //    objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed; // 369
+                    objSaveData.Sor = p_SendOrRecei;
+                    objSaveData.Msgtype = fixMessageBase.GetMsgType; // 35
+                    objSaveData.Sendercompid = fixMessageBase.GetSenderCompID; // 49
+                    objSaveData.Targetcompid = fixMessageBase.GetTargetCompID; // 56
+                    objSaveData.Msgseqnum = msgData.MsgSeqNum; // 34
+                    objSaveData.Possdupflag = msgData.PossDupFlag == true ? "Y" : "N";
+                    objSaveData.Text = msgData.Text;
+                    objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
+                    objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed.ToString(); // 369
+                    //
+                    objSaveData.Partyid = msgData.PartyID;
+                    objSaveData.Copartyid = msgData.CoPartyID;
+                    objSaveData.Matchreporttype = msgData.MatchReportType;
+                    objSaveData.Orderid = msgData.OrderID;
+                    objSaveData.Buyorderid = msgData.BuyOrderID;
+                    objSaveData.Sellorderid = msgData.SellOrderID;
+                    objSaveData.Repurchaserate = msgData.RepurchaseRate.ToString();
+                    objSaveData.Repurchaseterm = msgData.RepurchaseTerm;
+                    objSaveData.Noside = msgData.NoSide;
+                    objSaveData.Quotetype = 0;
+                    objSaveData.Multilegrpttypereq = 0;
+                    objSaveData.Ordtype = "";
+                    objSaveData.Rfqreqid = "";
+                    objSaveData.Orgorderid = "";
+                    objSaveData.Quoteid = "";
+                    objSaveData.Side = "";
+                    objSaveData.Orderqty = 0;
+                    objSaveData.Effectivetime = "";
+                    objSaveData.Coaccount = "";
+                    objSaveData.Registid = "";
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Clordid = msgData.ClOrdID;
+                    objSaveData.Settldate = msgData.SettDate;
+                    objSaveData.Settldate2 = msgData.SettlDate2;
+                    objSaveData.Enddate = msgData.EndDate;
+                    objSaveData.Settlmethod = "";
+                    objSaveData.Orderpartyid = "";
+                    objSaveData.Inquirymember = "";
+                    //
+                    objSaveData.Remark = "";
+                    objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    repoDetailExist = true;
 
-                //    objSaveData.Text = msgData.Text;
-                //    objSaveData.Ordtype = msgData.OrdType;
-                //    objSaveData.Crosstype = 0;
-                //    objSaveData.Clordid = msgData.ClOrdID;
-                //    objSaveData.Crossid = "";
-                //    objSaveData.Account = msgData.Account;
-                //    objSaveData.Coaccount = "";
-                //    objSaveData.Partyid = "";
-                //    objSaveData.Copartyid = "";
-                //    objSaveData.Orderqty = msgData.OrderQty;
-                //    objSaveData.Effectivetime = "";
-                //    objSaveData.Side = msgData.Side;
-                //    objSaveData.Symbol = msgData.Symbol;
-                //    objSaveData.Price2 = msgData.Price2.ToString();
-                //    objSaveData.Settlvalue = msgData.SettlValue;
-                //    objSaveData.Settldate = msgData.SettDate;
-                //    objSaveData.Settlmethod = msgData.SettlMethod;
-                //    objSaveData.Orderid = "";
-                //    objSaveData.Origcrossid = "";
-                //    objSaveData.Registid = msgData.RegistID;
-                //    objSaveData.Rfqreqid = "";
-                //    objSaveData.Quoterespid = "";
-                //    objSaveData.Quoteresptype = "";
-                //    objSaveData.Quoteid = "";
-                //    objSaveData.Quotecanceltype = "";
-                //    objSaveData.Orderpartyid = "";
-                //    objSaveData.Quotereqid = "";
-                //    objSaveData.Quotetype = "";
-                //    objSaveData.Quotetype = "";
-                //    //
-                //    objSaveData.Remark = "";
-                //    objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
-                //    objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
-                //}
-                //else if (fixMessageBase.GetMsgType == MessageType.QuoteResponse) // 35=AJ
-                //{
-                //    MessageQuoteResponse msgData = (MessageQuoteResponse)fixMessageBase;
+                    if (msgData.ReposSideList != null && msgData.ReposSideList.Count > 0)
+                    {
+                        listReposSideExecOrder_EE_N01 = new List<ReposSideExecOrder>();
+                        ReposSideExecOrder itemSite;
+                        for (int i = 0; i < msgData.ReposSideList.Count; i++)
+                        {
+                            itemSite = msgData.ReposSideList[i];
+                            listReposSideExecOrder_EE_N01.Add(itemSite);
+                        }
+                    }
+                    else
+                    {
+                        Logger.log.Debug($"ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR -> process save DB 35={fixMessageBase.GetMsgType} with MsgSeqNum(34)={msgData.MsgSeqNum} with msgData.ReposSideList is null or  msgData.ReposSideList.Count = 0");
+                    }
+                }
+                else if (fixMessageBase.GetMsgType == MessageType.ReposInquiry) // 35=N01
+                {
+                    MessageReposInquiry msgData = (MessageReposInquiry)fixMessageBase;
 
-                //    objSaveData.Sor = p_SendOrRecei;
-                //    objSaveData.Msgtype = fixMessageBase.GetMsgType; // 35
-                //    objSaveData.Sendercompid = fixMessageBase.GetSenderCompID; // 49
-                //    objSaveData.Targetcompid = fixMessageBase.GetTargetCompID; // 56
-                //    objSaveData.Msgseqnum = msgData.MsgSeqNum; // 34
-                //    objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
-                //    objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed; // 369
+                    objSaveData.Sor = p_SendOrRecei;
+                    objSaveData.Msgtype = fixMessageBase.GetMsgType; // 35
+                    objSaveData.Sendercompid = fixMessageBase.GetSenderCompID; // 49
+                    objSaveData.Targetcompid = fixMessageBase.GetTargetCompID; // 56
+                    objSaveData.Msgseqnum = msgData.MsgSeqNum; // 34
+                    objSaveData.Possdupflag = msgData.PossDupFlag == true ? "Y" : "N";
+                    objSaveData.Text = msgData.Text;
+                    objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
+                    objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed.ToString(); // 369
 
-                //    objSaveData.Text = msgData.Text;
-                //    objSaveData.Ordtype = msgData.OrdType;
-                //    objSaveData.Crosstype = 0;
-                //    objSaveData.Clordid = msgData.ClOrdID;
-                //    objSaveData.Crossid = "";
-                //    objSaveData.Account = msgData.Account;
-                //    objSaveData.Coaccount = msgData.CoAccount;
-                //    objSaveData.Partyid = "";
-                //    objSaveData.Copartyid = "";
-                //    objSaveData.Orderqty = msgData.OrderQty;
-                //    objSaveData.Effectivetime = "";
-                //    objSaveData.Side = msgData.Side;
-                //    objSaveData.Symbol = msgData.Symbol;
-                //    objSaveData.Price2 = msgData.Price2.ToString();
-                //    //objSaveData.Price = msgData.Price.ToString();  // khong thay map de luu
-                //    objSaveData.Settlvalue = msgData.SettlValue;
-                //    objSaveData.Settldate = msgData.SettDate;
-                //    objSaveData.Settlmethod = msgData.SettlMethod;
-                //    objSaveData.Orderid = "";
-                //    objSaveData.Origcrossid = "";
-                //    objSaveData.Registid = "";
-                //    objSaveData.Rfqreqid = msgData.QuoteRespID;
-                //    objSaveData.Quoterespid = "";
-                //    objSaveData.Quoteresptype = msgData.QuoteRespType.ToString();
-                //    objSaveData.Quoteid = "";
-                //    objSaveData.Quotecanceltype = "";
-                //    objSaveData.Orderpartyid = "";
-                //    objSaveData.Quotereqid = "";
-                //    objSaveData.Quotetype = "";
-                //    objSaveData.Quotetype = "";
-                //    //
-                //    objSaveData.Remark = "";
-                //    objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
-                //    objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
-                //}
-           
+                    objSaveData.Partyid = "";
+                    objSaveData.Copartyid = "";
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Orderid = "";
+                    objSaveData.Buyorderid = "";
+                    objSaveData.Sellorderid = "";
+                    objSaveData.Repurchaserate = "";
+                    objSaveData.Repurchaseterm = msgData.RepurchaseTerm;
+                    objSaveData.Noside = 0;
+                    objSaveData.Quotetype = msgData.QuoteType;
+                    objSaveData.Multilegrpttypereq = 0;
+                    objSaveData.Ordtype = msgData.OrdType;
+                    objSaveData.Rfqreqid = msgData.RFQReqID;
+                    objSaveData.Orgorderid = "";
+                    objSaveData.Quoteid = "";
+                    objSaveData.Side = msgData.Side.ToString();
+                    objSaveData.Orderqty = msgData.OrderQty;
+                    objSaveData.Effectivetime = msgData.EffectiveTime;
+                    objSaveData.Coaccount = "";
+                    objSaveData.Registid = msgData.RegistID;
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Clordid = msgData.ClOrdID;
+                    objSaveData.Settldate = msgData.SettlDate;
+                    objSaveData.Settldate2 = msgData.SettlDate2;
+                    objSaveData.Enddate = msgData.EndDate;
+                    objSaveData.Settlmethod = msgData.SettlMethod.ToString();
+                    objSaveData.Orderpartyid = "";
+                    objSaveData.Inquirymember = "";
+                    //
+                    objSaveData.Remark = "";
+                    objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                }
+                else if (fixMessageBase.GetMsgType == MessageType.ReposInquiryReport) // 35=N02
+                {
+                    MessageReposInquiryReport msgData = (MessageReposInquiryReport)fixMessageBase;
 
-                _return = Msg_tprl_repoBL.Insert(objSaveData);
+                    objSaveData.Sor = p_SendOrRecei;
+                    objSaveData.Msgtype = fixMessageBase.GetMsgType; // 35
+                    objSaveData.Sendercompid = fixMessageBase.GetSenderCompID; // 49
+                    objSaveData.Targetcompid = fixMessageBase.GetTargetCompID; // 56
+                    objSaveData.Msgseqnum = msgData.MsgSeqNum; // 34
+                    objSaveData.Possdupflag = msgData.PossDupFlag == true ? "Y" : "N";
+                    objSaveData.Text = msgData.Text;
+                    objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
+                    objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed.ToString(); // 369
+
+                    objSaveData.Partyid = "";
+                    objSaveData.Copartyid = "";
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Orderid = "";
+                    objSaveData.Buyorderid = "";
+                    objSaveData.Sellorderid = "";
+                    objSaveData.Repurchaserate = "";
+                    objSaveData.Repurchaseterm = msgData.RepurchaseTerm;
+                    objSaveData.Noside = 0;
+                    objSaveData.Quotetype = msgData.QuoteType;
+                    objSaveData.Multilegrpttypereq = 0;
+                    objSaveData.Ordtype = msgData.OrdType;
+                    objSaveData.Rfqreqid = msgData.RFQReqID;
+                    objSaveData.Orgorderid = "";
+                    objSaveData.Quoteid = msgData.QuoteID;
+                    objSaveData.Side = msgData.Side.ToString();
+                    objSaveData.Orderqty = msgData.OrderQty;
+                    objSaveData.Effectivetime = msgData.EffectiveTime;
+                    objSaveData.Coaccount = "";
+                    objSaveData.Registid = msgData.RegistID;
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Clordid = msgData.ClOrdID;
+                    objSaveData.Settldate = msgData.SettlDate;
+                    objSaveData.Settldate2 = msgData.SettlDate2;
+                    objSaveData.Enddate = msgData.EndDate;
+                    objSaveData.Settlmethod = "";
+                    objSaveData.Orderpartyid = "";
+                    objSaveData.Inquirymember = "";
+                    //
+                    objSaveData.Remark = "";
+                    objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                }
+                else if (fixMessageBase.GetMsgType == MessageType.ReposFirm) // 35=N03
+                {
+                    MessageReposFirm msgData = (MessageReposFirm)fixMessageBase;
+
+                    objSaveData.Sor = p_SendOrRecei;
+                    objSaveData.Msgtype = fixMessageBase.GetMsgType; // 35
+                    objSaveData.Sendercompid = fixMessageBase.GetSenderCompID; // 49
+                    objSaveData.Targetcompid = fixMessageBase.GetTargetCompID; // 56
+                    objSaveData.Msgseqnum = msgData.MsgSeqNum; // 34
+                    objSaveData.Possdupflag = msgData.PossDupFlag == true ? "Y" : "N";
+                    objSaveData.Text = msgData.Text;
+                    objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
+                    objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed.ToString(); // 369
+                    //
+                    objSaveData.Partyid = "";
+                    objSaveData.Copartyid = "";
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Orderid = "";
+                    objSaveData.Buyorderid = "";
+                    objSaveData.Sellorderid = "";
+                    objSaveData.Repurchaserate = msgData.RepurchaseRate.ToString();
+                    objSaveData.Repurchaseterm = msgData.RepurchaseTerm;
+                    objSaveData.Noside = msgData.NoSide;
+                    objSaveData.Quotetype = msgData.QuoteType;
+                    objSaveData.Multilegrpttypereq = 0;
+                    objSaveData.Ordtype = msgData.OrdType;
+                    objSaveData.Rfqreqid = msgData.RFQReqID;
+                    objSaveData.Orgorderid = "";
+                    objSaveData.Quoteid = "";
+                    objSaveData.Side = msgData.Side.ToString();
+                    objSaveData.Orderqty = 0;
+                    objSaveData.Effectivetime = msgData.EffectiveTime;
+                    objSaveData.Coaccount = "";
+                    objSaveData.Registid = "";
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Clordid = msgData.ClOrdID;
+                    objSaveData.Settldate = msgData.SettlDate;
+                    objSaveData.Settldate2 = msgData.SettlDate2;
+                    objSaveData.Enddate = msgData.EndDate;
+                    objSaveData.Settlmethod = msgData.SettlMethod.ToString();
+                    objSaveData.Orderpartyid = "";
+                    objSaveData.Inquirymember = "";
+                    //
+                    objSaveData.Remark = "";
+                    objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    repoDetailExist = true;
+
+                    if (msgData.RepoSideList != null && msgData.RepoSideList.Count > 0)
+                    {
+                        listReposSide_N03_N04_N05_MA_ME = new List<ReposSide>();
+                        ReposSide itemSite;
+                        for (int i = 0; i < msgData.RepoSideList.Count; i++)
+                        {
+                            itemSite = msgData.RepoSideList[i];
+                            listReposSide_N03_N04_N05_MA_ME.Add(itemSite);
+                        }
+                    }
+                    else
+                    {
+                        Logger.log.Debug($"ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR -> process save DB 35={fixMessageBase.GetMsgType} with MsgSeqNum(34)={msgData.MsgSeqNum} with msgData.RepoSideList is null or  msgData.RepoSideList.Count = 0");
+                    }
+                }
+                else if (fixMessageBase.GetMsgType == MessageType.ReposFirmReport) // 35=N04
+                {
+                    MessageReposFirmReport msgData = (MessageReposFirmReport)fixMessageBase;
+
+                    objSaveData.Sor = p_SendOrRecei;
+                    objSaveData.Msgtype = fixMessageBase.GetMsgType; // 35
+                    objSaveData.Sendercompid = fixMessageBase.GetSenderCompID; // 49
+                    objSaveData.Targetcompid = fixMessageBase.GetTargetCompID; // 56
+                    objSaveData.Msgseqnum = msgData.MsgSeqNum; // 34
+                    objSaveData.Possdupflag = msgData.PossDupFlag == true ? "Y" : "N";
+                    objSaveData.Text = msgData.Text;
+                    objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
+                    objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed.ToString(); // 369
+
+                    objSaveData.Partyid = "";
+                    objSaveData.Copartyid = "";
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Orderid = "";
+                    objSaveData.Buyorderid = "";
+                    objSaveData.Sellorderid = "";
+                    objSaveData.Repurchaserate = msgData.RepurchaseRate.ToString();
+                    objSaveData.Repurchaseterm = msgData.RepurchaseTerm;
+                    objSaveData.Noside = msgData.NoSide;
+                    objSaveData.Quotetype = msgData.QuoteType;
+                    objSaveData.Multilegrpttypereq = 0;
+                    objSaveData.Ordtype = msgData.OrdType;
+                    objSaveData.Rfqreqid = msgData.RFQReqID;
+                    objSaveData.Orgorderid = "";
+                    objSaveData.Quoteid = msgData.QuoteID;
+                    objSaveData.Side = msgData.Side.ToString();
+                    objSaveData.Orderqty = 0;
+                    objSaveData.Effectivetime = msgData.EffectiveTime;
+                    objSaveData.Coaccount = "";
+                    objSaveData.Registid = "";
+                    objSaveData.Matchreporttype = msgData.MatchReportType;
+                    objSaveData.Clordid = msgData.ClOrdID;
+                    objSaveData.Settldate = msgData.SettlDate;
+                    objSaveData.Settldate2 = msgData.SettlDate2;
+                    objSaveData.Enddate = msgData.EndDate;
+                    objSaveData.Settlmethod = "";
+                    objSaveData.Orderpartyid = msgData.OrderPartyID;
+                    objSaveData.Inquirymember = msgData.InquiryMember;
+                    //
+                    objSaveData.Remark = "";
+                    objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+
+                    // co list
+                    repoDetailExist = true;
+
+                    if (msgData.RepoSideList != null && msgData.RepoSideList.Count > 0)
+                    {
+                        listReposSide_N03_N04_N05_MA_ME = new List<ReposSide>();
+                        ReposSide itemSite;
+                        for (int i = 0; i < msgData.RepoSideList.Count; i++)
+                        {
+                            itemSite = msgData.RepoSideList[i];
+                            listReposSide_N03_N04_N05_MA_ME.Add(itemSite);
+                        }
+                    }
+                    else
+                    {
+                        Logger.log.Debug($"ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR -> process save DB 35={fixMessageBase.GetMsgType} with MsgSeqNum(34)={msgData.MsgSeqNum} with msgData.ReposSideList is null or  msgData.ReposSideList.Count = 0");
+                    }
+                }
+                else if (fixMessageBase.GetMsgType == MessageType.ReposFirmAccept) // 35=N05
+                {
+                    MessageReposFirmAccept msgData = (MessageReposFirmAccept)fixMessageBase;
+
+                    objSaveData.Sor = p_SendOrRecei;
+                    objSaveData.Msgtype = fixMessageBase.GetMsgType; // 35
+                    objSaveData.Sendercompid = fixMessageBase.GetSenderCompID; // 49
+                    objSaveData.Targetcompid = fixMessageBase.GetTargetCompID; // 56
+                    objSaveData.Msgseqnum = msgData.MsgSeqNum; // 34
+                    objSaveData.Possdupflag = msgData.PossDupFlag == true ? "Y" : "N";
+                    objSaveData.Text = msgData.Text;
+                    objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
+                    objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed.ToString(); // 369
+
+                    objSaveData.Partyid = "";
+                    objSaveData.Copartyid = "";
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Orderid = "";
+                    objSaveData.Buyorderid = "";
+                    objSaveData.Sellorderid = "";
+                    objSaveData.Repurchaserate = msgData.RepurchaseRate.ToString();
+                    objSaveData.Repurchaseterm = 0;
+                    objSaveData.Noside = msgData.NoSide;
+                    objSaveData.Quotetype = msgData.QuoteType;
+                    objSaveData.Multilegrpttypereq = 0;
+                    objSaveData.Ordtype = msgData.OrdType;
+                    objSaveData.Rfqreqid = msgData.RFQReqID;
+                    objSaveData.Orgorderid = "";
+                    objSaveData.Quoteid = "";
+                    objSaveData.Side = "";
+                    objSaveData.Orderqty = 0;
+                    objSaveData.Effectivetime = "";
+                    objSaveData.Coaccount = msgData.CoAccount;
+                    objSaveData.Registid = "";
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Clordid = msgData.ClOrdID;
+                    objSaveData.Settldate = "";
+                    objSaveData.Settldate2 = "";
+                    objSaveData.Enddate = "";
+                    objSaveData.Settlmethod = "";
+                    objSaveData.Orderpartyid = "";
+                    objSaveData.Inquirymember = "";
+                    //
+                    objSaveData.Remark = "";
+                    objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+
+                    // co list
+                    repoDetailExist = true;
+
+                    if (msgData.RepoSideList != null && msgData.RepoSideList.Count > 0)
+                    {
+                        listReposSide_N03_N04_N05_MA_ME = new List<ReposSide>();
+                        ReposSide itemSite;
+                        for (int i = 0; i < msgData.RepoSideList.Count; i++)
+                        {
+                            itemSite = msgData.RepoSideList[i];
+                            listReposSide_N03_N04_N05_MA_ME.Add(itemSite);
+                        }
+                    }
+                    else
+                    {
+                        Logger.log.Debug($"ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR -> process save DB 35={fixMessageBase.GetMsgType} with MsgSeqNum(34)={msgData.MsgSeqNum} with msgData.RepoSideList is null or  msgData.RepoSideList.Count = 0");
+                    }
+                }
+                else if (fixMessageBase.GetMsgType == MessageType.ReposBCGD) // 35=MA
+                {
+                    MessageReposBCGD msgData = (MessageReposBCGD)fixMessageBase;
+
+                    objSaveData.Sor = p_SendOrRecei;
+                    objSaveData.Msgtype = fixMessageBase.GetMsgType; // 35
+                    objSaveData.Sendercompid = fixMessageBase.GetSenderCompID; // 49
+                    objSaveData.Targetcompid = fixMessageBase.GetTargetCompID; // 56
+                    objSaveData.Msgseqnum = msgData.MsgSeqNum; // 34
+                    objSaveData.Possdupflag = msgData.PossDupFlag == true ? "Y" : "N";
+                    objSaveData.Text = msgData.Text;
+                    objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
+                    objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed.ToString(); // 369
+
+                    objSaveData.Partyid = msgData.PartyID;
+                    objSaveData.Copartyid = msgData.CoPartyID;
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Orderid = "";
+                    objSaveData.Buyorderid = "";
+                    objSaveData.Sellorderid = "";
+                    objSaveData.Repurchaserate = msgData.RepurchaseRate.ToString();
+                    objSaveData.Repurchaseterm = msgData.RepurchaseTerm;
+                    objSaveData.Noside = msgData.NoSide;
+                    objSaveData.Quotetype = msgData.QuoteType;
+                    objSaveData.Multilegrpttypereq = 0;
+                    objSaveData.Ordtype = msgData.OrdType;
+                    objSaveData.Rfqreqid = "";
+                    objSaveData.Orgorderid = msgData.OrgOrderID;
+                    objSaveData.Quoteid = "";
+                    objSaveData.Side = msgData.Side.ToString();
+                    objSaveData.Orderqty = 0;
+                    objSaveData.Effectivetime = msgData.EffectiveTime;
+                    objSaveData.Coaccount = msgData.CoAccount;
+                    objSaveData.Registid = "";
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Clordid = msgData.ClOrdID;
+                    objSaveData.Settldate = msgData.SettlDate;
+                    objSaveData.Settldate2 = msgData.SettlDate2;
+                    objSaveData.Enddate = msgData.EndDate;
+                    objSaveData.Settlmethod = msgData.SettlMethod.ToString();
+                    objSaveData.Orderpartyid = "";
+                    objSaveData.Inquirymember = "";
+                    //
+                    objSaveData.Remark = "";
+                    objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+
+                    // co list
+                    repoDetailExist = true;
+
+                    if (msgData.RepoSideList != null && msgData.RepoSideList.Count > 0)
+                    {
+                        listReposSide_N03_N04_N05_MA_ME = new List<ReposSide>();
+                        ReposSide itemSite;
+                        for (int i = 0; i < msgData.RepoSideList.Count; i++)
+                        {
+                            itemSite = msgData.RepoSideList[i];
+                            listReposSide_N03_N04_N05_MA_ME.Add(itemSite);
+                        }
+                    }
+                    else
+                    {
+                        Logger.log.Debug($"ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR -> process save DB 35={fixMessageBase.GetMsgType} with MsgSeqNum(34)={msgData.MsgSeqNum} with msgData.RepoSideList is null or  msgData.RepoSideList.Count = 0");
+                    }
+                }
+                else if (fixMessageBase.GetMsgType == MessageType.ReposBCGDModify) // 35=ME
+                {
+                    MessageReposBCGDModify msgData = (MessageReposBCGDModify)fixMessageBase;
+
+                    objSaveData.Sor = p_SendOrRecei;
+                    objSaveData.Msgtype = fixMessageBase.GetMsgType; // 35
+                    objSaveData.Sendercompid = fixMessageBase.GetSenderCompID; // 49
+                    objSaveData.Targetcompid = fixMessageBase.GetTargetCompID; // 56
+                    objSaveData.Msgseqnum = msgData.MsgSeqNum; // 34
+                    objSaveData.Possdupflag = msgData.PossDupFlag == true ? "Y" : "N";
+                    objSaveData.Text = msgData.Text;
+                    objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
+                    objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed.ToString(); // 369
+
+                    objSaveData.Partyid = msgData.PartyID;
+                    objSaveData.Copartyid = msgData.CoPartyID;
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Orderid = "";
+                    objSaveData.Buyorderid = "";
+                    objSaveData.Sellorderid = "";
+                    objSaveData.Repurchaserate = msgData.RepurchaseRate.ToString();
+                    objSaveData.Repurchaseterm = msgData.RepurchaseTerm;
+                    objSaveData.Noside = msgData.NoSide;
+                    objSaveData.Quotetype = msgData.QuoteType;
+                    objSaveData.Multilegrpttypereq = 0;
+                    objSaveData.Ordtype = msgData.OrdType;
+                    objSaveData.Rfqreqid = "";
+                    objSaveData.Orgorderid = msgData.OrgOrderID;
+                    objSaveData.Quoteid = "";
+                    objSaveData.Side = msgData.Side.ToString();
+                    objSaveData.Orderqty = 0;
+                    objSaveData.Effectivetime = msgData.EffectiveTime;
+                    objSaveData.Coaccount = msgData.CoAccount;
+                    objSaveData.Registid = "";
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Clordid = msgData.ClOrdID;
+                    objSaveData.Settldate = msgData.SettlDate;
+                    objSaveData.Settldate2 = msgData.SettlDate2;
+                    objSaveData.Enddate = msgData.EndDate;
+                    objSaveData.Settlmethod = msgData.SettlMethod.ToString();
+                    objSaveData.Orderpartyid = "";
+                    objSaveData.Inquirymember = "";
+                    //
+                    objSaveData.Remark = "";
+                    objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+
+                    // co list
+                    repoDetailExist = true;
+
+                    if (msgData.RepoSideList != null && msgData.RepoSideList.Count > 0)
+                    {
+                        listReposSide_N03_N04_N05_MA_ME = new List<ReposSide>();
+                        ReposSide itemSite;
+                        for (int i = 0; i < msgData.RepoSideList.Count; i++)
+                        {
+                            itemSite = msgData.RepoSideList[i];
+                            listReposSide_N03_N04_N05_MA_ME.Add(itemSite);
+                        }
+                    }
+                    else
+                    {
+                        Logger.log.Debug($"ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR -> process save DB 35={fixMessageBase.GetMsgType} with MsgSeqNum(34)={msgData.MsgSeqNum} with msgData.RepoSideList is null or  msgData.RepoSideList.Count = 0");
+                    }
+                }
+                else if (fixMessageBase.GetMsgType == MessageType.ReposBCGDCancel) // 35=MC
+                {
+                    MessageReposBCGDCancel msgData = (MessageReposBCGDCancel)fixMessageBase;
+
+                    objSaveData.Sor = p_SendOrRecei;
+                    objSaveData.Msgtype = fixMessageBase.GetMsgType; // 35
+                    objSaveData.Sendercompid = fixMessageBase.GetSenderCompID; // 49
+                    objSaveData.Targetcompid = fixMessageBase.GetTargetCompID; // 56
+                    objSaveData.Msgseqnum = msgData.MsgSeqNum; // 34
+                    objSaveData.Possdupflag = msgData.PossDupFlag == true ? "Y" : "N";
+                    objSaveData.Text = msgData.Text;
+                    objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
+                    objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed.ToString(); // 369
+
+                    objSaveData.Partyid = "";
+                    objSaveData.Copartyid = "";
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Orderid = "";
+                    objSaveData.Buyorderid = "";
+                    objSaveData.Sellorderid = "";
+                    objSaveData.Repurchaserate = "";
+                    objSaveData.Repurchaseterm = 0;
+                    objSaveData.Noside = 0;
+                    objSaveData.Quotetype = msgData.QuoteType;
+                    objSaveData.Multilegrpttypereq = 0;
+                    objSaveData.Ordtype = msgData.OrdType;
+                    objSaveData.Rfqreqid = "";
+                    objSaveData.Orgorderid = msgData.OrgOrderID;
+                    objSaveData.Quoteid = "";
+                    objSaveData.Side = msgData.Side.ToString();
+                    objSaveData.Orderqty = 0;
+                    objSaveData.Effectivetime = "";
+                    objSaveData.Coaccount = "";
+                    objSaveData.Registid = "";
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Clordid = msgData.ClOrdID;
+                    objSaveData.Settldate = "";
+                    objSaveData.Settldate2 = "";
+                    objSaveData.Enddate = "";
+                    objSaveData.Settlmethod = "";
+                    objSaveData.Orderpartyid = "";
+                    objSaveData.Inquirymember = "";
+                    //
+                    objSaveData.Remark = "";
+                    objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                }
+                else if (fixMessageBase.GetMsgType == MessageType.ReposBCGDReport) // 35=MR
+                {
+                    MessageReposBCGDReport msgData = (MessageReposBCGDReport)fixMessageBase;
+
+                    objSaveData.Sor = p_SendOrRecei;
+                    objSaveData.Msgtype = fixMessageBase.GetMsgType; // 35
+                    objSaveData.Sendercompid = fixMessageBase.GetSenderCompID; // 49
+                    objSaveData.Targetcompid = fixMessageBase.GetTargetCompID; // 56
+                    objSaveData.Msgseqnum = msgData.MsgSeqNum; // 34
+                    objSaveData.Possdupflag = msgData.PossDupFlag == true ? "Y" : "N";
+                    objSaveData.Text = msgData.Text;
+                    objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
+                    objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed.ToString(); // 369
+
+                    objSaveData.Partyid = msgData.PartyID;
+                    objSaveData.Copartyid = msgData.CoPartyID;
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Orderid = "";
+                    objSaveData.Buyorderid = "";
+                    objSaveData.Sellorderid = "";
+                    objSaveData.Repurchaserate = msgData.RepurchaseRate.ToString();
+                    objSaveData.Repurchaseterm = msgData.RepurchaseTerm;
+                    objSaveData.Noside = msgData.NoSide;
+                    objSaveData.Quotetype = msgData.QuoteType;
+                    objSaveData.Multilegrpttypereq = 0;
+                    objSaveData.Ordtype = msgData.OrdType;
+                    objSaveData.Rfqreqid = "";
+                    objSaveData.Orgorderid = msgData.OrgOrderID;
+                    objSaveData.Quoteid = "";
+                    objSaveData.Side = msgData.Side.ToString();
+                    objSaveData.Orderqty = 0;
+                    objSaveData.Effectivetime = msgData.EffectiveTime;
+                    objSaveData.Coaccount = msgData.CoAccount;
+                    objSaveData.Registid = "";
+                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Clordid = msgData.ClOrdID;
+                    objSaveData.Settldate = msgData.SettlDate;
+                    objSaveData.Settldate2 = msgData.SettlDate2;
+                    objSaveData.Enddate = msgData.EndDate;
+                    objSaveData.Settlmethod = msgData.SettlMethod.ToString();
+                    objSaveData.Orderpartyid = "";
+                    objSaveData.Inquirymember = "";
+                    //
+                    objSaveData.Remark = "";
+                    objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+
+                    // co list
+                    repoDetailExist = true;
+                    //
+                    if (msgData.RepoBCGDSideList != null && msgData.RepoBCGDSideList.Count > 0)
+                    {
+                        listReposSideReposBCGDReportList_MR = new List<ReposSideReposBCGDReport>();
+                        //
+                        ReposSideReposBCGDReport itemSite;
+                        for (int i = 0; i < msgData.RepoBCGDSideList.Count; i++)
+                        {
+                            itemSite = msgData.RepoBCGDSideList[i];
+                            listReposSideReposBCGDReportList_MR.Add(itemSite);
+                        }
+                    }
+                    else
+                    {
+                        Logger.log.Debug($"ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR -> process save DB 35={fixMessageBase.GetMsgType} with MsgSeqNum(34)={msgData.MsgSeqNum} with msgData.RepoBCGDSideList is null or  msgData.RepoBCGDSideList.Count = 0");
+                    }
+                }
+
+                // isRepoDetail=false -> ignore Repo Detail
+                // isRepoDetail=true -> insert Repo Detail
+                _return = Msg_tprl_repoBL.ProcessInsertRepos(objSaveData, repoDetailExist, listReposSideExecOrder_EE_N01, listReposSide_N03_N04_N05_MA_ME, listReposSideReposBCGDReportList_MR);
                 if (_return > 0)
                 {
                     Logger.log.Info($"ProcessSaveMsgType | MsgSeqNum: {objSaveData.Msgseqnum}, MsgType: {objSaveData.Msgtype},  -->>> Save to DB sucess");
@@ -1135,7 +1679,7 @@ namespace StorageProcess
             }
             catch (Exception ex)
             {
-                Logger.log.Error($"Error process ProcessSaveMsgType_35_AI_AJ_Z_R_S_s_t_u with sequence= {sequence}, Exception: {ex?.ToString()}");
+                Logger.log.Error($"Error process ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR with sequence= {sequence}, Exception: {ex?.ToString()}");
             }
         }
 
@@ -1154,24 +1698,142 @@ namespace StorageProcess
                 objSaveData.Sendercompid = fixMessageBase.GetSenderCompID; // 49
                 objSaveData.Targetcompid = fixMessageBase.GetTargetCompID; // 56
                 objSaveData.Msgseqnum = msgData.MsgSeqNum; // 34
+                objSaveData.Possdupflag = msgData.PossDupFlag == true ? "Y" : "N";
                 objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
+                objSaveData.Text = msgData.Text;
+                objSaveData.Exectype = msgData.ExecType;
                 objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed.ToString(); // 369
 
-              
-                objSaveData.Remark = "";
+                if (msgData.ExecType == ExecutionReportType.ER_ExecOrder_3) // 150 = 3
+                {
+                    MessageER_ExecOrder msgDataExcecType = (MessageER_ExecOrder)fixMessageBase;
+                    //
+                    objSaveData.Ordstatus = msgDataExcecType.OrdStatus;
+                    objSaveData.Orderid = msgDataExcecType.OrderID;
+                    objSaveData.Clordid = msgDataExcecType.ClOrdID;
+                    objSaveData.Symbol = msgDataExcecType.Symbol;
+                    objSaveData.Side = msgDataExcecType.Side.ToString();
+                    objSaveData.Orderqty = msgDataExcecType.OrderQty;
+                    objSaveData.Ordtype = msgDataExcecType.OrdType;
+                    objSaveData.Price = msgDataExcecType.Price;
+                    objSaveData.Account = msgDataExcecType.Account;
+                    objSaveData.Settlvalue = msgDataExcecType.SettlValue;
+                    objSaveData.Leavesqty = 0;
+                    objSaveData.Origclordid = msgDataExcecType.OrigClOrdID;
+                    objSaveData.Lastqty = msgDataExcecType.LastQty;
+                    objSaveData.Lastpx = msgDataExcecType.LastPx;
+                    objSaveData.Execid = msgDataExcecType.ExecID;
+                    objSaveData.Reciprocalmember = msgDataExcecType.ReciprocalMember;
+                    //
+                    objSaveData.Underlyinglastqty = "";
+                }
+                else if (msgData.ExecType == ExecutionReportType.ER_CancelOrder_4) // 150 = 4
+                {
+                    MessageER_OrderCancel msgDataExcecType = (MessageER_OrderCancel)fixMessageBase;
+                    //
+                    objSaveData.Ordstatus = msgDataExcecType.OrdStatus;
+                    objSaveData.Orderid = msgDataExcecType.OrderID;
+                    objSaveData.Clordid = msgDataExcecType.ClOrdID;
+                    objSaveData.Symbol = msgDataExcecType.Symbol;
+                    objSaveData.Side = msgDataExcecType.Side;
+                    objSaveData.Orderqty = msgDataExcecType.OrderQty;
+                    objSaveData.Ordtype = msgDataExcecType.OrdType;
+                    objSaveData.Price = msgDataExcecType.Price;
+                    objSaveData.Account = msgDataExcecType.Account;
+                    objSaveData.Settlvalue = msgDataExcecType.SettlValue;
+                    objSaveData.Leavesqty = 0;
+                    objSaveData.Origclordid = msgDataExcecType.OrigClOrdID;
+                    objSaveData.Lastqty = 0;
+                    objSaveData.Lastpx = 0;
+                    objSaveData.Execid = "";
+                    objSaveData.Reciprocalmember = "";
+                    //
+                    objSaveData.Underlyinglastqty = "";
+                }
+                else if (msgData.ExecType == ExecutionReportType.ER_ReplaceOrder_5) // 150 = 5
+                {
+                    MessageER_OrderReplace msgDataExcecType = (MessageER_OrderReplace)fixMessageBase;
+                    //
+                    objSaveData.Ordstatus = msgDataExcecType.OrdStatus;
+                    objSaveData.Orderid = msgDataExcecType.OrderID;
+                    objSaveData.Clordid = msgDataExcecType.ClOrdID;
+                    objSaveData.Symbol = msgDataExcecType.Symbol;
+                    objSaveData.Side = msgDataExcecType.Side;
+                    objSaveData.Orderqty = msgDataExcecType.OrderQty;
+                    objSaveData.Ordtype = msgDataExcecType.OrdType;
+                    objSaveData.Price = msgDataExcecType.Price;
+                    objSaveData.Account = msgDataExcecType.Account;
+                    objSaveData.Settlvalue = msgDataExcecType.SettlValue;
+                    objSaveData.Leavesqty = msgDataExcecType.LeavesQty;
+                    objSaveData.Origclordid = msgDataExcecType.OrigClOrdID;
+                    objSaveData.Lastqty = msgDataExcecType.LastQty;
+                    objSaveData.Lastpx = msgDataExcecType.LastPx;
+                    objSaveData.Execid = "";
+                    objSaveData.Reciprocalmember = "";
+                    //
+                    objSaveData.Underlyinglastqty = "";
+                }
+                else if (msgData.ExecType == ExecutionReportType.ER_Order_0) // 150 = 0
+                {
+                    MessageER_Order msgDataExcecType = (MessageER_Order)fixMessageBase;
+                    //
+                    objSaveData.Ordstatus = msgDataExcecType.OrdStatus;
+                    objSaveData.Orderid = msgDataExcecType.OrderID;
+                    objSaveData.Clordid = msgDataExcecType.ClOrdID;
+                    objSaveData.Symbol = msgDataExcecType.Symbol;
+                    objSaveData.Side = msgDataExcecType.Side;
+                    objSaveData.Orderqty = msgDataExcecType.OrderQty;
+                    objSaveData.Ordtype = msgDataExcecType.OrdType;
+                    objSaveData.Price = msgDataExcecType.Price;
+                    objSaveData.Account = msgDataExcecType.Account;
+                    objSaveData.Settlvalue = msgDataExcecType.SettlValue;
+                    objSaveData.Leavesqty = 0;
+                    objSaveData.Origclordid = "";
+                    objSaveData.Lastqty = 0;
+                    objSaveData.Lastpx = 0;
+                    objSaveData.Execid = "";
+                    objSaveData.Reciprocalmember = "";
+                    //
+                    objSaveData.Underlyinglastqty = "";
+                }
+                else if (msgData.ExecType == ExecutionReportType.ER_Rejected_8) // 150 = 8
+                {
+                    MessageER_OrderReject msgDataExcecType = (MessageER_OrderReject)fixMessageBase;
+                    //
+                    objSaveData.Ordstatus = msgDataExcecType.OrdStatus;
+                    objSaveData.Orderid = msgDataExcecType.OrderID;
+                    objSaveData.Clordid = msgDataExcecType.ClOrdID;
+                    objSaveData.Symbol = msgDataExcecType.Symbol;
+                    objSaveData.Side = msgDataExcecType.Side;
+                    objSaveData.Orderqty = msgDataExcecType.OrderQty;
+                    objSaveData.Ordtype = msgDataExcecType.OrdType;
+                    objSaveData.Price = msgDataExcecType.Price;
+                    objSaveData.Account = msgDataExcecType.Account;
+                    objSaveData.Settlvalue = msgDataExcecType.SettlValue;
+                    objSaveData.Leavesqty = 0;
+                    objSaveData.Origclordid = "";
+                    objSaveData.Lastqty = 0;
+                    objSaveData.Lastpx = 0;
+                    objSaveData.Execid = "";
+                    objSaveData.Reciprocalmember = "";
+                    objSaveData.Underlyinglastqty = msgDataExcecType.UnderlyingLastQty.ToString();
+                }
                 //
+                objSaveData.Ordrejreason = msgData.RejectReason.ToString();
+                //
+                objSaveData.Remark = "";
                 objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                 objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
 
                 _return = Msg_tprl_hnx_confirmBL.Insert(objSaveData);
                 if (_return > 0)
                 {
-                    Logger.log.Info($"ProcessSaveMsgType | MsgSeqNum: {objSaveData.Msgseqnum}, MsgType: {objSaveData.Msgtype},  -->>> Save to DB sucess");
+                    Logger.log.Info($"ProcessSaveMsgType | MsgSeqNum: {objSaveData.Msgseqnum}, MsgType: {objSaveData.Msgtype}, ExecType={objSaveData.Exectype},  -->>> Save to DB sucess");
                     //break;
                 }
                 else
                 {
-                    Logger.log.Error($"Error process ProcessSaveMsgType with MsgSeqNum: {objSaveData.Msgseqnum}, MsgType: {objSaveData.Msgtype}, Error [{_return}] can't save to DB; Object={System.Text.Json.JsonSerializer.Serialize(objSaveData)} ");
+                    Logger.log.Error($"Error process ProcessSaveMsgType with MsgSeqNum: {objSaveData.Msgseqnum}, MsgType: {objSaveData.Msgtype}, ExecType={objSaveData.Exectype}, Error [{_return}] can't save to DB; Object={System.Text.Json.JsonSerializer.Serialize(objSaveData)} ");
                     //Thread.Sleep(ConfigData.TimeDelaySaveDB);
                 }
                 //}

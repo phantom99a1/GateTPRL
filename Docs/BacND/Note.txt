@@ -1,0 +1,48 @@
+-- Thông tin kết nối DB
+
+User Id=HNX_GATE_TPRL;Password=HNX_GATE_TPRL;Validate Connection=True;Data Source=//192.168.2.36:1521/CTCKPDB;Min Pool Size=10;Connection Lifetime=120;Connection Timeout=60;Incr Pool Size=5; Decr Pool Size=2; Max Pool Size=100; Pooling=true; Statement Cache Size=1;
+
+select * from MSG_TPRL_HNX_CONFIRM;
+/
+select * from MSG_TPRL_INFO;
+/
+select * from MSG_TPRL_ORDER;
+/
+select * from MSG_TPRL_OUTRIGHT;
+/
+select * from MSG_TPRL_REJECT;
+/
+select * from MSG_TPRL_REPO;
+/
+select * from MSG_TPRL_REPO_DETAIL;
+/
+select * from MSG_TPRL_REQUEST;
+/
+select * from MSG_TPRL_SECURITIES;
+/
+select * from MSG_TPRL_SESION;
+
+--------------------------------------------------------------------------------------------------
+
+delete from MSG_TPRL_HNX_CONFIRM;
+/
+delete from MSG_TPRL_INFO;
+/
+delete from MSG_TPRL_ORDER;
+/
+delete from MSG_TPRL_OUTRIGHT;
+/
+delete from MSG_TPRL_REJECT;
+/
+delete from MSG_TPRL_REPO;
+/
+delete from MSG_TPRL_REPO_DETAIL;
+/
+delete from MSG_TPRL_REQUEST;
+/
+delete from MSG_TPRL_SECURITIES;
+/
+delete from MSG_TPRL_SESION;
+/
+commit;
+

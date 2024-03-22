@@ -73,7 +73,6 @@ namespace HNX.FIXMessage
         public const string QuoteStatusReport = "AI";//  --> Report for Quote Orders
 
         public const string ReposInquiry = "N01";
-        public const string CReposInquiry = "N01";
         public const string ReposInquiryReport = "N02";
         public const string ReposFirm = "N03";
         public const string ReposFirmReport = "N04";    //Report đối với lệnh firm

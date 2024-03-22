@@ -19,7 +19,7 @@
         public string Sellorderid { get; set; } = string.Empty;
         public string Repurchaserate { get; set; } = string.Empty;
         public decimal Repurchaseterm { get; set; }
-        public string Noside { get; set; } = string.Empty;
+        public long Noside { get; set; } 
         public string Lastmsgseqnumprocessed { get; set; } = string.Empty;
         public decimal Quotetype { get; set; }
         public decimal Multilegrpttypereq { get; set; }
@@ -28,12 +28,12 @@
         public string Orgorderid { get; set; } = string.Empty;
         public string Quoteid { get; set; } = string.Empty;
         public string Side { get; set; } = string.Empty;
-        public decimal Orderqty { get; set; }
+        public double Orderqty { get; set; }
         public string Effectivetime { get; set; } = string.Empty;
         public string Coaccount { get; set; } = string.Empty;
         public string Settldate { get; set; } = string.Empty;
         public string Registid { get; set; } = string.Empty;
-        public decimal Clordid { get; set; }
+        public string Clordid { get; set; } = string.Empty;
         public string Settldate2 { get; set; } = string.Empty;
         public string Enddate { get; set; } = string.Empty;
         public string Settlmethod { get; set; } = string.Empty;
