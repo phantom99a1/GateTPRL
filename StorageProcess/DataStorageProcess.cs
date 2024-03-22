@@ -3,7 +3,6 @@ using Disruptor;
 using Disruptor.Dsl;
 using HNX.FIXMessage;
 using ManagedLayer;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using ObjectInfo;
 using static HNX.FIXMessage.MessageExecOrderRepos;
 using static HNX.FIXMessage.MessageReposBCGDReport;
@@ -140,8 +139,11 @@ namespace StorageProcess
 
         private void ProcessSaveMsgType_35_A_35_S(long sequence, FIXMessageBase fixMessageBase, string p_SendOrRecei)
         {
+
             try
             {
+                Logger.log.Info($"Start process ProcessSaveMsgType_35_A_35_S with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
+
                 int _return = 0;
                 //while (true)
                 //{
@@ -200,6 +202,7 @@ namespace StorageProcess
                     //Thread.Sleep(ConfigData.TimeDelaySaveDB);
                 }
                 //}
+                Logger.log.Info($"End process ProcessSaveMsgType_35_A_35_S with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
             }
             catch (Exception ex)
             {
@@ -211,6 +214,8 @@ namespace StorageProcess
         {
             try
             {
+                Logger.log.Info($"Start process ProcessSaveMsgType_35_2_35_4 with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
+
                 int _return = 0;
                 //while (true)
                 //{
@@ -266,6 +271,7 @@ namespace StorageProcess
                     //Thread.Sleep(ConfigData.TimeDelaySaveDB);
                 }
                 //}
+                Logger.log.Info($"End process ProcessSaveMsgType_35_2_35_4 with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
             }
             catch (Exception ex)
             {
@@ -277,6 +283,7 @@ namespace StorageProcess
         {
             try
             {
+                Logger.log.Info($"Start process ProcessSaveMsgType_35_3 with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
                 int _return = 0;
                 //while (true)
                 //{
@@ -313,6 +320,7 @@ namespace StorageProcess
                     //Thread.Sleep(ConfigData.TimeDelaySaveDB);
                 }
                 //}
+                Logger.log.Info($"End process ProcessSaveMsgType_35_3 with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
             }
             catch (Exception ex)
             {
@@ -324,6 +332,7 @@ namespace StorageProcess
         {
             try
             {
+                Logger.log.Info($"Start process ProcessSaveMsgType_35_h_35_g with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
                 int _return = 0;
                 //while (true)
                 //{
@@ -387,6 +396,7 @@ namespace StorageProcess
                     //Thread.Sleep(ConfigData.TimeDelaySaveDB);
                 }
                 //}
+                Logger.log.Info($"End process ProcessSaveMsgType_35_h_35_g with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
             }
             catch (Exception ex)
             {
@@ -398,6 +408,7 @@ namespace StorageProcess
         {
             try
             {
+                Logger.log.Info($"Start process ProcessSaveMsgType_35_f_35_e with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
                 int _return = 0;
                 //while (true)
                 //{
@@ -497,6 +508,8 @@ namespace StorageProcess
                     //Thread.Sleep(ConfigData.TimeDelaySaveDB);
                 }
                 //}
+                Logger.log.Info($"End process ProcessSaveMsgType_35_h_35_g with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
+
             }
             catch (Exception ex)
             {
@@ -508,6 +521,7 @@ namespace StorageProcess
         {
             try
             {
+                Logger.log.Info($"Start process ProcessSaveMsgType_35_D_35_G_35_F with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
                 int _return = 0;
                 //while (true)
                 //{
@@ -650,6 +664,7 @@ namespace StorageProcess
                     //Thread.Sleep(ConfigData.TimeDelaySaveDB);
                 }
                 //}
+                Logger.log.Info($"End process ProcessSaveMsgType_35_D_35_G_35_F with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
             }
             catch (Exception ex)
             {
@@ -661,6 +676,7 @@ namespace StorageProcess
         {
             try
             {
+                Logger.log.Info($"Start process ProcessSaveMsgType_35_AI_AJ_Z_R_S_s_t_u with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
                 int _return = 0;
                 //while (true)
                 //{
@@ -1047,6 +1063,7 @@ namespace StorageProcess
                     //Thread.Sleep(ConfigData.TimeDelaySaveDB);
                 }
                 //}
+                Logger.log.Info($"End process ProcessSaveMsgType_35_AI_AJ_Z_R_S_s_t_u with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
             }
             catch (Exception ex)
             {
@@ -1058,6 +1075,7 @@ namespace StorageProcess
         {
             try
             {
+                Logger.log.Info($"Start process ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
                 long _return = 0;
                 //while (true)
                 //{
@@ -1676,6 +1694,7 @@ namespace StorageProcess
                     //Thread.Sleep(ConfigData.TimeDelaySaveDB);
                 }
                 //}
+                Logger.log.Info($"End process ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
             }
             catch (Exception ex)
             {
@@ -1687,6 +1706,7 @@ namespace StorageProcess
         {
             try
             {
+                Logger.log.Info($"Start process ProcessSaveMsgType_35_8 with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
                 int _return = 0;
                 //while (true)
                 //{
@@ -1837,6 +1857,7 @@ namespace StorageProcess
                     //Thread.Sleep(ConfigData.TimeDelaySaveDB);
                 }
                 //}
+                Logger.log.Info($"End process ProcessSaveMsgType_35_8 with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
             }
             catch (Exception ex)
             {
