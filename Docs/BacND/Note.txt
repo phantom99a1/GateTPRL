@@ -1,3 +1,30 @@
+-- Thông tin máy chủ cài TVSI Gate
+Linux
+192.168.2.72 
+Tài khoản: root
+Mật khẩu: nvsnvs@123
+
+Đường dẫn cài app và checklog
+/root/suppercore/TVSI_HNXTPRLGate
+
+Đường dẫn thông tin config
+/root/suppercore/TVSI_HNXTPRLGate/ConfigApp
+
+Kiểm tra trạng thái service: systemctl status tvsihnxtprlgate.service 
+
+
+Địa chỉ Call API: http://192.168.2.72:2016/
+
+Địa chỉ xem danh sách api hệ thống: http://192.168.2.72:2016/swagger/index.html
+
+
+Địa chỉ xem thông tin monitor
+
+http://192.168.2.72:2019/login
+tài khoản: admin
+mật khẩu: 12345@Abc
+
+
 -- Thông tin kết nối DB
 
 User Id=HNX_GATE_TPRL;Password=HNX_GATE_TPRL;Validate Connection=True;Data Source=//192.168.2.36:1521/CTCKPDB;Min Pool Size=10;Connection Lifetime=120;Connection Timeout=60;Incr Pool Size=5; Decr Pool Size=2; Max Pool Size=100; Pooling=true; Statement Cache Size=1;

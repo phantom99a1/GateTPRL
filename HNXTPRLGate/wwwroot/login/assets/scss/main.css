@@ -844,7 +844,7 @@ form {
 
 .wrap__login {
   height: 100%;
-  background-image: url(../image/img/background.png);
+  /*background-image: url(../image/img/background.png);*/
   background-repeat: no-repeat;
   background-position: center top;
 }
