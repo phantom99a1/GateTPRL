@@ -320,9 +320,6 @@ namespace BusinessProcessAPIReq
                             OrderMemory.Update_Order(ClOrdID, fMsgBase.MsgSeqNum);
                         //Phản hồi về Kafka sau khi gửi sang gate
                         c_ResponseInterface.ResponseGateSend2HNX(fMsgBase);
-                        //
-                        //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                        SharedStorageProcess.c_DataStorageProcess.EnqueueData(fMsgBase, Data_SoR.Send);
                     }
                     else
                     {
