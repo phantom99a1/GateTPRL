@@ -71,5 +71,8 @@ delete from MSG_TPRL_SECURITIES;
 /
 delete from MSG_TPRL_SESION;
 /
+delete from wlog;
+/
 commit;
+
 

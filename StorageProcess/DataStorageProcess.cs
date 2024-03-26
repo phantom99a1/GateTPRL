@@ -21,8 +21,8 @@ namespace StorageProcess
 
         internal DataStorageProcess()
         {
-            //để _disruptor là  ProducerType.Single vì chỉ có 1 tiến trình từ  GroupAccountProcess gọi vào để save dữ liệu BusySpinWaitStrategy YieldingWaitStrategy
-            _disruptor = new Disruptor<ValueSaveEntry>(() => new ValueSaveEntry(), ConfigData.DefaultBufferSize, TaskScheduler.Default, ProducerType.Single, new BlockingWaitStrategy());
+            //để _disruptor là  ProducerType.Multi vì chỉ có 1 tiến trình từ  gọi vào để save dữ liệu BusySpinWaitStrategy YieldingWaitStrategy
+            _disruptor = new Disruptor<ValueSaveEntry>(() => new ValueSaveEntry(), ConfigData.DefaultBufferSize, TaskScheduler.Default, ProducerType.Multi, new BlockingWaitStrategy());
 
             _disruptor.HandleEventsWith(this);
 
@@ -716,9 +716,9 @@ namespace StorageProcess
                     objSaveData.Rfqreqid = "";
                     objSaveData.Quoterespid = "";
                     objSaveData.Quoteresptype = "";
-                    objSaveData.Quoteid = "";
+                    objSaveData.Quoteid = msgData.QuoteID;
                     objSaveData.Quotecanceltype = "";
-                    objSaveData.Orderpartyid = "";
+                    objSaveData.Orderpartyid = msgData.OrderPartyID;
                     objSaveData.Quotereqid = "";
                     objSaveData.Quotetype = "";
                     objSaveData.Quotetype = "";
