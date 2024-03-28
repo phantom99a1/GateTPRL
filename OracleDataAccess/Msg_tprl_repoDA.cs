@@ -174,7 +174,7 @@ namespace OracleDataAccess
             return result;
         }
 
-        public static long InsertRepos(Msg_Tprl_Repo_Info objRepos, bool repoDetailExist, List<ReposSideExecOrder> listReposSideExecOrder_EE_N01, List<ReposSide> listReposSide_N03_N04_N05_MA_ME, List<ReposSideReposBCGDReport> listReposSideReposBCGDReportList_MR)
+        public static long InsertRepos(Msg_Tprl_Repo_Info objRepos, bool repoDetailExist, string pSymbol, List<ReposSideExecOrder> listReposSideExecOrder_EE_N01, List<ReposSide> listReposSide_N03_N04_N05_MA_ME, List<ReposSideReposBCGDReport> listReposSideReposBCGDReportList_MR)
         {
             long result = -1;
             Logger.log.Info($"Start process Msg_tprl_repoDA.InsertRepos with objRepos.Msgtype = {objRepos.Msgtype}, repoDetailExist={repoDetailExist}");
@@ -223,7 +223,6 @@ namespace OracleDataAccess
                                 result = InsertBatch_ReposDetail(transaction, result, listReposDetail);
                                 //
                                 Logger.log.Info($"Continue process InsertBatch_ReposDetail with objRepos.Msgtype = {objRepos.Msgtype}, result={result}");
-
                             }
 
                             // 35 = N03, N04, N05, MA, ME
@@ -297,6 +296,32 @@ namespace OracleDataAccess
                                 Logger.log.Info($"Continue process InsertBatch_ReposDetail with objRepos.Msgtype = {objRepos.Msgtype}, result={result}");
                             }
                         }
+                        else
+                        {
+                            List<Msg_Tprl_Repo_Detail_Info> listReposDetail = new List<Msg_Tprl_Repo_Detail_Info>();
+                            Msg_Tprl_Repo_Detail_Info objRepoDetail = new Msg_Tprl_Repo_Detail_Info();
+                            //
+                            objRepoDetail.Refrepoid = result;
+                            objRepoDetail.Numside = 0;
+                            objRepoDetail.Symbol = pSymbol;
+                            objRepoDetail.Execqty = 0;
+                            objRepoDetail.Execpx = 0;
+                            objRepoDetail.Price = 0;
+                            objRepoDetail.Reposinterest = 0;
+                            objRepoDetail.Hedgerate = 0;
+                            objRepoDetail.Settlvalue = 0;
+                            objRepoDetail.Settlvalue2 = 0;
+                            objRepoDetail.Price2 = 0;
+                            objRepoDetail.Remark = "";
+                            objRepoDetail.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
+                            objRepoDetail.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                            //
+                            listReposDetail.Add(objRepoDetail);
+                            //
+                            result = InsertBatch_ReposDetail(transaction, result, listReposDetail);
+                            //
+                            Logger.log.Info($"Continue process InsertBatch_ReposDetail with objRepos.Msgtype = {objRepos.Msgtype}, result={result}");
+                        }
                         //
                         if (result > 0)
                         {
@@ -307,7 +332,6 @@ namespace OracleDataAccess
                         {
                             transaction.Rollback();
                             Logger.log.Info($"Continue process Msg_tprl_repoDA.InsertRepos with objRepos.Msgtype = {objRepos.Msgtype}, result={result} ==>> transaction.Rollback()");
-
                         }
                     }
                 }

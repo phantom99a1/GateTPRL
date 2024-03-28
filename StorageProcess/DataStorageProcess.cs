@@ -3,6 +3,7 @@ using Disruptor;
 using Disruptor.Dsl;
 using HNX.FIXMessage;
 using ManagedLayer;
+using Microsoft.AspNetCore.SignalR.Protocol;
 using ObjectInfo;
 using static HNX.FIXMessage.MessageExecOrderRepos;
 using static HNX.FIXMessage.MessageReposBCGDReport;
@@ -139,7 +140,6 @@ namespace StorageProcess
 
         private void ProcessSaveMsgType_35_A_35_S(long sequence, FIXMessageBase fixMessageBase, string p_SendOrRecei)
         {
-
             try
             {
                 Logger.log.Info($"Start process ProcessSaveMsgType_35_A_35_S with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
@@ -509,7 +509,6 @@ namespace StorageProcess
                 }
                 //}
                 Logger.log.Info($"End process ProcessSaveMsgType_35_h_35_g with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
-
             }
             catch (Exception ex)
             {
@@ -545,40 +544,7 @@ namespace StorageProcess
                     objSaveData.Symbol = msgData.Symbol;
                     objSaveData.Side = msgData.Side.ToString();
                     objSaveData.Orderqty = msgData.OrderQty.ToString();
-
-                    if (msgData.OrdType == "LO")
-                    {
-                        objSaveData.Ordtype = "2";
-                    }
-                    else if (msgData.OrdType == "MTL")
-                    {
-                        objSaveData.Ordtype = "3";
-                    }
-                    else if (msgData.OrdType == "MAS")
-                    {
-                        objSaveData.Ordtype = "4";
-                    }
-                    else if (msgData.OrdType == "ATC")
-                    {
-                        objSaveData.Ordtype = "5";
-                    }
-                    else if (msgData.OrdType == "ATO")
-                    {
-                        objSaveData.Ordtype = "6";
-                    }
-                    else if (msgData.OrdType == "MAK")
-                    {
-                        objSaveData.Ordtype = "A";
-                    }
-                    else if (msgData.OrdType == "MOK")
-                    {
-                        objSaveData.Ordtype = "K";
-                    }
-                    else if (msgData.OrdType == "Market Maker")
-                    {
-                        objSaveData.Ordtype = "M";
-                    }
-
+                    objSaveData.Ordtype = msgData.OrdType;
                     objSaveData.Price2 = msgData.Price2;
                     objSaveData.Price = msgData.Price;
                     objSaveData.Orderqty2 = msgData.OrderQty2;
@@ -1074,7 +1040,7 @@ namespace StorageProcess
         {
             try
             {
-                Logger.log.Info($"Start process ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
+                Logger.log.Info($"Start process ProcessSaveMsgType with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
                 long _return = 0;
                 //while (true)
                 //{
@@ -1083,6 +1049,7 @@ namespace StorageProcess
                 List<ReposSideExecOrder> listReposSideExecOrder_EE_N01 = null;
                 List<ReposSide> listReposSide_N03_N04_N05_MA_ME = null;
                 List<ReposSideReposBCGDReport> listReposSideReposBCGDReportList_MR = null;
+                string _symbol = string.Empty;
                 if (fixMessageBase.GetMsgType == MessageType.ExecOrderRepos) // 35=EE
                 {
                     MessageExecOrderRepos msgData = (MessageExecOrderRepos)fixMessageBase;
@@ -1131,9 +1098,11 @@ namespace StorageProcess
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                     //
                     repoDetailExist = true;
-
+                    int _countReposSideList = 0;
                     if (msgData.ReposSideList != null && msgData.ReposSideList.Count > 0)
                     {
+                        _countReposSideList = msgData.ReposSideList.Count;
+                        //
                         listReposSideExecOrder_EE_N01 = new List<ReposSideExecOrder>();
                         ReposSideExecOrder itemSite;
                         for (int i = 0; i < msgData.ReposSideList.Count; i++)
@@ -1144,8 +1113,10 @@ namespace StorageProcess
                     }
                     else
                     {
-                        Logger.log.Debug($"ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR -> process save DB 35={fixMessageBase.GetMsgType} with MsgSeqNum(34)={msgData.MsgSeqNum} with msgData.ReposSideList is null or  msgData.ReposSideList.Count = 0");
+                        Logger.log.Warn($"ProcessSaveMsgType with MsgSeqNum(34)={msgData.MsgSeqNum}, MsgType(35)={fixMessageBase.GetMsgType}, msgData.ReposSideList is null or  msgData.ReposSideList.Count = 0");
                     }
+
+                    Logger.log.Info($"ProcessSaveMsgType with MsgSeqNum(34)={msgData.MsgSeqNum}, MsgType(35)={fixMessageBase.GetMsgType}, repoDetailExist={repoDetailExist}, total ReposSideList={_countReposSideList}");
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.ReposInquiry) // 35=N01
                 {
@@ -1193,6 +1164,8 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    _symbol = msgData.Symbol;
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.ReposInquiryReport) // 35=N02
                 {
@@ -1233,13 +1206,15 @@ namespace StorageProcess
                     objSaveData.Settldate = msgData.SettlDate;
                     objSaveData.Settldate2 = msgData.SettlDate2;
                     objSaveData.Enddate = msgData.EndDate;
-                    objSaveData.Settlmethod = "";
-                    objSaveData.Orderpartyid = "";
+                    objSaveData.Settlmethod = msgData.SettlMethod.ToString();
+                    objSaveData.Orderpartyid = msgData.OrderPartyID;
                     objSaveData.Inquirymember = "";
                     //
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    _symbol = msgData.Symbol;
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.ReposFirm) // 35=N03
                 {
@@ -1289,9 +1264,11 @@ namespace StorageProcess
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                     //
                     repoDetailExist = true;
-
+                    int _countReposSideList = 0;
                     if (msgData.RepoSideList != null && msgData.RepoSideList.Count > 0)
                     {
+                        _countReposSideList = msgData.RepoSideList.Count;
+                        //
                         listReposSide_N03_N04_N05_MA_ME = new List<ReposSide>();
                         ReposSide itemSite;
                         for (int i = 0; i < msgData.RepoSideList.Count; i++)
@@ -1302,8 +1279,9 @@ namespace StorageProcess
                     }
                     else
                     {
-                        Logger.log.Debug($"ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR -> process save DB 35={fixMessageBase.GetMsgType} with MsgSeqNum(34)={msgData.MsgSeqNum} with msgData.RepoSideList is null or  msgData.RepoSideList.Count = 0");
+                        Logger.log.Warn($"ProcessSaveMsgType with MsgSeqNum(34)={msgData.MsgSeqNum}, MsgType(35)={fixMessageBase.GetMsgType}, msgData.RepoSideList is null or  msgData.RepoSideList.Count = 0");
                     }
+                    Logger.log.Info($"ProcessSaveMsgType with MsgSeqNum(34)={msgData.MsgSeqNum}, MsgType(35)={fixMessageBase.GetMsgType}, repoDetailExist={repoDetailExist}, total RepoSideList={_countReposSideList}");
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.ReposFirmReport) // 35=N04
                 {
@@ -1344,7 +1322,7 @@ namespace StorageProcess
                     objSaveData.Settldate = msgData.SettlDate;
                     objSaveData.Settldate2 = msgData.SettlDate2;
                     objSaveData.Enddate = msgData.EndDate;
-                    objSaveData.Settlmethod = "";
+                    objSaveData.Settlmethod = msgData.SettlMethod.ToString();
                     objSaveData.Orderpartyid = msgData.OrderPartyID;
                     objSaveData.Inquirymember = msgData.InquiryMember;
                     //
@@ -1354,9 +1332,12 @@ namespace StorageProcess
 
                     // co list
                     repoDetailExist = true;
+                    int _countReposSideList = 0;
 
                     if (msgData.RepoSideList != null && msgData.RepoSideList.Count > 0)
                     {
+                        _countReposSideList = msgData.RepoSideList.Count;
+                        //
                         listReposSide_N03_N04_N05_MA_ME = new List<ReposSide>();
                         ReposSide itemSite;
                         for (int i = 0; i < msgData.RepoSideList.Count; i++)
@@ -1367,8 +1348,9 @@ namespace StorageProcess
                     }
                     else
                     {
-                        Logger.log.Debug($"ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR -> process save DB 35={fixMessageBase.GetMsgType} with MsgSeqNum(34)={msgData.MsgSeqNum} with msgData.ReposSideList is null or  msgData.ReposSideList.Count = 0");
+                        Logger.log.Warn($"ProcessSaveMsgType with MsgSeqNum(34)={msgData.MsgSeqNum}, MsgType(35)={fixMessageBase.GetMsgType}, msgData.RepoSideList is null or  msgData.RepoSideList.Count = 0");
                     }
+                    Logger.log.Info($"ProcessSaveMsgType with MsgSeqNum(34)={msgData.MsgSeqNum}, MsgType(35)={fixMessageBase.GetMsgType}, repoDetailExist={repoDetailExist}, total RepoSideList={_countReposSideList}");
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.ReposFirmAccept) // 35=N05
                 {
@@ -1419,9 +1401,12 @@ namespace StorageProcess
 
                     // co list
                     repoDetailExist = true;
+                    int _countReposSideList = 0;
 
                     if (msgData.RepoSideList != null && msgData.RepoSideList.Count > 0)
                     {
+                        _countReposSideList = msgData.RepoSideList.Count;
+                        //
                         listReposSide_N03_N04_N05_MA_ME = new List<ReposSide>();
                         ReposSide itemSite;
                         for (int i = 0; i < msgData.RepoSideList.Count; i++)
@@ -1432,8 +1417,9 @@ namespace StorageProcess
                     }
                     else
                     {
-                        Logger.log.Debug($"ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR -> process save DB 35={fixMessageBase.GetMsgType} with MsgSeqNum(34)={msgData.MsgSeqNum} with msgData.RepoSideList is null or  msgData.RepoSideList.Count = 0");
+                        Logger.log.Warn($"ProcessSaveMsgType with MsgSeqNum(34)={msgData.MsgSeqNum}, MsgType(35)={fixMessageBase.GetMsgType}, msgData.RepoSideList is null or  msgData.RepoSideList.Count = 0");
                     }
+                    Logger.log.Info($"ProcessSaveMsgType with MsgSeqNum(34)={msgData.MsgSeqNum}, MsgType(35)={fixMessageBase.GetMsgType}, repoDetailExist={repoDetailExist}, total RepoSideList={_countReposSideList}");
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.ReposBCGD) // 35=MA
                 {
@@ -1484,9 +1470,12 @@ namespace StorageProcess
 
                     // co list
                     repoDetailExist = true;
+                    int _countReposSideList = 0;
 
                     if (msgData.RepoSideList != null && msgData.RepoSideList.Count > 0)
                     {
+                        _countReposSideList = msgData.RepoSideList.Count;
+                        //
                         listReposSide_N03_N04_N05_MA_ME = new List<ReposSide>();
                         ReposSide itemSite;
                         for (int i = 0; i < msgData.RepoSideList.Count; i++)
@@ -1497,8 +1486,9 @@ namespace StorageProcess
                     }
                     else
                     {
-                        Logger.log.Debug($"ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR -> process save DB 35={fixMessageBase.GetMsgType} with MsgSeqNum(34)={msgData.MsgSeqNum} with msgData.RepoSideList is null or  msgData.RepoSideList.Count = 0");
+                        Logger.log.Warn($"ProcessSaveMsgType with MsgSeqNum(34)={msgData.MsgSeqNum}, MsgType(35)={fixMessageBase.GetMsgType}, msgData.RepoSideList is null or  msgData.RepoSideList.Count = 0");
                     }
+                    Logger.log.Info($"ProcessSaveMsgType with MsgSeqNum(34)={msgData.MsgSeqNum}, MsgType(35)={fixMessageBase.GetMsgType}, repoDetailExist={repoDetailExist}, total RepoSideList={_countReposSideList}");
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.ReposBCGDModify) // 35=ME
                 {
@@ -1549,9 +1539,12 @@ namespace StorageProcess
 
                     // co list
                     repoDetailExist = true;
+                    int _countReposSideList = 0;
 
                     if (msgData.RepoSideList != null && msgData.RepoSideList.Count > 0)
                     {
+                        _countReposSideList = msgData.RepoSideList.Count;
+                        //
                         listReposSide_N03_N04_N05_MA_ME = new List<ReposSide>();
                         ReposSide itemSite;
                         for (int i = 0; i < msgData.RepoSideList.Count; i++)
@@ -1562,8 +1555,9 @@ namespace StorageProcess
                     }
                     else
                     {
-                        Logger.log.Debug($"ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR -> process save DB 35={fixMessageBase.GetMsgType} with MsgSeqNum(34)={msgData.MsgSeqNum} with msgData.RepoSideList is null or  msgData.RepoSideList.Count = 0");
+                        Logger.log.Warn($"ProcessSaveMsgType with MsgSeqNum(34)={msgData.MsgSeqNum}, MsgType(35)={fixMessageBase.GetMsgType}, msgData.RepoSideList is null or  msgData.RepoSideList.Count = 0");
                     }
+                    Logger.log.Info($"ProcessSaveMsgType with MsgSeqNum(34)={msgData.MsgSeqNum}, MsgType(35)={fixMessageBase.GetMsgType}, repoDetailExist={repoDetailExist}, total RepoSideList={_countReposSideList}");
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.ReposBCGDCancel) // 35=MC
                 {
@@ -1611,6 +1605,8 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    _symbol = "";
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.ReposBCGDReport) // 35=MR
                 {
@@ -1661,9 +1657,13 @@ namespace StorageProcess
 
                     // co list
                     repoDetailExist = true;
+                    int _countReposSideList = 0;
+
                     //
                     if (msgData.RepoBCGDSideList != null && msgData.RepoBCGDSideList.Count > 0)
                     {
+                        _countReposSideList = msgData.RepoBCGDSideList.Count;
+                        //
                         listReposSideReposBCGDReportList_MR = new List<ReposSideReposBCGDReport>();
                         //
                         ReposSideReposBCGDReport itemSite;
@@ -1675,29 +1675,30 @@ namespace StorageProcess
                     }
                     else
                     {
-                        Logger.log.Debug($"ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR -> process save DB 35={fixMessageBase.GetMsgType} with MsgSeqNum(34)={msgData.MsgSeqNum} with msgData.RepoBCGDSideList is null or  msgData.RepoBCGDSideList.Count = 0");
+                        Logger.log.Warn($"ProcessSaveMsgType with MsgSeqNum(34)={msgData.MsgSeqNum}, MsgType(35)={fixMessageBase.GetMsgType}, msgData.RepoSideList is null or  msgData.RepoSideList.Count = 0");
                     }
+                    Logger.log.Info($"ProcessSaveMsgType with MsgSeqNum(34)={msgData.MsgSeqNum}, MsgType(35)={fixMessageBase.GetMsgType}, repoDetailExist={repoDetailExist}, total RepoSideList={_countReposSideList}");
                 }
 
                 // isRepoDetail=false -> ignore Repo Detail
                 // isRepoDetail=true -> insert Repo Detail
-                _return = Msg_tprl_repoBL.ProcessInsertRepos(objSaveData, repoDetailExist, listReposSideExecOrder_EE_N01, listReposSide_N03_N04_N05_MA_ME, listReposSideReposBCGDReportList_MR);
+                _return = Msg_tprl_repoBL.ProcessInsertRepos(objSaveData, repoDetailExist, _symbol, listReposSideExecOrder_EE_N01, listReposSide_N03_N04_N05_MA_ME, listReposSideReposBCGDReportList_MR);
                 if (_return > 0)
                 {
-                    Logger.log.Info($"ProcessSaveMsgType | MsgSeqNum: {objSaveData.Msgseqnum}, MsgType: {objSaveData.Msgtype},  -->>> Save to DB sucess");
+                    Logger.log.Info($"ProcessSaveMsgType | MsgSeqNum(34): {objSaveData.Msgseqnum}, MsgType: {objSaveData.Msgtype},  -->>> Save to DB sucess");
                     //break;
                 }
                 else
                 {
-                    Logger.log.Error($"Error process ProcessSaveMsgType with MsgSeqNum: {objSaveData.Msgseqnum}, MsgType: {objSaveData.Msgtype}, Error [{_return}] can't save to DB; Object={System.Text.Json.JsonSerializer.Serialize(objSaveData)} ");
+                    Logger.log.Error($"Error process ProcessSaveMsgType with MsgSeqNum(34): {objSaveData.Msgseqnum}, MsgType: {objSaveData.Msgtype}, Error [{_return}] can't save to DB; Object={System.Text.Json.JsonSerializer.Serialize(objSaveData)} ");
                     //Thread.Sleep(ConfigData.TimeDelaySaveDB);
                 }
                 //}
-                Logger.log.Info($"End process ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR with sequence= {sequence}, MsgType(35)={fixMessageBase.GetMsgType}");
+                Logger.log.Info($"End process ProcessSaveMsgType with sequence = {sequence}, MsgType(35) ={fixMessageBase.GetMsgType}");
             }
             catch (Exception ex)
             {
-                Logger.log.Error($"Error process ProcessSaveMsgType_35_EE_N01_N02_N03_N04_N05_MA_ME_MC_MR with sequence= {sequence}, Exception: {ex?.ToString()}");
+                Logger.log.Error($"Error process ProcessSaveMsgType with sequence = {sequence}, MsgType(35) ={fixMessageBase.GetMsgType}, Exception: {ex?.ToString()}");
             }
         }
 
@@ -1720,7 +1721,7 @@ namespace StorageProcess
                 objSaveData.Possdupflag = msgData.PossDupFlag == true ? "Y" : "N";
                 objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
                 objSaveData.Text = msgData.Text;
-               
+
                 objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed.ToString(); // 369
 
                 if (msgData.ExecType == ExecutionReportType.ER_ExecOrder_3) // 150 = 3
@@ -1762,7 +1763,7 @@ namespace StorageProcess
                     objSaveData.Price = msgDataExcecType.Price;
                     objSaveData.Account = msgDataExcecType.Account;
                     objSaveData.Settlvalue = msgDataExcecType.SettlValue;
-                    objSaveData.Leavesqty = 0;
+                    objSaveData.Leavesqty = msgDataExcecType.LeavesQty;
                     objSaveData.Origclordid = msgDataExcecType.OrigClOrdID;
                     objSaveData.Lastqty = 0;
                     objSaveData.Lastpx = 0;
@@ -1797,7 +1798,6 @@ namespace StorageProcess
                     objSaveData.Underlyinglastqty = "";
                     //
                     objSaveData.Exectype = ExecutionReportType.ER_ReplaceOrder_5.ToString();
-
                 }
                 else if (msgData.ExecType == ExecutionReportType.ER_Order_0) // 150 = 0
                 {

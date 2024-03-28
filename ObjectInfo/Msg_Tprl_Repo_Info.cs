@@ -3,8 +3,8 @@
     public class Msg_Tprl_Repo_Info
     {
         public long Id { get; set; }
-        public string Sor { get; set; }
-        public string Msgtype { get; set; }
+        public string Sor { get; set; } = string.Empty;
+        public string Msgtype { get; set; } = string.Empty;
         public long Msgseqnum { get; set; }
         public string Sendercompid { get; set; } = string.Empty;
         public string Sendingtime { get; set; } = string.Empty;
