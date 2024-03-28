@@ -2,7 +2,6 @@
 using HNX.FIXMessage;
 using LocalMemory;
 using StorageProcess;
-using static CommonLib.CommonDataInCore;
 
 namespace HNXInterface
 {
@@ -179,7 +178,7 @@ namespace HNXInterface
             return Send2HNX(messageSecurityStatus);
         }
 
-        public bool SendUserRequest(string userName,string oldPass, string newPass)
+        public bool SendUserRequest(string userName, string oldPass, string newPass)
         {
             MessageUserRequest messageUserRequest = new MessageUserRequest();
 

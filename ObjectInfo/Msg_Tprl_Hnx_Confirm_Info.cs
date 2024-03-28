@@ -11,7 +11,7 @@
         public string Possdupflag { get; set; } = string.Empty;
         public string Sendingtime { get; set; } = string.Empty;
         public string Text { get; set; } = string.Empty;
-        public decimal Exectype { get; set; }
+        public string Exectype { get; set; } = string.Empty;
         public string Lastmsgseqnumprocessed { get; set; } = string.Empty;
         public string Ordstatus { get; set; } = string.Empty;
         public string Orderid { get; set; } = string.Empty;

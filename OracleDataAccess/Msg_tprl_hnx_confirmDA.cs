@@ -30,7 +30,7 @@ namespace OracleDataAccess
                     new OracleParameter("p_possdupflag", OracleDbType.Varchar2, objData.Possdupflag, ParameterDirection.Input),
                     new OracleParameter("p_sendingtime", OracleDbType.Varchar2, objData.Sendingtime, ParameterDirection.Input),
                     new OracleParameter("p_text", OracleDbType.Varchar2, objData.Text, ParameterDirection.Input),
-                    new OracleParameter("p_exectype", OracleDbType.Decimal, objData.Exectype, ParameterDirection.Input),
+                    new OracleParameter("p_exectype", OracleDbType.Varchar2, objData.Exectype, ParameterDirection.Input),
                     new OracleParameter("p_lastmsgseqnumprocessed", OracleDbType.Varchar2, objData.Lastmsgseqnumprocessed, ParameterDirection.Input),
                     new OracleParameter("p_ordstatus", OracleDbType.Varchar2, objData.Ordstatus, ParameterDirection.Input),
                     new OracleParameter("p_orderid", OracleDbType.Varchar2, objData.Orderid, ParameterDirection.Input),

@@ -720,8 +720,7 @@ namespace StorageProcess
                     objSaveData.Quotecanceltype = "";
                     objSaveData.Orderpartyid = msgData.OrderPartyID;
                     objSaveData.Quotereqid = "";
-                    objSaveData.Quotetype = "";
-                    objSaveData.Quotetype = "";
+                    objSaveData.Quotetype = msgData.QuoteType.ToString();
                     //
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
@@ -1721,7 +1720,7 @@ namespace StorageProcess
                 objSaveData.Possdupflag = msgData.PossDupFlag == true ? "Y" : "N";
                 objSaveData.Sendingtime = fixMessageBase.GetSendingTime.ToString(); // 52
                 objSaveData.Text = msgData.Text;
-                objSaveData.Exectype = msgData.ExecType;
+               
                 objSaveData.Lastmsgseqnumprocessed = msgData.LastMsgSeqNumProcessed.ToString(); // 369
 
                 if (msgData.ExecType == ExecutionReportType.ER_ExecOrder_3) // 150 = 3
@@ -1746,6 +1745,8 @@ namespace StorageProcess
                     objSaveData.Reciprocalmember = msgDataExcecType.ReciprocalMember;
                     //
                     objSaveData.Underlyinglastqty = "";
+                    //
+                    objSaveData.Exectype = ExecutionReportType.ER_ExecOrder_3.ToString();
                 }
                 else if (msgData.ExecType == ExecutionReportType.ER_CancelOrder_4) // 150 = 4
                 {
@@ -1769,6 +1770,8 @@ namespace StorageProcess
                     objSaveData.Reciprocalmember = "";
                     //
                     objSaveData.Underlyinglastqty = "";
+                    //
+                    objSaveData.Exectype = ExecutionReportType.ER_CancelOrder_4.ToString();
                 }
                 else if (msgData.ExecType == ExecutionReportType.ER_ReplaceOrder_5) // 150 = 5
                 {
@@ -1792,6 +1795,9 @@ namespace StorageProcess
                     objSaveData.Reciprocalmember = "";
                     //
                     objSaveData.Underlyinglastqty = "";
+                    //
+                    objSaveData.Exectype = ExecutionReportType.ER_ReplaceOrder_5.ToString();
+
                 }
                 else if (msgData.ExecType == ExecutionReportType.ER_Order_0) // 150 = 0
                 {
@@ -1815,6 +1821,8 @@ namespace StorageProcess
                     objSaveData.Reciprocalmember = "";
                     //
                     objSaveData.Underlyinglastqty = "";
+                    //
+                    objSaveData.Exectype = ExecutionReportType.ER_Order_0.ToString();
                 }
                 else if (msgData.ExecType == ExecutionReportType.ER_Rejected_8) // 150 = 8
                 {
@@ -1837,6 +1845,10 @@ namespace StorageProcess
                     objSaveData.Execid = "";
                     objSaveData.Reciprocalmember = "";
                     objSaveData.Underlyinglastqty = msgDataExcecType.UnderlyingLastQty.ToString();
+
+                    //
+                    objSaveData.Exectype = ExecutionReportType.ER_Rejected_8.ToString();
+                    //
                 }
                 //
                 objSaveData.Ordrejreason = msgData.RejectReason.ToString();
