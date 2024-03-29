@@ -42,5 +42,6 @@
         public string Remark { get; set; } = string.Empty;
         public string Lastchange { get; set; } = string.Empty;
         public string Createtime { get; set; } = string.Empty;
+        public string Account { get; set; } = string.Empty;
     }
 }

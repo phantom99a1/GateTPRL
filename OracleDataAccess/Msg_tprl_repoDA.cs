@@ -63,6 +63,7 @@ namespace OracleDataAccess
                      new OracleParameter("p_remark", OracleDbType.Varchar2, objData.Remark, ParameterDirection.Input),
                      new OracleParameter("p_lastchange", OracleDbType.Varchar2, objData.Lastchange, ParameterDirection.Input),
                      new OracleParameter("p_createtime", OracleDbType.Varchar2, objData.Createtime, ParameterDirection.Input),
+                     new OracleParameter("p_account", OracleDbType.Varchar2, objData.Account, ParameterDirection.Input),
                     returnParam
                 );
 
@@ -298,29 +299,32 @@ namespace OracleDataAccess
                         }
                         else
                         {
-                            List<Msg_Tprl_Repo_Detail_Info> listReposDetail = new List<Msg_Tprl_Repo_Detail_Info>();
-                            Msg_Tprl_Repo_Detail_Info objRepoDetail = new Msg_Tprl_Repo_Detail_Info();
-                            //
-                            objRepoDetail.Refrepoid = result;
-                            objRepoDetail.Numside = 0;
-                            objRepoDetail.Symbol = pSymbol;
-                            objRepoDetail.Execqty = 0;
-                            objRepoDetail.Execpx = 0;
-                            objRepoDetail.Price = 0;
-                            objRepoDetail.Reposinterest = 0;
-                            objRepoDetail.Hedgerate = 0;
-                            objRepoDetail.Settlvalue = 0;
-                            objRepoDetail.Settlvalue2 = 0;
-                            objRepoDetail.Price2 = 0;
-                            objRepoDetail.Remark = "";
-                            objRepoDetail.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
-                            objRepoDetail.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
-                            //
-                            listReposDetail.Add(objRepoDetail);
-                            //
-                            result = InsertBatch_ReposDetail(transaction, result, listReposDetail);
-                            //
-                            Logger.log.Info($"Continue process InsertBatch_ReposDetail with objRepos.Msgtype = {objRepos.Msgtype}, result={result}");
+                            if (!string.IsNullOrEmpty(pSymbol))
+                            {
+                                List<Msg_Tprl_Repo_Detail_Info> listReposDetail = new List<Msg_Tprl_Repo_Detail_Info>();
+                                Msg_Tprl_Repo_Detail_Info objRepoDetail = new Msg_Tprl_Repo_Detail_Info();
+                                //
+                                objRepoDetail.Refrepoid = result;
+                                objRepoDetail.Numside = 0;
+                                objRepoDetail.Symbol = pSymbol;
+                                objRepoDetail.Execqty = 0;
+                                objRepoDetail.Execpx = 0;
+                                objRepoDetail.Price = 0;
+                                objRepoDetail.Reposinterest = 0;
+                                objRepoDetail.Hedgerate = 0;
+                                objRepoDetail.Settlvalue = 0;
+                                objRepoDetail.Settlvalue2 = 0;
+                                objRepoDetail.Price2 = 0;
+                                objRepoDetail.Remark = "";
+                                objRepoDetail.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
+                                objRepoDetail.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                                //
+                                listReposDetail.Add(objRepoDetail);
+                                //
+                                result = InsertBatch_ReposDetail(transaction, result, listReposDetail);
+                                //
+                                Logger.log.Info($"Continue process InsertBatch_ReposDetail with objRepos.Msgtype = {objRepos.Msgtype}, result={result}");
+                            }
                         }
                         //
                         if (result > 0)

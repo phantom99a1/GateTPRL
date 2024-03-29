@@ -3,7 +3,6 @@ using Disruptor;
 using Disruptor.Dsl;
 using HNX.FIXMessage;
 using ManagedLayer;
-using Microsoft.AspNetCore.SignalR.Protocol;
 using ObjectInfo;
 using static HNX.FIXMessage.MessageExecOrderRepos;
 using static HNX.FIXMessage.MessageReposBCGDReport;
@@ -1084,7 +1083,6 @@ namespace StorageProcess
                     objSaveData.Effectivetime = "";
                     objSaveData.Coaccount = "";
                     objSaveData.Registid = "";
-                    objSaveData.Matchreporttype = 0;
                     objSaveData.Clordid = msgData.ClOrdID;
                     objSaveData.Settldate = msgData.SettDate;
                     objSaveData.Settldate2 = msgData.SettlDate2;
@@ -1096,6 +1094,7 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Account = "";
                     //
                     repoDetailExist = true;
                     int _countReposSideList = 0;
@@ -1152,7 +1151,6 @@ namespace StorageProcess
                     objSaveData.Effectivetime = msgData.EffectiveTime;
                     objSaveData.Coaccount = "";
                     objSaveData.Registid = msgData.RegistID;
-                    objSaveData.Matchreporttype = 0;
                     objSaveData.Clordid = msgData.ClOrdID;
                     objSaveData.Settldate = msgData.SettlDate;
                     objSaveData.Settldate2 = msgData.SettlDate2;
@@ -1164,6 +1162,7 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Account = "";
                     //
                     _symbol = msgData.Symbol;
                 }
@@ -1201,7 +1200,6 @@ namespace StorageProcess
                     objSaveData.Effectivetime = msgData.EffectiveTime;
                     objSaveData.Coaccount = "";
                     objSaveData.Registid = msgData.RegistID;
-                    objSaveData.Matchreporttype = 0;
                     objSaveData.Clordid = msgData.ClOrdID;
                     objSaveData.Settldate = msgData.SettlDate;
                     objSaveData.Settldate2 = msgData.SettlDate2;
@@ -1213,6 +1211,7 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Account = "";
                     //
                     _symbol = msgData.Symbol;
                 }
@@ -1250,7 +1249,6 @@ namespace StorageProcess
                     objSaveData.Effectivetime = msgData.EffectiveTime;
                     objSaveData.Coaccount = "";
                     objSaveData.Registid = "";
-                    objSaveData.Matchreporttype = 0;
                     objSaveData.Clordid = msgData.ClOrdID;
                     objSaveData.Settldate = msgData.SettlDate;
                     objSaveData.Settldate2 = msgData.SettlDate2;
@@ -1262,6 +1260,8 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Account = msgData.Account;
+
                     //
                     repoDetailExist = true;
                     int _countReposSideList = 0;
@@ -1299,7 +1299,7 @@ namespace StorageProcess
 
                     objSaveData.Partyid = "";
                     objSaveData.Copartyid = "";
-                    objSaveData.Matchreporttype = 0;
+                    objSaveData.Matchreporttype = msgData.MatchReportType;
                     objSaveData.Orderid = "";
                     objSaveData.Buyorderid = "";
                     objSaveData.Sellorderid = "";
@@ -1317,7 +1317,6 @@ namespace StorageProcess
                     objSaveData.Effectivetime = msgData.EffectiveTime;
                     objSaveData.Coaccount = "";
                     objSaveData.Registid = "";
-                    objSaveData.Matchreporttype = msgData.MatchReportType;
                     objSaveData.Clordid = msgData.ClOrdID;
                     objSaveData.Settldate = msgData.SettlDate;
                     objSaveData.Settldate2 = msgData.SettlDate2;
@@ -1329,7 +1328,7 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
-
+                    objSaveData.Account = msgData.Account;
                     // co list
                     repoDetailExist = true;
                     int _countReposSideList = 0;
@@ -1386,7 +1385,6 @@ namespace StorageProcess
                     objSaveData.Effectivetime = "";
                     objSaveData.Coaccount = msgData.CoAccount;
                     objSaveData.Registid = "";
-                    objSaveData.Matchreporttype = 0;
                     objSaveData.Clordid = msgData.ClOrdID;
                     objSaveData.Settldate = "";
                     objSaveData.Settldate2 = "";
@@ -1398,6 +1396,7 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Account = msgData.Account;
 
                     // co list
                     repoDetailExist = true;
@@ -1455,7 +1454,6 @@ namespace StorageProcess
                     objSaveData.Effectivetime = msgData.EffectiveTime;
                     objSaveData.Coaccount = msgData.CoAccount;
                     objSaveData.Registid = "";
-                    objSaveData.Matchreporttype = 0;
                     objSaveData.Clordid = msgData.ClOrdID;
                     objSaveData.Settldate = msgData.SettlDate;
                     objSaveData.Settldate2 = msgData.SettlDate2;
@@ -1467,6 +1465,7 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Account = msgData.Account;
 
                     // co list
                     repoDetailExist = true;
@@ -1524,7 +1523,6 @@ namespace StorageProcess
                     objSaveData.Effectivetime = msgData.EffectiveTime;
                     objSaveData.Coaccount = msgData.CoAccount;
                     objSaveData.Registid = "";
-                    objSaveData.Matchreporttype = 0;
                     objSaveData.Clordid = msgData.ClOrdID;
                     objSaveData.Settldate = msgData.SettlDate;
                     objSaveData.Settldate2 = msgData.SettlDate2;
@@ -1536,6 +1534,7 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Account = msgData.Account;
 
                     // co list
                     repoDetailExist = true;
@@ -1593,7 +1592,6 @@ namespace StorageProcess
                     objSaveData.Effectivetime = "";
                     objSaveData.Coaccount = "";
                     objSaveData.Registid = "";
-                    objSaveData.Matchreporttype = 0;
                     objSaveData.Clordid = msgData.ClOrdID;
                     objSaveData.Settldate = "";
                     objSaveData.Settldate2 = "";
@@ -1605,6 +1603,8 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    objSaveData.Account = "";
+
                     //
                     _symbol = "";
                 }
@@ -1654,7 +1654,7 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
-
+                    objSaveData.Account = msgData.Account;
                     // co list
                     repoDetailExist = true;
                     int _countReposSideList = 0;
