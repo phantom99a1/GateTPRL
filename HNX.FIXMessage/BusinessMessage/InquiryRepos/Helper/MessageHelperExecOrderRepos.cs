@@ -8,7 +8,7 @@ namespace HNX.FIXMessage
         private MessageExecOrderRepos c_message;
 
         #region #Tag const
-        
+
         private const int TAG_ClOrdID = 11;
         private const int TAG_PartyID = 448;// Mã thành viên bán
         private const int TAG_CoPartyID = 449;// Mã thành viên mua
@@ -22,6 +22,7 @@ namespace HNX.FIXMessage
         private const int TAG_EndDate = 917;
         private const int TAG_MatchReportType = 5632;       //Tag 5632 thông báo là khớp repos trong ngày hay thông tin repos leg2
         private const int TAG_NoSide = 552; //Số mã ck có trong msg khớp
+        private const int TAG_SettMethod = 6363; // 6363.
 
         //---------------------------------------------------
         public const int TAG_NumSide = 5522;//Số thứ tự của mức giá
@@ -67,6 +68,7 @@ namespace HNX.FIXMessage
             sb.Append(TAG_EndDate.ToString()).Append(Common.DELIMIT).Append(c_message.EndDate).Append(Common.SOH);
             sb.Append(TAG_MatchReportType.ToString()).Append(Common.DELIMIT).Append(c_message.MatchReportType).Append(Common.SOH);
             sb.Append(TAG_NoSide).Append(Common.DELIMIT).Append(c_message.NoSide).Append(Common.SOH);
+            sb.Append(TAG_SettMethod.ToString()).Append(Common.DELIMIT).Append(c_message.SettlMethod).Append(Common.SOH);
 
             ReposSideExecOrder itemSite;
             for (int i = 0; i < c_message.ReposSideList.Count; i++)
@@ -95,7 +97,7 @@ namespace HNX.FIXMessage
         {
             if (TAG_ClOrdID == field.Tag)
                 c_message.ClOrdID = field.Value;
-            else if(TAG_PartyID == field.Tag)
+            else if (TAG_PartyID == field.Tag)
                 c_message.PartyID = field.Value;
             else if (TAG_CoPartyID == field.Tag)
                 c_message.CoPartyID = field.Value;
@@ -124,7 +126,6 @@ namespace HNX.FIXMessage
                 c_message.SettlDate2 = field.Value;
             else if (TAG_EndDate == field.Tag)
                 c_message.EndDate = field.Value;
-
             else if (TAG_MatchReportType == field.Tag)
             {
                 bool _isSuccess = false;
@@ -135,6 +136,12 @@ namespace HNX.FIXMessage
             {
                 bool _isSuccess = false;
                 c_message.NoSide = Utils.Convert.ParseInt(field.Value, ref _isSuccess);
+                if (_isSuccess == false) return false;
+            }
+            else if (TAG_SettMethod == field.Tag)
+            {
+                bool _isSuccess = false;
+                c_message.SettlMethod = Utils.Convert.ParseInt(field.Value, ref _isSuccess);
                 if (_isSuccess == false) return false;
             }
             else if (TAG_NumSide == field.Tag)
@@ -182,7 +189,6 @@ namespace HNX.FIXMessage
                 _ReposSide.HedgeRate = Utils.Convert.ParseDouble(field.Value, ref _isSuccess);
                 if (_isSuccess == false) return false;
             }
-
             else if (TAG_SettlValue == field.Tag)
             {
                 bool _isSuccess = false;
@@ -197,8 +203,6 @@ namespace HNX.FIXMessage
             }
             else
                 if (base.ParseField(field) == false) return false;
-
-         
 
             return true;
         }

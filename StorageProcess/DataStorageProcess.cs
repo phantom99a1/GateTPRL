@@ -1087,7 +1087,7 @@ namespace StorageProcess
                     objSaveData.Settldate = msgData.SettDate;
                     objSaveData.Settldate2 = msgData.SettlDate2;
                     objSaveData.Enddate = msgData.EndDate;
-                    objSaveData.Settlmethod = "";
+                    objSaveData.Settlmethod = msgData.SettlMethod.ToString();
                     objSaveData.Orderpartyid = "";
                     objSaveData.Inquirymember = "";
                     //
@@ -1625,7 +1625,7 @@ namespace StorageProcess
                     objSaveData.Partyid = msgData.PartyID;
                     objSaveData.Copartyid = msgData.CoPartyID;
                     objSaveData.Matchreporttype = 0;
-                    objSaveData.Orderid = "";
+                    objSaveData.Orderid = msgData.OrderID;
                     objSaveData.Buyorderid = "";
                     objSaveData.Sellorderid = "";
                     objSaveData.Repurchaserate = msgData.RepurchaseRate.ToString();
@@ -1648,7 +1648,7 @@ namespace StorageProcess
                     objSaveData.Settldate2 = msgData.SettlDate2;
                     objSaveData.Enddate = msgData.EndDate;
                     objSaveData.Settlmethod = msgData.SettlMethod.ToString();
-                    objSaveData.Orderpartyid = "";
+                    objSaveData.Orderpartyid = msgData.OrderPartyID;
                     objSaveData.Inquirymember = "";
                     //
                     objSaveData.Remark = "";

@@ -19,6 +19,8 @@
         public int MatchReportType;     //Tag 5632 thông báo là khớp repos trong ngày hay thông tin repos leg2, = 1 là Thông tin lệnh khớp Repos trong ngày = 2 là thông báo thông tin Repos leg2
         public int NoSide; //Tag 552 So mã chứng khoán trong lệnh khớp
 
+        public int SettlMethod; // 6363 ngày thanh toán.
+
         public ReposSideListExecOrder ReposSideList;
 
         #endregion MyRegion
