@@ -5,8 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Exe</OutputType>
-    <AssemblyVersion>1.1.322.6</AssemblyVersion>
-    <FileVersion>1.1.322.6</FileVersion>
+    <AssemblyVersion>1.1.408.1</AssemblyVersion>
+    <FileVersion>1.1.408.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
