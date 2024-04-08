@@ -1106,6 +1106,7 @@ namespace BusinessProcessResponse
                 string _OrderNo = "";
                 string _QuoteType = "";
                 string _RefMsgType = "";
+                string _RefExchangeID = "";
 
                 OrderInfo objOrder = LocalMemory.OrderMemory.GetOrder_bySeqNum(p_Message.RefSeqNum);
                 if (objOrder != null)
@@ -1113,18 +1114,20 @@ namespace BusinessProcessResponse
                     _OrderNo = objOrder.OrderNo;
                     _QuoteType = objOrder.QuoteType > 0 ? objOrder.QuoteType.ToString() : "";
                     _RefMsgType = objOrder.RefMsgType;
+                    _RefExchangeID = objOrder.RefExchangeID != null ? objOrder.RefExchangeID : "";
                 }
                 else
                 {
                     Logger.ResponseLog.Warn($"HNXSendReject -> Error find order info when call GetOrder_bySeqNum({p_Message.RefSeqNum}) received MsgSeqNum(34)={p_Message.MsgSeqNum}, RefSeqNum(45)={p_Message.RefSeqNum}, SendingTime(52)={p_Message.GetSendingTime}, RefMsgType(372)={p_Message.RefMsgType}, SessionRejectReason(373)={p_Message.SessionRejectReason}, Text(58)={p_Message.Text} when received exchange");
                 }
+                //
                 if (p_Message.RefMsgType == MessageType.ReposInquiry) // N01
                 {
                     InquiryObjectModel _Response = new InquiryObjectModel();
                     _Response.MsgType = CORE_MsgType.MsgIS;
                     _Response.OrderNo = _OrderNo;
                     _Response.ExchangeID = "";
-                    _Response.RefExchangeID = "";
+                    _Response.RefExchangeID = _RefExchangeID;
                     _Response.QuoteType = _QuoteType;
                     _Response.OrdType = "";
                     _Response.OrderStatus = CORE_OrderStatus.OrderStatus_EJ;
@@ -1163,7 +1166,7 @@ namespace BusinessProcessResponse
                     _Response.OrderNo = _OrderNo;
                     _Response.RefMsgType = _RefMsgType;
                     _Response.ExchangeID = "";
-                    _Response.RefExchangeID = "";
+                    _Response.RefExchangeID = _RefExchangeID;
                     _Response.QuoteType = _QuoteType;
                     _Response.OrdType = "";
                     _Response.OrderStatus = CORE_OrderStatus.OrderStatus_EJ;
@@ -1213,7 +1216,7 @@ namespace BusinessProcessResponse
                     _Response.RefMsgType = p_Message.RefMsgType;
                     _Response.OrderNo = _OrderNo;
                     _Response.ExchangeID = "";
-                    _Response.RefExchangeID = "";
+                    _Response.RefExchangeID = _RefExchangeID;
                     _Response.OrderType = "";
                     _Response.OrderStatus = CORE_OrderStatus.OrderStatus_EJ;
                     _Response.Side = "";
@@ -1246,7 +1249,7 @@ namespace BusinessProcessResponse
                     _Response.OrderNo = _OrderNo;
                     _Response.SendingTime = HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime);
                     _Response.OrderPartyID = "";
-                    _Response.RefExchangeID = "";
+                    _Response.RefExchangeID = _RefExchangeID;
                     _Response.ExchangeID = "";
                     _Response.OrderStatus = CORE_OrderStatus.OrderStatus_EJ;
                     _Response.RefMsgType = p_Message.RefMsgType;
