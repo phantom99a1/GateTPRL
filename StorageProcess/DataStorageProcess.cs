@@ -724,8 +724,8 @@ namespace StorageProcess
                     objSaveData.Orderid = "";
                     objSaveData.Origcrossid = "";
                     objSaveData.Registid = "";
-                    objSaveData.Rfqreqid = msgData.QuoteRespID;
-                    objSaveData.Quoterespid = "";
+                    objSaveData.Rfqreqid ="";
+                    objSaveData.Quoterespid = msgData.QuoteRespID;
                     objSaveData.Quoteresptype = msgData.QuoteRespType.ToString();
                     objSaveData.Quoteid = "";
                     objSaveData.Quotecanceltype = "";
