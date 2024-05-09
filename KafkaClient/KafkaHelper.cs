@@ -66,6 +66,7 @@ namespace KafkaInterface
         {
             try
             {
+                bool checkStatusSend = false;
                 string _value = JsonConvert.SerializeObject(p_object, jsonCamelCaseSetting);
                 producer.Produce(c_KafkaTopic, new Message<Null, string> { Value = _value }, (deliveryReport) =>
                 {
@@ -75,11 +76,22 @@ namespace KafkaInterface
                     }
                     else
                     {
+                        checkStatusSend = true;
                         log.Info("Send to Kafka success. Message : {0}. Topic : {1}", _value, c_KafkaTopic);
                         Interlocked.Increment(ref numOfMsg);
                     }
                 });
-                return SendKafkaStatus.SEND_SUCCESS;
+                //
+                producer.Flush(TimeSpan.FromSeconds(1));
+                //
+                if (checkStatusSend)
+                {
+                    return SendKafkaStatus.SEND_SUCCESS;
+                }
+                else
+                {
+                    return SendKafkaStatus.SEND_FAILURE;
+                }
             }
             catch (ProduceException<Null, string> exc)
             {
