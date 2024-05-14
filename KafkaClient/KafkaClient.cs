@@ -20,7 +20,6 @@ namespace KafkaInterface
         private int sequenceGateSendHNX;
         private int sequenceGateFwdFromHNX;
         private StoreMapSeqEvent c_StoreMapSeqEvent;
-        private Thread ThreadResend;
 
         public int SequenceGateAccept
         {
@@ -96,8 +95,6 @@ namespace KafkaInterface
                 //c_Disruptor.HandleEventsWith(new ProcessKafkaObjectEvent(Kafka_OrderStatus, Kafka_ExecutionStatus, Kafka_TradingInfoStatus));
                 c_StoreMapSeqEvent = new StoreMapSeqEvent();
                 c_Disruptor.HandleEventsWith(this).Then(c_StoreMapSeqEvent);
-                ThreadResend = new Thread(ThrdResendObject);
-                ThreadResend.IsBackground = true;
                 c_RingBuffer = c_Disruptor.RingBuffer;
               
                 c_Disruptor.Start();
@@ -147,15 +144,8 @@ namespace KafkaInterface
         {
             try
             {
-                int sendKafka = Send2Kafka(p_data, sequence);
-                if (sendKafka == SendKafkaStatus.SEND_SUCCESS)
+                while (Send2Kafka(p_data, sequence) != SendKafkaStatus.SEND_SUCCESS)
                 {
-                    log.Info("Send to Kafka topic {0} object {1} map with Messages sequence {2} success. Process in {3} us", p_data.TopicName, p_data.Object, p_data.MessageSequence, (DateTime.Now.Ticks - p_data.StartTimeProcess) / 10);
-                }
-                else
-                {
-                    log.Error("Send to Kafka topic {0} object {1} in sequence {2} fail", p_data.TopicName, p_data.Object, sequence);
-                    c_DictKafkaObjectMissed.TryAdd(sequence, p_data);
                     Thread.Sleep(1000);
                 }
             }
@@ -195,32 +185,6 @@ namespace KafkaInterface
                 log.Warn("KafkaInterface: Something went wrong, can not find kakfa topic {0} to send object {1} in sequence {2} ", p_data.TopicName, p_data.Object, sequence);
             }
             return sendKafka;
-        }
-
-        public void ThrdResendObject()
-        {
-            while (true)
-            {
-                if (c_DictKafkaObjectMissed.Count > 0)
-                {
-                    KafkaObjectEvent kafkaObj;
-                    foreach (long i in c_DictKafkaObjectMissed.Keys)
-                    {
-                        c_DictKafkaObjectMissed.TryRemove(i, out kafkaObj);
-                        if (kafkaObj != null)
-                        {
-                            while (Send2Kafka(kafkaObj, i) != SendKafkaStatus.SEND_SUCCESS)
-                            {
-                                Thread.Sleep(1000);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    Thread.Sleep(30 * 1000);
-                }
-            }
         }
     }
 
