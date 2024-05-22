@@ -22,6 +22,7 @@
         public int SettlMethod; // 6363 ngày thanh toán.
 
         public ReposSideListExecOrder ReposSideList;
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
         #endregion MyRegion
 

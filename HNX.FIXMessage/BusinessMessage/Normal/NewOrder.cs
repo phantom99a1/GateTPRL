@@ -15,6 +15,7 @@
         public long Price;      // Tag 44
         public long Price2;     // Tag 640
         public int SpecialType; // Tag 440       //Loại yết giá đặc biệt dùng cho lệnh Marketmaker: = 1 là yết giá 1 chiều, = 2 là 2 chiều, = 3 là 2 chiều thay thế
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
         #endregion fields
 

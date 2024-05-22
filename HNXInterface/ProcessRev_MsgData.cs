@@ -37,61 +37,42 @@ namespace HNXInterface
 
                 case MessageType.QuoteStatusReport: // sở gửi 35=AI
                     ProcessQuoteStatusReport((MessageQuoteSatusReport)message);
-                    //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
                     break;
 
                 case MessageType.ExecutionReport: // sở gửi 35=8
                     ProcessExecOrder((MessageExecutionReport)message);
-                   
                     break;
 
                 case MessageType.NewOrderCross: // sở gửi 35=s
                     c_ResponseInterface.HNXSendOrderCross((MessageNewOrderCross)message);
-                    //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
                     break;
 
                 case MessageType.CrossOrderCancelReplaceRequest: // sở gửi 35=t
                     c_ResponseInterface.HNXResponse_CrossOrderCancelReplace((CrossOrderCancelReplaceRequest)message);
-                    //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
                     break;
 
                 case MessageType.CrossOrderCancelRequest: // sở gửi 35=u
-                    c_ResponseInterface.HNXResponse_CrossOrderCancelRequest((CrossOrderCancelRequest)message);
-                    //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
+                    c_ResponseInterface.HNXResponse_CrossOrderCancelRequest((CrossOrderCancelRequest)message);                 
                     break;
 
                 case MessageType.Reject: // sở gửi 35=3
-                    ProcessRejectQuote((MessageReject)message);
-                    //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
+                    ProcessRejectQuote((MessageReject)message);                    
                     break;
 
                 case MessageType.ReposInquiryReport: // sở gửi 35=N02
                     c_ResponseInterface.HNXResponse_InquiryReposReponse((MessageReposInquiryReport)message);
-                    //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
                     break;
 
                 case MessageType.ReposFirmReport: // sở gửi 35=N04
                     c_ResponseInterface.HNXResponse_ReposFirmReport((MessageReposFirmReport)message);
-                    //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
                     break;
 
                 case MessageType.ExecOrderRepos: // sở gửi 35=EE
                     c_ResponseInterface.HNXResponse_ExecOrderRepos((MessageExecOrderRepos)message);
-                    //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
                     break;
 
                 case MessageType.ReposBCGDReport: // sở gửi 35=MR
                     c_ResponseInterface.HNXResponse_ReposBCGDReport((MessageReposBCGDReport)message);
-                    //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
                     break;
 
                 case MessageType.UserResponse: // sở gửi 35=BF
@@ -106,32 +87,22 @@ namespace HNXInterface
             {
                 case ExecutionReportType.ER_ExecOrder_3:  // 35=8; 150 = 3
                     c_ResponseInterface.HNXResponseExcQuote((MessageER_ExecOrder)message);
-                    //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
                     break;
 
                 case ExecutionReportType.ER_CancelOrder_4:  // 35=8; 150 = 4
                     c_ResponseInterface.HNXResponse_EROrderCancel((MessageER_OrderCancel)message);
-                    //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
                     break;
 
                 case ExecutionReportType.ER_ReplaceOrder_5: // 35=8; 150 = 5
                     c_ResponseInterface.HNXResponse_ExecReplace((MessageER_OrderReplace)message);
-                    //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
                     break;
 
                 case ExecutionReportType.ER_Order_0: // 35=8; 150 = 0
                     c_ResponseInterface.HNXResponse_ExecOrder((MessageER_Order)message);
-                    //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
                     break;
 
                 case ExecutionReportType.ER_Rejected_8: // 35=8; 150 = 8
                     c_ResponseInterface.HNXResponse_ExecOrderReject((MessageER_OrderReject)message);
-                    //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
                     break;
             }
         }

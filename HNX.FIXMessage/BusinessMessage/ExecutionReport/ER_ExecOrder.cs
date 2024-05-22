@@ -30,6 +30,7 @@
         private string _Symbol; //55: ma chung khoan
         private int _Side;   //54: 1 = Buy, 2 = Sell
         private string _ReciprocalMember;   //448
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
 
         public string OrdStatus

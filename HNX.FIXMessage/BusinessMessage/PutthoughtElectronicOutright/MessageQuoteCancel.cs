@@ -22,6 +22,7 @@ namespace HNX.FIXMessage
         public string OrdType;              // 40: loai lenh: 1=Market price,2=ato,3=atc
 
         public string ClOrdID;
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
         #endregion
 
         public MessageQuoteCancel()

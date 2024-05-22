@@ -29,6 +29,8 @@ namespace HNX.FIXMessage
 
         public int IsVisible;       //Lệnh có ẩn danh hay ko, = 1 là ẩn danh, = 0 là ko ẩn danh
         public string ClOrdID;
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
+
         #endregion
 
         public MessageQuote()

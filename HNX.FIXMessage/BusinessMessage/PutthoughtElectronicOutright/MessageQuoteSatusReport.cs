@@ -87,7 +87,9 @@
         /// <summary>
         /// Tag 4488
         /// </summary>
-        public string OrderPartyID; 
+        public string OrderPartyID;
+
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
         public MessageQuoteSatusReport()
            : base()

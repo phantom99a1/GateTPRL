@@ -92,6 +92,7 @@ namespace BusinessProcessAPIReq
                     OrderType = request.OrderType
                 };
                 newQuote.ApiOrderNo = request.OrderNo;
+                newQuote.OrderNo = request.OrderNo;
                 OrderMemory.Add_NewOrder(objOrder);
                 //
                 /*long  enqueue = c_IProcessRevEntity.EnqueueData(newQuote);
@@ -310,6 +311,7 @@ namespace BusinessProcessAPIReq
                 newQuoteResponse.SettlValue = 0;
                 newQuoteResponse.Text = request.Text;
                 newQuoteResponse.ApiOrderNo = request.OrderNo;
+                newQuoteResponse.OrderNo = request.OrderNo;
                 newQuoteResponse.IDRequest = ID;
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newQuoteResponse);
@@ -403,6 +405,7 @@ namespace BusinessProcessAPIReq
                     OrderType = request.OrderType,
                 };
                 newQuoteRequest.ApiOrderNo = request.OrderNo;
+                newQuoteRequest.OrderNo = request.OrderNo;
                 OrderMemory.Add_NewOrder(objOrderMem);
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newQuoteRequest);
@@ -488,6 +491,7 @@ namespace BusinessProcessAPIReq
                     OrderType = request.OrderType
                 };
                 newQuoteCancel.ApiOrderNo = request.OrderNo;
+                newQuoteCancel.OrderNo = request.OrderNo;
                 newQuoteCancel.IDRequest = ID;
                 OrderMemory.Add_NewOrder(objOrder);
                 //
@@ -513,8 +517,5 @@ namespace BusinessProcessAPIReq
                 return _response;
             }
         }
-
-   
-
     }
 }

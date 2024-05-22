@@ -87,6 +87,7 @@ namespace BusinessProcessAPIReq
                     OrderType = request.OrderType
                 };
                 newInquiryRepos.ApiOrderNo = request.OrderNo;
+                newInquiryRepos.OrderNo = request.OrderNo;
                 OrderMemory.Add_NewOrder(objOrder);
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newInquiryRepos);
@@ -193,6 +194,8 @@ namespace BusinessProcessAPIReq
                     OrderType = request.OrderType,
                 };
                 newInquiryRepos.ApiOrderNo = request.OrderNo;
+                newInquiryRepos.OrderNo = request.OrderNo;
+
                 OrderMemory.Add_NewOrder(objOrder);
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newInquiryRepos);
@@ -301,6 +304,7 @@ namespace BusinessProcessAPIReq
                     OrderType = request.OrderType
                 };
                 newInquiryRepos.ApiOrderNo = request.OrderNo;
+                newInquiryRepos.OrderNo = request.OrderNo;
 
                 OrderMemory.Add_NewOrder(objOrder);
                 //
@@ -411,6 +415,8 @@ namespace BusinessProcessAPIReq
                     OrderType = request.OrderType
                 };
                 newInquiryRepos.ApiOrderNo = request.OrderNo;
+                newInquiryRepos.OrderNo = request.OrderNo;
+
                 OrderMemory.Add_NewOrder(objOrder);
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newInquiryRepos);
@@ -566,6 +572,8 @@ namespace BusinessProcessAPIReq
                     SymbolFirmInfo = listSymbolFirmMem
                 };
                 newFirmRepos.ApiOrderNo = request.OrderNo;
+                newFirmRepos.OrderNo = request.OrderNo;
+
                 OrderMemory.Add_NewOrder(objOrder);
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newFirmRepos);
@@ -722,6 +730,8 @@ namespace BusinessProcessAPIReq
                     SymbolFirmInfo = listSymbolFirmMem
                 };
                 newFirmRepos.ApiOrderNo = request.OrderNo;
+                newFirmRepos.OrderNo = request.OrderNo;
+
                 OrderMemory.Add_NewOrder(objOrder);
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newFirmRepos);
@@ -837,6 +847,8 @@ namespace BusinessProcessAPIReq
                     OrderType = request.OrderType
                 };
                 newFirmRepos.ApiOrderNo = request.OrderNo;
+                newFirmRepos.OrderNo = request.OrderNo;
+
                 OrderMemory.Add_NewOrder(objOrder);
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newFirmRepos);
@@ -1092,6 +1104,8 @@ namespace BusinessProcessAPIReq
 
                 //
                 newFirmRepos.ApiOrderNo = request.OrderNo;
+                newFirmRepos.OrderNo = request.OrderNo;
+
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newFirmRepos);
                 if (enqueue == -1)
@@ -1268,6 +1282,7 @@ namespace BusinessProcessAPIReq
                     SymbolFirmInfo = listSymbolFirmMem
                 };
                 newReposBCGD.ApiOrderNo = request.OrderNo;
+                newReposBCGD.OrderNo = request.OrderNo;
                 OrderMemory.Add_NewOrder(objOrder);
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newReposBCGD);
@@ -1452,6 +1467,7 @@ namespace BusinessProcessAPIReq
                         SymbolFirmInfo = listSymbolFirmMem
                     };
                     newReposBCGD.ApiOrderNo = request.OrderNo;
+                    newReposBCGD.OrderNo = request.OrderNo;
                     OrderMemory.Add_NewOrder(objOrderMem);
                 }
                 //
@@ -1617,6 +1633,7 @@ namespace BusinessProcessAPIReq
                     SymbolFirmInfo = listSymbolFirmMem
                 };
                 newReposBCGDModify.ApiOrderNo = request.OrderNo;
+                newReposBCGDModify.OrderNo = request.OrderNo;
                 OrderMemory.Add_NewOrder(objOrderMem);
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newReposBCGDModify);
@@ -1711,6 +1728,7 @@ namespace BusinessProcessAPIReq
                     OrderType = request.OrderType
                 };
                 newFirmRepos.ApiOrderNo = request.OrderNo;
+                newFirmRepos.OrderNo = request.OrderNo;
                 OrderMemory.Add_NewOrder(objOrder);
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newFirmRepos);
@@ -1967,6 +1985,7 @@ namespace BusinessProcessAPIReq
                 }
 
                 newReposBCGD.ApiOrderNo = request.OrderNo;
+                newReposBCGD.OrderNo = request.OrderNo;
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newReposBCGD);
                 if (enqueue == -1)
@@ -2179,6 +2198,7 @@ namespace BusinessProcessAPIReq
                     OrderMemory.Add_NewOrder(objOrder);
                 }
                 newReposBCGD.ApiOrderNo = request.OrderNo;
+                newReposBCGD.OrderNo = request.OrderNo;
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newReposBCGD);
                 if (enqueue == -1)
@@ -2351,6 +2371,7 @@ namespace BusinessProcessAPIReq
                 }
                 //
                 newFirmRepos.ApiOrderNo = request.OrderNo;
+                newFirmRepos.OrderNo = request.OrderNo;
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newFirmRepos);
                 if (enqueue == -1)
@@ -2482,6 +2503,7 @@ namespace BusinessProcessAPIReq
                 }
 
                 newFirmRepos.ApiOrderNo = request.OrderNo;
+                newFirmRepos.OrderNo = request.OrderNo;
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newFirmRepos);
                 if (enqueue == -1)
@@ -2694,6 +2716,7 @@ namespace BusinessProcessAPIReq
                     OrderMemory.Add_NewOrder(objOrder);
                 }
                 newReposBCGDModify.ApiOrderNo = request.OrderNo;
+                newReposBCGDModify.OrderNo = request.OrderNo;
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newReposBCGDModify);
                 if (enqueue == -1)
@@ -2868,6 +2891,7 @@ namespace BusinessProcessAPIReq
                     OrderMemory.Add_NewOrder(objOrder);
                 }
                 newReposBCGDModify.ApiOrderNo = request.OrderNo;
+                newReposBCGDModify.OrderNo = request.OrderNo;
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newReposBCGDModify);
                 if (enqueue == -1)

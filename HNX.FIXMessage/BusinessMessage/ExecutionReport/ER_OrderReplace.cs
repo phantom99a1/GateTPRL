@@ -37,6 +37,7 @@ namespace HNX.FIXMessage
 
         public const int TAG_LeavesQty = 151;//Khối lượng sửa thực tế.
         public const int TAG_SettlValue = 6464; //
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
         #region Fields
 

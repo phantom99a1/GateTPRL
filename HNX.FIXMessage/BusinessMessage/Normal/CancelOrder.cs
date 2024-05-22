@@ -8,6 +8,7 @@
         public string ClOrdID; // Tag 11
         public string OrigClOrdID; // Tag 41
         public string Symbol; // Tag 55
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
         #endregion fields
 

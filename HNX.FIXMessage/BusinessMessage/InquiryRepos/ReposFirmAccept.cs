@@ -15,9 +15,11 @@
 		public long NoSide; // Tag 552
 		public ReposSideList RepoSideList;
 
-		#endregion fields
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
-		public MessageReposFirmAccept()
+        #endregion fields
+
+        public MessageReposFirmAccept()
             : base()
         {
             MsgType = MessageType.ReposFirmAccept;

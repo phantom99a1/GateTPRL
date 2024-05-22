@@ -1,6 +1,6 @@
-/* 
+﻿/* 
  * Project: FIXMessage
- * Author : Nguyen Nhat Linh � Navisoft.
+ * Author : Nguyen Nhat Linh – Navisoft.
  * Summary: Detail Define for Logout message
  * Modification Logs:
  * DATE             AUTHOR      DESCRIPTION
@@ -42,6 +42,8 @@ namespace HNX.FIXMessage
         private string _OrdType; //40: loai lenh: 1=Market price,2=ato,3=atc
         private long  _Price; //44: gia
         private string _Account; // 1:tai khoan khach hang
+
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
         public string OrdStatus
         {

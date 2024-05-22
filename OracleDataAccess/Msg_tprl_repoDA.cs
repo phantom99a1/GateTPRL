@@ -64,6 +64,7 @@ namespace OracleDataAccess
                      new OracleParameter("p_lastchange", OracleDbType.Varchar2, objData.Lastchange, ParameterDirection.Input),
                      new OracleParameter("p_createtime", OracleDbType.Varchar2, objData.Createtime, ParameterDirection.Input),
                      new OracleParameter("p_account", OracleDbType.Varchar2, objData.Account, ParameterDirection.Input),
+                     new OracleParameter("p_orderno", OracleDbType.Varchar2, objData.OrderNo, ParameterDirection.Input),
                     returnParam
                 );
 

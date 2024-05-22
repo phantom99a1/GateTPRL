@@ -30,6 +30,7 @@ namespace HNX.FIXMessage
         public const int TAG_SettlValue = 6464; // giá trị thanh toán
 
         //public const int TAG_StopPx = 99; //gia dung
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
         #region Fields
 

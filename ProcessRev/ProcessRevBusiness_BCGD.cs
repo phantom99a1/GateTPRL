@@ -90,6 +90,7 @@ namespace BusinessProcessAPIReq
                     OrderType = request.OrderType
                 };
                 newOrderCross.ApiOrderNo = request.OrderNo;
+                newOrderCross.OrderNo = request.OrderNo;
                 newOrderCross.IDRequest = ID;
                 OrderMemory.Add_NewOrder(objOrder);
                 //
@@ -179,6 +180,8 @@ namespace BusinessProcessAPIReq
                 newOrderCross.SettlValue = 0;
                 newOrderCross.Text = request.Text;
                 newOrderCross.ApiOrderNo = request.OrderNo;
+                newOrderCross.OrderNo = request.OrderNo;
+
                 newOrderCross.IDRequest = ID;
                 // Cập nhật thông tin order vào memory
                 // Cập nhật orderNo, refexchangeID, clientID ( so sánh refExchangeID gửi lên với exchangeID lưu mem với  refMsgType =s)
@@ -305,6 +308,7 @@ namespace BusinessProcessAPIReq
                 newOrderCross.SettlValue = 0;
                 newOrderCross.Text = request.Text;
                 newOrderCross.ApiOrderNo = request.OrderNo;
+                newOrderCross.OrderNo = request.OrderNo;
                 newOrderCross.IDRequest = ID;
                 // Add thông tin order vào memory
                 LocalMemory.OrderInfo objOrder = new OrderInfo()
@@ -398,6 +402,7 @@ namespace BusinessProcessAPIReq
                 newOrderCross.CrossType = request.CrossType;
                 newOrderCross.Text = request.Text;
                 newOrderCross.ApiOrderNo = request.OrderNo;
+                newOrderCross.OrderNo = request.OrderNo;
                 // Add thông tin order vào memory
                 LocalMemory.OrderInfo objOrder = new OrderInfo()
                 {
@@ -503,6 +508,7 @@ namespace BusinessProcessAPIReq
                 newOrderCross.SettlValue = 0;
                 newOrderCross.Text = request.Text;
                 newOrderCross.ApiOrderNo = request.OrderNo;
+                newOrderCross.OrderNo = request.OrderNo;
                 newOrderCross.IDRequest = ID;
                 //
                 OrderInfo objOrder = OrderMemory.GetOrderBy(p_RefMsgType: MessageType.CrossOrderCancelReplaceRequest, p_RefExchangeID: request.RefExchangeID);
@@ -653,6 +659,7 @@ namespace BusinessProcessAPIReq
                 newOrderCross.SettlValue = 0;
                 newOrderCross.Text = request.Text;
                 newOrderCross.ApiOrderNo = request.OrderNo;
+                newOrderCross.OrderNo = request.OrderNo;
                 newOrderCross.IDRequest = ID;
                 // Cập nhật thông tin order vào memory
                 // cập nhật orderNo, refexchangeID ( so sánh refExchangeID gửi lên với exchangeID lưu mem với orderno = rỗng)
@@ -757,6 +764,7 @@ namespace BusinessProcessAPIReq
                 newOrderCross.CrossType = request.CrossType;
                 newOrderCross.Text = request.Text;
                 newOrderCross.ApiOrderNo = request.OrderNo;
+                newOrderCross.OrderNo = request.OrderNo;
                 newOrderCross.IDRequest = ID;
                 //
                 OrderInfo objOrder = OrderMemory.GetOrderBy(p_RefMsgType: MessageType.CrossOrderCancelRequest, p_RefExchangeID: request.RefExchangeID);
@@ -887,6 +895,7 @@ namespace BusinessProcessAPIReq
                 newOrderCross.CrossType = request.CrossType;
                 newOrderCross.Text = request.Text;
                 newOrderCross.ApiOrderNo = request.OrderNo;
+                newOrderCross.OrderNo = request.OrderNo;
                 newOrderCross.IDRequest = ID;
                 // Cập nhật thông tin order vào memory
                 // cập nhật orderNo, refexchangeID ( so sánh refExchangeID gửi lên với exchangeID lưu mem với orderno = rỗng)

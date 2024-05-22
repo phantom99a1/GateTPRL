@@ -32,6 +32,7 @@ namespace HNX.FIXMessage
         
         public int SettlMethod;    //Phương thức thành toán: 1 TT ngay, 2 TT trong ngày 3 TT tương lai
         public string ClOrdID; // Tag 11
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
         #endregion
 

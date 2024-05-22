@@ -23,6 +23,7 @@
         public string Account;      // Tag 1
         public int NoSide; // Tag 552
         public long MatchReportType; // Tag 5632
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
         public ReposSideList RepoSideList;
 

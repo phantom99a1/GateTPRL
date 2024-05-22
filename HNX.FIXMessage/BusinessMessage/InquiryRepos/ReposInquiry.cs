@@ -22,6 +22,9 @@
 
         public bool IsAPI15_16 { get; set; } = false; // dùng để build bỏ tag
 
+        //
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
+
         #endregion fields
 
         public MessageReposInquiry()

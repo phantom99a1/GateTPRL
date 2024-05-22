@@ -29,7 +29,9 @@ namespace HNX.FIXMessage
         public int RepurchaseTerm; //Tag 226
         public double RepurchaseRate; //Tag 227
         public long NoSide; // Tag 552
-                                            
+
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
+
         public ReposSideList RepoSideList;
 
         #endregion fields

@@ -123,7 +123,7 @@ namespace StorageProcess
                         break;
 
                     // 10. Bảng msg_TPRL_HNX_CONFIRM (Msg có tag 35 = 8)
-                    case MessageType.ExecutionReport: // MR
+                    case MessageType.ExecutionReport: 
                         ProcessSaveMsgType_35_8(sequence, fixMessageBase, p_ValueSaveEntry.typeMsgIsSendOrRecei);
                         break;
                 }
@@ -553,6 +553,8 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.ReplaceOrder) // // 35=G
                 {
@@ -584,6 +586,9 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
+
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.CancelOrder) // // 35=F
                 {
@@ -615,6 +620,8 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                 }
 
                 _return = Msg_tprl_orderBL.Insert(objSaveData);
@@ -690,6 +697,8 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.QuoteResponse) // 35=AJ
                 {
@@ -737,6 +746,8 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.QuoteCancel) // 35=Z
                 {
@@ -783,6 +794,8 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.QuoteRequest) // 35=R
                 {
@@ -829,6 +842,8 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.Quote) // 35=S
                 {
@@ -875,6 +890,8 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.NewOrderCross) // 35=s
                 {
@@ -921,6 +938,8 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.CrossOrderCancelReplaceRequest) // 35=t
                 {
@@ -967,6 +986,8 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.CrossOrderCancelRequest) // 35=u
                 {
@@ -1013,6 +1034,8 @@ namespace StorageProcess
                     objSaveData.Remark = "";
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                 }
 
                 _return = Msg_tprl_outrightBL.Insert(objSaveData);
@@ -1096,6 +1119,8 @@ namespace StorageProcess
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Account = "";
                     //
+                    objSaveData.OrderNo = msgData.OrderNo;
+                    //
                     repoDetailExist = true;
                     int _countReposSideList = 0;
                     if (msgData.ReposSideList != null && msgData.ReposSideList.Count > 0)
@@ -1164,6 +1189,8 @@ namespace StorageProcess
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Account = "";
                     //
+                    objSaveData.OrderNo = msgData.OrderNo;
+                    //
                     _symbol = msgData.Symbol;
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.ReposInquiryReport) // 35=N02
@@ -1213,6 +1240,8 @@ namespace StorageProcess
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Account = "";
                     //
+                    objSaveData.OrderNo = msgData.OrderNo;
+                    //
                     _symbol = msgData.Symbol;
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.ReposFirm) // 35=N03
@@ -1261,6 +1290,8 @@ namespace StorageProcess
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Account = msgData.Account;
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
 
                     //
                     repoDetailExist = true;
@@ -1329,6 +1360,8 @@ namespace StorageProcess
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Account = msgData.Account;
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                     // co list
                     repoDetailExist = true;
                     int _countReposSideList = 0;
@@ -1397,7 +1430,8 @@ namespace StorageProcess
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Account = msgData.Account;
-
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                     // co list
                     repoDetailExist = true;
                     int _countReposSideList = 0;
@@ -1466,7 +1500,8 @@ namespace StorageProcess
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Account = msgData.Account;
-
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                     // co list
                     repoDetailExist = true;
                     int _countReposSideList = 0;
@@ -1535,7 +1570,8 @@ namespace StorageProcess
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Account = msgData.Account;
-
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                     // co list
                     repoDetailExist = true;
                     int _countReposSideList = 0;
@@ -1604,7 +1640,8 @@ namespace StorageProcess
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Account = "";
-
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                     //
                     _symbol = "";
                 }
@@ -1655,6 +1692,8 @@ namespace StorageProcess
                     objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                     objSaveData.Account = msgData.Account;
+                    //
+                    objSaveData.OrderNo = msgData.OrderNo;
                     // co list
                     repoDetailExist = true;
                     int _countReposSideList = 0;
@@ -1748,6 +1787,8 @@ namespace StorageProcess
                     objSaveData.Underlyinglastqty = "";
                     //
                     objSaveData.Exectype = ExecutionReportType.ER_ExecOrder_3.ToString();
+                    //
+                    objSaveData.OrderNo = msgDataExcecType.OrderNo;
                 }
                 else if (msgData.ExecType == ExecutionReportType.ER_CancelOrder_4) // 150 = 4
                 {
@@ -1773,6 +1814,8 @@ namespace StorageProcess
                     objSaveData.Underlyinglastqty = "";
                     //
                     objSaveData.Exectype = ExecutionReportType.ER_CancelOrder_4.ToString();
+                    //
+                    objSaveData.OrderNo = msgDataExcecType.OrderNo;
                 }
                 else if (msgData.ExecType == ExecutionReportType.ER_ReplaceOrder_5) // 150 = 5
                 {
@@ -1798,6 +1841,8 @@ namespace StorageProcess
                     objSaveData.Underlyinglastqty = "";
                     //
                     objSaveData.Exectype = ExecutionReportType.ER_ReplaceOrder_5.ToString();
+                    //
+                    objSaveData.OrderNo = msgDataExcecType.OrderNo;
                 }
                 else if (msgData.ExecType == ExecutionReportType.ER_Order_0) // 150 = 0
                 {
@@ -1823,6 +1868,8 @@ namespace StorageProcess
                     objSaveData.Underlyinglastqty = "";
                     //
                     objSaveData.Exectype = ExecutionReportType.ER_Order_0.ToString();
+                    //
+                    objSaveData.OrderNo = msgDataExcecType.OrderNo;
                 }
                 else if (msgData.ExecType == ExecutionReportType.ER_Rejected_8) // 150 = 8
                 {
@@ -1849,6 +1896,7 @@ namespace StorageProcess
                     //
                     objSaveData.Exectype = ExecutionReportType.ER_Rejected_8.ToString();
                     //
+                    objSaveData.OrderNo = msgDataExcecType.OrderNo;
                 }
                 //
                 objSaveData.Ordrejreason = msgData.RejectReason.ToString();

@@ -5,8 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Exe</OutputType>
-    <AssemblyVersion>1.1.509.1</AssemblyVersion>
-    <FileVersion>1.1.509.1</FileVersion>
+    <AssemblyVersion>1.1.522.1</AssemblyVersion>
+    <FileVersion>1.1.522.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -105,9 +105,9 @@
 	  <PackageReference Include="OpenTelemetry.Contrib.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta2" />
 	  <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.7.0" />
 	  <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.7.0" />
-	  <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.7.0" />
+	  <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.8.1" />
+	  <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.8.1" />
 	  <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.7.0" />
-	  <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.6.0-beta.3" />
 	  <PackageReference Include="OpenTelemetry.Instrumentation.Process" Version="0.5.0-beta.3" />
 	  <PackageReference Include="OpenTelemetry.Instrumentation.Quartz" Version="1.0.0-alpha.3" />
 

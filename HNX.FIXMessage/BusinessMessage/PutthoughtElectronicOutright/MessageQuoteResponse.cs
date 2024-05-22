@@ -40,6 +40,7 @@ namespace HNX.FIXMessage
 
         //public string RegistID; //513 danh sach đại diện GD được quote,  = 0 là quote public
         public string ClOrdID;
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
         #endregion
 
         public MessageQuoteResponse()

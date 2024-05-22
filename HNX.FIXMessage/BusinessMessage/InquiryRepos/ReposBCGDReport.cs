@@ -28,7 +28,7 @@
         public int MatchReportType; // Tag 5632 Dùng để gửi ra báo là của lệnh leg2 hay ko default = 1
 
         public ReposSideReposBCGDReportList RepoBCGDSideList;
-
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
         #endregion fields
 
         public MessageReposBCGDReport()

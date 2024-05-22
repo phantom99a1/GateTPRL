@@ -96,6 +96,7 @@ namespace BusinessProcessAPIReq
                     OrderType = request.OrderType
                 };
                 newNewOrder.ApiOrderNo = request.OrderNo;
+                newNewOrder.OrderNo = request.OrderNo;
                 OrderMemory.Add_NewOrder(objOrder);
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newNewOrder);
@@ -199,6 +200,7 @@ namespace BusinessProcessAPIReq
                     OrderType = ""
                 };
                 newReplaceOrder.ApiOrderNo = request.OrderNo;
+                newReplaceOrder.OrderNo = request.OrderNo;
                 OrderMemory.Add_NewOrder(objOrder);
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newReplaceOrder);
@@ -296,6 +298,8 @@ namespace BusinessProcessAPIReq
                     OrderType = ""
                 };
                 newCancelOrder.ApiOrderNo = request.OrderNo;
+                newCancelOrder.OrderNo = request.OrderNo;
+
                 OrderMemory.Add_NewOrder(objOrder);
                 //
                 long enqueue = c_IProcessRevEntity.EnqueueData(newCancelOrder);

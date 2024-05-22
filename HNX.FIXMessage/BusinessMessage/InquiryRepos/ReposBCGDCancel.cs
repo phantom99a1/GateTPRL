@@ -19,6 +19,9 @@ namespace HNX.FIXMessage
         public int QuoteType; // Tag 563
         public string OrdType; // Tag 40
         public int Side;   // Tag 54: 1 = Buy, 2 = Sell
+
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
+
         #endregion fields
 
         public MessageReposBCGDCancel()

@@ -1,7 +1,9 @@
 ﻿using CommonLib;
+using Confluent.Kafka;
 using HNX.FIXMessage;
 using KafkaInterface;
 using LocalMemory;
+using StorageProcess;
 using static CommonLib.CommonData;
 using static CommonLib.CommonDataInCore;
 using static HNX.FIXMessage.MessageExecOrderRepos;
@@ -111,7 +113,12 @@ namespace BusinessProcessResponse
 							_ResponseSideS.SendingTime = HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime);
 							//
 							c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution, _ResponseSideS, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
-							checkSendKafka = true;
+
+							//2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+							p_Message.OrderNo = _ResponseSideS.OrderNo;
+                            SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
+
+                            checkSendKafka = true;
 							//
 							Logger.ResponseLog.Info($"HNXResponse_EROrderCancel -> process when received exchange 35=8|150=5|39={p_Message.OrdStatus}|40={p_Message.OrdType} with MsgSeqNum(34)={p_Message.MsgSeqNum}, ClOrdID(11)={p_Message.ClOrdID}, OrderID(37)={p_Message.OrderID}, OrigClOrdID(41)={p_Message.OrigClOrdID}, SendingTime={HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime)}; sended queue kafka -> topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution}, MsgType={_ResponseSideS.MsgType}");
 						}
@@ -149,8 +156,13 @@ namespace BusinessProcessResponse
 						_Response.SendingTime = HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime);
 						//
 						c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
-						//
-						Logger.ResponseLog.Info($"HNXResponse_EROrderCancel -> process when received exchange 35=8|150=5|39={p_Message.OrdStatus}|40={p_Message.OrdType} with MsgSeqNum(34)={p_Message.MsgSeqNum}, ClOrdID(11)={p_Message.ClOrdID}, OrderID(37)={p_Message.OrderID}, OrigClOrdID(41)={p_Message.OrigClOrdID}, SendingTime={HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime)}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution}, MsgType={_Response.MsgType}");
+
+                        //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                        p_Message.OrderNo = _Response.OrderNo;
+                        SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
+
+                        //
+                        Logger.ResponseLog.Info($"HNXResponse_EROrderCancel -> process when received exchange 35=8|150=5|39={p_Message.OrdStatus}|40={p_Message.OrdType} with MsgSeqNum(34)={p_Message.MsgSeqNum}, ClOrdID(11)={p_Message.ClOrdID}, OrderID(37)={p_Message.OrderID}, OrigClOrdID(41)={p_Message.OrigClOrdID}, SendingTime={HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime)}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution}, MsgType={_Response.MsgType}");
 					}
 				}
 				else // Xử lý các lệnh khớp khác
@@ -189,8 +201,12 @@ namespace BusinessProcessResponse
 						_response.MemberCounterFirm = p_Message.ReciprocalMember != null ? p_Message.ReciprocalMember : string.Empty;
 						//
 						c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution, _response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
-						//
-						Logger.ResponseLog.Info($"HNXResponseExcQuote -> end process message when received exchange 35=8|150=3|54={p_Message.Side}, MsgSeqNum(34)={p_Message.MsgSeqNum}, SecondaryClOrdID(526)={p_Message.SecondaryClOrdID}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution}, MsgType={_response.MsgType}");
+
+                        //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                        p_Message.OrderNo = _response.OrderNo;
+                        SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
+                        //
+                        Logger.ResponseLog.Info($"HNXResponseExcQuote -> end process message when received exchange 35=8|150=3|54={p_Message.Side}, MsgSeqNum(34)={p_Message.MsgSeqNum}, SecondaryClOrdID(526)={p_Message.SecondaryClOrdID}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution}, MsgType={_response.MsgType}");
 					}
 					// ***Nếu thành viên nhận được lệnh khớp có 54=2
 					else if (p_Message.Side == CORE_OrderSide.SIDE_SELL)
@@ -240,8 +256,12 @@ namespace BusinessProcessResponse
 							//
 							c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution, _response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
 
-							//
-							Logger.ResponseLog.Info($"HNXResponseExcQuote -> end process when received exchange 35=8|150=3|54={p_Message.Side}MsgSeqNum(34)={p_Message.MsgSeqNum}, SecondaryClOrdID(526)={p_Message.SecondaryClOrdID}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution}, MsgType={_response.MsgType}");
+                            //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                            p_Message.OrderNo = _response.OrderNo;
+                            SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
+
+                            //
+                            Logger.ResponseLog.Info($"HNXResponseExcQuote -> end process when received exchange 35=8|150=3|54={p_Message.Side}MsgSeqNum(34)={p_Message.MsgSeqNum}, SecondaryClOrdID(526)={p_Message.SecondaryClOrdID}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution}, MsgType={_response.MsgType}");
 						}
 
 						// Nếu (tag 41 = giá trị exchangeID trong mem và side của lệnh trong mem =S) --> lấy orderNo của lệnh tìm được trả ra OE
@@ -273,8 +293,13 @@ namespace BusinessProcessResponse
 								OrderMemory.UpdateOrderInfo(objOrder_Tag41, p_ExchangeID: p_Message.OrigClOrdID);
 
 							c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution, _response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
-							//
-							Logger.ResponseLog.Info($"HNXResponseExcQuote -> process when received exchange 35=8|150=3|54={p_Message.Side}, MsgSeqNum(34)={p_Message.MsgSeqNum}, OrigClOrdID(41)={p_Message.OrigClOrdID}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution}, MsgType={_response.MsgType}");
+
+                            //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                            p_Message.OrderNo = _response.OrderNo;
+                            SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
+
+                            //
+                            Logger.ResponseLog.Info($"HNXResponseExcQuote -> process when received exchange 35=8|150=3|54={p_Message.Side}, MsgSeqNum(34)={p_Message.MsgSeqNum}, OrigClOrdID(41)={p_Message.OrigClOrdID}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution}, MsgType={_response.MsgType}");
 							//
 							Logger.ResponseLog.Info($"HNXResponseExcQuote -> end process 35=8|150=3|54={p_Message.Side}, MsgSeqNum(34)={p_Message.MsgSeqNum}, OrigClOrdID(41)={p_Message.OrigClOrdID} when received exchange");
 						}
@@ -320,8 +345,13 @@ namespace BusinessProcessResponse
 								_response.MemberCounterFirm = p_Message.ReciprocalMember != null ? p_Message.ReciprocalMember : string.Empty;
 								//
 								c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution, _response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
-								//
-								Logger.ResponseLog.Info($"HNXResponseExcQuote -> process when received exchange 35=8|150=3|54={p_Message.Side}|SecondaryClOrdID(526)=null|OrigClOrdID(41)=null, MsgSeqNum(34)={p_Message.MsgSeqNum}; Send kafka success -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution}, MsgType={_response.MsgType}");
+
+                                //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                                p_Message.OrderNo = _response.OrderNo;
+                                SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
+
+                                //
+                                Logger.ResponseLog.Info($"HNXResponseExcQuote -> process when received exchange 35=8|150=3|54={p_Message.Side}|SecondaryClOrdID(526)=null|OrigClOrdID(41)=null, MsgSeqNum(34)={p_Message.MsgSeqNum}; Send kafka success -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution}, MsgType={_response.MsgType}");
 							}
 						}
 					}
@@ -386,8 +416,13 @@ namespace BusinessProcessResponse
 					_Response.SendingTime = HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime);
 					//
 					c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
-					//
-					Logger.ResponseLog.Info($"HNXResponse_EROrderCancel -> process when received exchange 35=8|150=5|39={p_Message.OrdStatus}|40={p_Message.OrdType} with MsgSeqNum(34)={p_Message.MsgSeqNum}, ClOrdID(11)={p_Message.ClOrdID}, OrderID(37)={p_Message.OrderID}, OrigClOrdID(41)={p_Message.OrigClOrdID}, SendingTime={HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime)}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
+
+                    //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                    p_Message.OrderNo = _Response.OrderNo;
+                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
+
+                    //
+                    Logger.ResponseLog.Info($"HNXResponse_EROrderCancel -> process when received exchange 35=8|150=5|39={p_Message.OrdStatus}|40={p_Message.OrdType} with MsgSeqNum(34)={p_Message.MsgSeqNum}, ClOrdID(11)={p_Message.ClOrdID}, OrderID(37)={p_Message.OrderID}, OrigClOrdID(41)={p_Message.OrigClOrdID}, SendingTime={HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime)}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
 				}
 				else // Xử lý các lệnh khác
 				{
@@ -525,8 +560,12 @@ namespace BusinessProcessResponse
 					_Response.Text = p_Message.Text;
 					//
 					c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
-					//
-					Logger.ResponseLog.Info($"HNXResponse_EROrderCancel -> process when received exchange 35=8|150=4|39={p_Message.OrdStatus}; with MsgSeqNum(34)={p_Message.MsgSeqNum}, OrderID(37)={p_Message.OrderID}, OrigClOrdID(41)={p_Message.OrigClOrdID}, ClOrdID(11)={p_Message.ClOrdID}, SendingTime={HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime)}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
+
+                    //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                    p_Message.OrderNo = _Response.OrderNo;
+                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
+                    //
+                    Logger.ResponseLog.Info($"HNXResponse_EROrderCancel -> process when received exchange 35=8|150=4|39={p_Message.OrdStatus}; with MsgSeqNum(34)={p_Message.MsgSeqNum}, OrderID(37)={p_Message.OrderID}, OrigClOrdID(41)={p_Message.OrigClOrdID}, ClOrdID(11)={p_Message.ClOrdID}, SendingTime={HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime)}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
 				}
 
 				//
@@ -589,7 +628,12 @@ namespace BusinessProcessResponse
 					_Response.SendingTime = HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime);
 					//
 					c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
-					Logger.ResponseLog.Info($"HNXResponse_ExecReplace -> process when received exchange 35=8|150=5|39={p_Message.OrdStatus}|40={p_Message.OrdType} with MsgSeqNum(34)={p_Message.MsgSeqNum}, ClOrdID(11)={p_Message.ClOrdID}, OrderID(37)={p_Message.OrderID}, OrigClOrdID(41)={p_Message.OrigClOrdID}, SendingTime={HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime)}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
+                    //
+                    //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                    p_Message.OrderNo = _Response.OrderNo;
+                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
+                    //
+                    Logger.ResponseLog.Info($"HNXResponse_ExecReplace -> process when received exchange 35=8|150=5|39={p_Message.OrdStatus}|40={p_Message.OrdType} with MsgSeqNum(34)={p_Message.MsgSeqNum}, ClOrdID(11)={p_Message.ClOrdID}, OrderID(37)={p_Message.OrderID}, OrigClOrdID(41)={p_Message.OrigClOrdID}, SendingTime={HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime)}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
 				}
 				else // xử lý các lệnh phản hồi khác
 				{
@@ -689,8 +733,11 @@ namespace BusinessProcessResponse
 					_Response.Text = p_Message.Text;
 					//Gọi hàm gửi kafka
 					c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
-					//
-					Logger.ResponseLog.Info($"HNXResponse_ExecReplace -> process when received exchange 35=8|150=5|39={p_Message.OrdStatus}|40={p_Message.OrdType} with MsgSeqNum(34)={p_Message.MsgSeqNum}, ClOrdID(11)={p_Message.ClOrdID}, OrderID(37)={p_Message.OrderID}, OrigClOrdID(41)={p_Message.OrigClOrdID}, SendingTime={HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime)}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
+                    //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                    p_Message.OrderNo = _Response.OrderNo;
+                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
+                    //
+                    Logger.ResponseLog.Info($"HNXResponse_ExecReplace -> process when received exchange 35=8|150=5|39={p_Message.OrdStatus}|40={p_Message.OrdType} with MsgSeqNum(34)={p_Message.MsgSeqNum}, ClOrdID(11)={p_Message.ClOrdID}, OrderID(37)={p_Message.OrderID}, OrigClOrdID(41)={p_Message.OrigClOrdID}, SendingTime={HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime)}; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
 				}
 
 				//
@@ -761,7 +808,11 @@ namespace BusinessProcessResponse
 					_Response.SendingTime = HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime);
 					//
 					c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
-				}
+
+                    //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                    p_Message.OrderNo = _Response.OrderNo;
+                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
+                }
 				// Map từ  message 35=8, 150=0, 39=M, 40#{U, R, T, S}
 				if (p_Message.OrdStatus == CORE_OrdStatus.OrdStatus_M && p_Message.OrdType != CORE_OrdType.OrdType_U && p_Message.OrdType != CORE_OrdType.OrdType_R && p_Message.OrdType != CORE_OrdType.OrdType_T && p_Message.OrdType != CORE_OrdType.OrdType_S)
 				{
@@ -797,8 +848,12 @@ namespace BusinessProcessResponse
 					_Response.SendingTime = HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime);
 					//
 					c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
-					//
-					Logger.ResponseLog.Info($"HNXResponseExcQuote -> End process when received exchange 35={MessageType.ExecutionReport}|150={ExecutionReportType.ER_Order_0}|39={p_Message.OrdStatus}; with MsgSeqNum(34)={p_Message.MsgSeqNum} sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
+
+                    //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                    p_Message.OrderNo = _Response.OrderNo;
+                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
+                    //
+                    Logger.ResponseLog.Info($"HNXResponseExcQuote -> End process when received exchange 35={MessageType.ExecutionReport}|150={ExecutionReportType.ER_Order_0}|39={p_Message.OrdStatus}; with MsgSeqNum(34)={p_Message.MsgSeqNum} sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
 				}
 				//
 				Logger.ResponseLog.Info($"HNXResponseExcQuote -> End process when received exchange 35={MessageType.ExecutionReport}|150={ExecutionReportType.ER_Order_0}|39={p_Message.OrdStatus}; with MsgSeqNum(34)={p_Message.MsgSeqNum}, ClOrdID(11)={p_Message.ClOrdID}, OrderID(37)={p_Message.OrderID}, Symbol(55)={p_Message.Symbol}, Side(54)={p_Message.Side}, OrderQty(38)={p_Message.OrderQty}, OrdType(40)={p_Message.OrdType}, Price(44)={p_Message.Price},  Account(1)={p_Message.Account}, SettlValue(6464)={p_Message.SettlValue}");
@@ -880,7 +935,11 @@ namespace BusinessProcessResponse
 					//
 					c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
 
-					Logger.ResponseLog.Info($"HNXResponse_ExecOrderReject -> process send kafka  35={MessageType.ExecutionReport}|150={ExecutionReportType.ER_Rejected_8}|OrdStatus(39)={p_Message.OrdStatus}, MsgSeqNum(34)={p_Message.MsgSeqNum}, ClOrdID(11)={p_Message.ClOrdID} when received exchange; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
+                    //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                    p_Message.OrderNo = _Response.OrderNo;
+                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
+
+                    Logger.ResponseLog.Info($"HNXResponse_ExecOrderReject -> process send kafka  35={MessageType.ExecutionReport}|150={ExecutionReportType.ER_Rejected_8}|OrdStatus(39)={p_Message.OrdStatus}, MsgSeqNum(34)={p_Message.MsgSeqNum}, ClOrdID(11)={p_Message.ClOrdID} when received exchange; sended queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
 				}
 				//
 				Logger.ResponseLog.Info($"HNXResponse_ExecOrderReject -> End process when received exchange 35={MessageType.ExecutionReport}|150={ExecutionReportType.ER_Rejected_8}|OrdStatus(39)={p_Message.OrdStatus}; with MsgSeqNum(34)={p_Message.MsgSeqNum},  ClOrdID(11)={p_Message.ClOrdID}, OrderID(37)={p_Message.OrderID}, Symbol(55)={p_Message.Symbol}, Side(54)={p_Message.Side}, OrderQty(38)={p_Message.OrderQty}, OrdType(40)={p_Message.OrdType}, Price(44)={p_Message.Price},  Account(1)={p_Message.Account}, SettlValue(6464)={p_Message.SettlValue}, UnderlyingLastQty(652)={p_Message.UnderlyingLastQty}, OrdRejReason(103)={p_Message.OrdRejReason}");
@@ -1108,8 +1167,13 @@ namespace BusinessProcessResponse
 			//
 			// Gọi hàm gửi sang Kafka
 			c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
-			//
-			Logger.ResponseLog.Info($"HNXResponse_ExecOrderRepos -> start process when received exchange 35={MessageType.ExecOrderRepos} with MsgSeqNum(34)={p_Message.MsgSeqNum}, PartyID(448)={p_Message.PartyID},  CoPartyID(449)={p_Message.CoPartyID}, OrderID(37)={p_Message.OrderID}, BuyOrderID(41)={p_Message.BuyOrderID}, SellOrderID(526)={p_Message.SellOrderID}, SendingTime={HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime)}; send queue kafka  -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution}, MsgType={_Response.MsgType}");
+
+            //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+            p_Message.OrderNo = _Response.OrderNo;
+            SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
+
+            //
+            Logger.ResponseLog.Info($"HNXResponse_ExecOrderRepos -> start process when received exchange 35={MessageType.ExecOrderRepos} with MsgSeqNum(34)={p_Message.MsgSeqNum}, PartyID(448)={p_Message.PartyID},  CoPartyID(449)={p_Message.CoPartyID}, OrderID(37)={p_Message.OrderID}, BuyOrderID(41)={p_Message.BuyOrderID}, SellOrderID(526)={p_Message.SellOrderID}, SendingTime={HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime)}; send queue kafka  -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution}, MsgType={_Response.MsgType}");
 
 			//
 			Logger.ResponseLog.Info($"HNXResponse_ExecOrderRepos -> start process when received exchange 35={MessageType.ExecOrderRepos} with MsgSeqNum(34)={p_Message.MsgSeqNum}, PartyID(448)={p_Message.PartyID},  CoPartyID(449)={p_Message.CoPartyID}, OrderID(37)={p_Message.OrderID}, BuyOrderID(41)={p_Message.BuyOrderID}, SellOrderID(526)={p_Message.SellOrderID}");

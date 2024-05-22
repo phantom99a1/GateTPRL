@@ -40,6 +40,7 @@ namespace HNX.FIXMessage
 
         private string _Side;
         private string _OrdType;
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
         public string OrdStatus
         {

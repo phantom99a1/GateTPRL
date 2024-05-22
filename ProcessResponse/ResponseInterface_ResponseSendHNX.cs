@@ -684,6 +684,7 @@ namespace BusinessProcessResponse
                 messageReject.RefSeqNum = fMsg.MsgSeqNum;
                 messageReject.Text = p_Text;
                 messageReject.SessionRejectReason = Utils.ParseInt(MapErrorCode(p_Code));
+                //
                 SharedStorageProcess.c_DataStorageProcess.EnqueueData(messageReject, Data_SoR.Recei);
                 //
                 Logger.ResponseLog.Info($"ReportGateReject -> End process gate reject not match rule with MsgSeqNum(34) = {fMsg.MsgSeqNum}");

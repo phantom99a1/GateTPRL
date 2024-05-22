@@ -2,7 +2,6 @@
 using ObjectInfo;
 using Oracle.ManagedDataAccess.Client;
 using System.Data;
-using System.Security.Principal;
 
 namespace OracleDataAccess
 {
@@ -53,6 +52,7 @@ namespace OracleDataAccess
                     new OracleParameter("p_remark", OracleDbType.Varchar2, objData.Remark, ParameterDirection.Input),
                     new OracleParameter("p_lastchange", OracleDbType.Varchar2, objData.Lastchange, ParameterDirection.Input),
                     new OracleParameter("p_createtime", OracleDbType.Varchar2, objData.Createtime, ParameterDirection.Input),
+                    new OracleParameter("p_orderno", OracleDbType.Varchar2, objData.OrderNo, ParameterDirection.Input),
                     returnParam
                 );
 

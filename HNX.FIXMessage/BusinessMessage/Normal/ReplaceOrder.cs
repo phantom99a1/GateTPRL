@@ -12,7 +12,8 @@
         public long OrderQty; // Tag 38
         public long OrgOrderQty; // Tag 2238
         public long Price2; // Tag 640
-        //
+                            //
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
         #endregion fields
 

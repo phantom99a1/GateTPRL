@@ -25,6 +25,7 @@ namespace HNX.FIXMessage
         public int Side;    // Tag Xem bên nào là bên chủ động Hủy lệnh
         public string ClOrdID; // Tag 11
         public string OrderID; // Tag 37 SHL sửa HNX sinh ra
+        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
         #endregion
 
