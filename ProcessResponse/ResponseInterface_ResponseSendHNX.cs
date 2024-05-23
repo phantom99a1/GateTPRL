@@ -536,6 +536,8 @@ namespace BusinessProcessResponse
             {
                 Logger.ResponseLog.Info($"ReportGateReject -> Start process gate reject not match rule with MsgSeqNum = {fMsg.MsgSeqNum}");
                 //
+                string _OrderNo = string.Empty;
+                //
                 if (fMsg.GetMsgType == MessageType.ReposInquiry) // 35 = N01
                 {
                     InquiryObjectModel _Response = new InquiryObjectModel();
@@ -565,6 +567,7 @@ namespace BusinessProcessResponse
                     // send kafka
                     //
                     c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, fMsg.TimeInit, fMsg.MsgSeqNum, FlagSendKafka.REPORT_SEND_HNX);
+                    _OrderNo = _Response.OrderNo;
                     //
                     Logger.ResponseLog.Info($"ReportGateReject -> process reject not match rule with MsgSeqNum(34)={fMsg.MsgSeqNum}; send queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
                 }
@@ -604,8 +607,9 @@ namespace BusinessProcessResponse
                     _Response.SendingTime = HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(DateTime.Now);
                     //
                     c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, fMsg.TimeInit, fMsg.MsgSeqNum, FlagSendKafka.REPORT_SEND_HNX);
+                    _OrderNo = _Response.OrderNo;
                     //
-					Logger.ResponseLog.Info($"ReportGateReject -> process reject not match rule with MsgSeqNum(34)={fMsg.MsgSeqNum}; send queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
+                    Logger.ResponseLog.Info($"ReportGateReject -> process reject not match rule with MsgSeqNum(34)={fMsg.MsgSeqNum}; send queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
 					//
 				}
 				else if (fMsg.GetMsgType == MessageType.NewOrder || fMsg.GetMsgType == MessageType.ReplaceOrder || fMsg.GetMsgType == MessageType.CancelOrder)
@@ -637,8 +641,9 @@ namespace BusinessProcessResponse
                     _Response.SendingTime = HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(DateTime.Now);
 
                     c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, fMsg.TimeInit, fMsg.MsgSeqNum, FlagSendKafka.REPORT_SEND_HNX);
-					//
-					Logger.ResponseLog.Info($"ReportGateReject -> process reject not match rule with MsgSeqNum(34)={fMsg.MsgSeqNum}; send queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
+                    _OrderNo = _Response.OrderNo;
+                    //
+                    Logger.ResponseLog.Info($"ReportGateReject -> process reject not match rule with MsgSeqNum(34)={fMsg.MsgSeqNum}; send queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
 					//
 				}
 				else // Các message khác
@@ -673,6 +678,7 @@ namespace BusinessProcessResponse
                     //
                     //
                     c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, fMsg.TimeInit, fMsg.MsgSeqNum, FlagSendKafka.REPORT_SEND_HNX);
+                    _OrderNo = _Response.OrderNo;
                     //
                     Logger.ResponseLog.Info($"ReportGateReject -> process reject not match rule with MsgSeqNum(34)={fMsg.MsgSeqNum}; send queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
 
@@ -684,6 +690,7 @@ namespace BusinessProcessResponse
                 messageReject.RefSeqNum = fMsg.MsgSeqNum;
                 messageReject.Text = p_Text;
                 messageReject.SessionRejectReason = Utils.ParseInt(MapErrorCode(p_Code));
+                messageReject.OrderNo = _OrderNo;
                 //
                 SharedStorageProcess.c_DataStorageProcess.EnqueueData(messageReject, Data_SoR.Recei);
                 //

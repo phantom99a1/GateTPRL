@@ -307,6 +307,8 @@ namespace StorageProcess
                 objSaveData.Lastchange = DateTime.Now.ToString(ConfigData.formatDateTime);
                 objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
 
+                objSaveData.OrderNo = msgData.OrderNo;
+
                 _return = Msg_tprl_rejectBL.Insert(objSaveData);
                 if (_return > 0)
                 {

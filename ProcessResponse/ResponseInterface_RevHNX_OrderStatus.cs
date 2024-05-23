@@ -1208,6 +1208,7 @@ namespace BusinessProcessResponse
                     // send kafka
                     c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
                     //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                    p_Message.OrderNo = _Response.OrderNo;
                     SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
                     //
                     Logger.ResponseLog.Info($"HNXSendReject -> Start process message when received exchange 35=3 with MsgSeqNum(34)={p_Message.MsgSeqNum}; send queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
@@ -1268,6 +1269,7 @@ namespace BusinessProcessResponse
                     c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
 
                     //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                    p_Message.OrderNo = _Response.OrderNo;
                     SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
                     //
                     Logger.ResponseLog.Info($"HNXSendReject -> Start process message when received exchange 35=3 with MsgSeqNum(34)={p_Message.MsgSeqNum}; send queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
@@ -1304,6 +1306,7 @@ namespace BusinessProcessResponse
                     c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
 
                     //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                    p_Message.OrderNo = _Response.OrderNo;
                     SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
                     //
                     Logger.ResponseLog.Info($"HNXSendReject -> Start process message when received exchange 35=3 with MsgSeqNum(34)={p_Message.MsgSeqNum}; send queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
@@ -1341,6 +1344,7 @@ namespace BusinessProcessResponse
                     c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
 
                     //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
+                    p_Message.OrderNo = _Response.OrderNo;
                     SharedStorageProcess.c_DataStorageProcess.EnqueueData(p_Message, Data_SoR.Recei);
                     //
                     Logger.ResponseLog.Info($"HNXSendReject -> Start process message when received exchange 35=3 with MsgSeqNum(34)={p_Message.MsgSeqNum}; send queue kafka -> Topic={ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus}, MsgType={_Response.MsgType}");
