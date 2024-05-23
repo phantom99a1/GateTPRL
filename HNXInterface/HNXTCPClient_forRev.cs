@@ -228,11 +228,11 @@ namespace HNXInterface
                 FIXMessageBase fixMessageBase = ListResend[i];
                 bool result = ForResend(c_MsgFactoryFix.Build(fixMessageBase));
 
-                if (result)
-                {
-                    // BacND: bổ sung thêm ghi vào DB sau khi gửi sở và save file xong
-                    SharedStorageProcess.c_DataStorageProcess.EnqueueData(fixMessageBase, Data_SoR.Recei);
-                }
+                //if (result)
+                //{
+                //    // BacND: bổ sung thêm ghi vào DB sau khi gửi sở và save file xong
+                //    SharedStorageProcess.c_DataStorageProcess.EnqueueData(fixMessageBase, Data_SoR.Recei);
+                //}
 
                 Logger.HNXTcpLog.Warn("Resend Message seq {0}", ListResend[i].MsgSeqNum);
                 if (ListResend[i].MsgSeqNum > GateSeqInfo.LastSerProcessSeq + ConfigData.SafeWindowSize)
