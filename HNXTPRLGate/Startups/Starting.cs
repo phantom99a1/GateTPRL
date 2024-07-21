@@ -17,19 +17,21 @@ namespace HNXTPRLGate.Startups
         {
             try
             {
-				CommonLib.Logger.log.Info("InitServices");
+                CommonLib.Logger.log.Info("InitServices");
                 //
-				if (ConfigData.EnableVault)
-				{
-					// Gọi sang Vault để lấy thông tin configPass logon to Exchange
-					VaultService.AutoCallVaultService();
-				}
-				else
-				{
-					ConfigData.Password = ConfigData.PasswordInConfig;
-				}
-				//
+                if (ConfigData.EnableVault)
+                {
+                    // Gọi sang Vault để lấy thông tin configPass logon to Exchange
+                    VaultService.AutoCallVaultService();
+                }
+                else
+                {
+                    ConfigData.Password = ConfigData.PasswordInConfig;
+                }
+
+                // Cấu hình chạy kafka hay không
                 services.AddSingleton<IKafkaClient, KafkaClient>();
+
                 services.AddSingleton<IResponseInterface, ResponseInterface>();
                 services.AddSingleton<iHNXClient, HNXTCPClient>();
                 services.AddSingleton<IProcessRevBussiness, ProcessRevBusiness>();
@@ -85,7 +87,7 @@ namespace HNXTPRLGate.Startups
                     CommonLib.Logger.log.Info("Run mode ConnectExchange =false");
                 }
 
-				CommonLib.Logger.log.Info("InitServices Sucessfull.");
+                CommonLib.Logger.log.Info("InitServices Sucessfull.");
             }
             catch (Exception ex)
             {

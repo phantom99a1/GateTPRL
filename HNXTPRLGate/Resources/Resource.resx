@@ -126,6 +126,9 @@
   <data name="lblControlPanel" xml:space="preserve">
     <value>Control panel</value>
   </data>
+  <data name="lblEnableKafka" xml:space="preserve">
+    <value>Enable kafka</value>
+  </data>
   <data name="lblHeThongGateTPRL" xml:space="preserve">
     <value>HỆ THỐNG GATE TRÁI PHIẾU RIÊNG LẺ</value>
   </data>

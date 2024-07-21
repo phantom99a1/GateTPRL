@@ -7,6 +7,8 @@ namespace CommonLib
 {
     public class KafkaConfig
     {
+        public bool EnableKafka { get; set; } = true;
+
         public bool KafkaAuth { get; set; } = false;
         public string KafkaUser { get; set; } = string.Empty;
         public string KafkaPassword { get; set; } = string.Empty;
@@ -98,6 +100,7 @@ namespace CommonLib
         public static bool EnableMaskSensitiveData { get; set; } = false;
 
         public static bool ConnectExchange { get; set; } = false;
+        public static bool EnableSaveDB { get; set; } = false;
 
         public static string gConnectionString { get; set; } = string.Empty;
         public static int TimeDelaySaveDB = 1000;
@@ -147,8 +150,9 @@ namespace CommonLib
                     KafkaCALocation = configuration["KafkaConfig:KafkaCALocation"],
                     KafkaTopic_HNXTPRL_OrderStatus = configuration["KafkaConfig:KafkaTopic_HNXTPRL_OrderStatus"],
                     KafkaTopic_HNXTPRL_OrderExecution = configuration["KafkaConfig:KafkaTopic_HNXTPRL_OrderExecution"],
-                    KafkaTopic_HNXTPRL_TradingInfo = configuration["KafkaConfig:KafkaTopic_HNXTPRL_TradingInfo"]
-                };
+                    KafkaTopic_HNXTPRL_TradingInfo = configuration["KafkaConfig:KafkaTopic_HNXTPRL_TradingInfo"],
+                    EnableKafka = bool.Parse(configuration["KafkaConfig:EnableKafka"])
+            };
                 // default Acks
                 KafkaConfig.Kafka_Acks = Acks.All;
                 //
@@ -228,7 +232,7 @@ namespace CommonLib
                 ConnectExchange = bool.Parse(configuration["ConnectExchange"]);
 
                 gConnectionString = Utils.DecryptAES(configuration["ConnectionString"].ToString(), AES_Key, AES_IV);
-
+                EnableSaveDB = bool.Parse(configuration["EnableSaveDB"]);
             }
         }
 

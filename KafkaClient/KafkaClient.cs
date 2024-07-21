@@ -2,15 +2,16 @@
 using Disruptor;
 using Disruptor.Dsl;
 using LocalMemory;
-using System.Collections.Concurrent;
 
 namespace KafkaInterface
 {
     public class KafkaClient : IKafkaClient, IEventHandler<KafkaObjectEvent>
     {
         public static readonly NLog.Logger log = CommonLib.Logger.ResponseLog;
-        private ConcurrentDictionary<long, KafkaObjectEvent> c_DictKafkaObjectMissed = new ConcurrentDictionary<long, KafkaObjectEvent>();
+
+        //private ConcurrentDictionary<long, KafkaObjectEvent> c_DictKafkaObjectMissed = new ConcurrentDictionary<long, KafkaObjectEvent>();
         private int bufferSize = ConfigData.QueueSize;
+
         private Disruptor<KafkaObjectEvent> c_Disruptor;
         private RingBuffer<KafkaObjectEvent> c_RingBuffer;
         private IKafkaHelper Kafka_OrderStatus;
@@ -49,7 +50,10 @@ namespace KafkaInterface
         {
             try
             {
-                Kafka_OrderStatus = new KafkaHelper(ConfigData.KafkaConfig.KafkaAuth,
+                // Cấu hình chạy kafka hay không
+                if (ConfigData.KafkaConfig.EnableKafka)
+                {
+                    Kafka_OrderStatus = new KafkaHelper(ConfigData.KafkaConfig.KafkaAuth,
                                                                ConfigData.KafkaConfig.KafkaIp,
                                                                ConfigData.KafkaConfig.KafkaPort,
                                                                ConfigData.KafkaConfig.KafkaUser,
@@ -61,44 +65,45 @@ namespace KafkaInterface
                                                                ConfigData.KafkaConfig.Kafka_LingerMs,
                                                                ConfigData.KafkaConfig.Kafka_BatchSize);
 
-                Logger.log.Info("Init Kafka Topic {0} success", ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus);
+                    Logger.log.Info("Init Kafka Topic {0} success", ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus);
 
-                Kafka_ExecutionStatus = new KafkaHelper(ConfigData.KafkaConfig.KafkaAuth,
-                                                                       ConfigData.KafkaConfig.KafkaIp,
-                                                                       ConfigData.KafkaConfig.KafkaPort,
-                                                                       ConfigData.KafkaConfig.KafkaUser,
-                                                                       ConfigData.KafkaConfig.KafkaPassword,
-                                                                       ConfigData.KafkaConfig.KafkaCALocation,
-                                                                       ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution,
-                                                                       ConfigData.KafkaConfig.Kafka_Acks,
-                                                                       ConfigData.KafkaConfig.Kafka_CompressionType,
-                                                                       ConfigData.KafkaConfig.Kafka_LingerMs,
-                                                                       ConfigData.KafkaConfig.Kafka_BatchSize);
+                    Kafka_ExecutionStatus = new KafkaHelper(ConfigData.KafkaConfig.KafkaAuth,
+                                                                           ConfigData.KafkaConfig.KafkaIp,
+                                                                           ConfigData.KafkaConfig.KafkaPort,
+                                                                           ConfigData.KafkaConfig.KafkaUser,
+                                                                           ConfigData.KafkaConfig.KafkaPassword,
+                                                                           ConfigData.KafkaConfig.KafkaCALocation,
+                                                                           ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution,
+                                                                           ConfigData.KafkaConfig.Kafka_Acks,
+                                                                           ConfigData.KafkaConfig.Kafka_CompressionType,
+                                                                           ConfigData.KafkaConfig.Kafka_LingerMs,
+                                                                           ConfigData.KafkaConfig.Kafka_BatchSize);
 
-                Logger.log.Info("Init Kafka Topic {0} success", ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution);
+                    Logger.log.Info("Init Kafka Topic {0} success", ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution);
 
-                Kafka_TradingInfoStatus = new KafkaHelper(ConfigData.KafkaConfig.KafkaAuth,
-                                                                       ConfigData.KafkaConfig.KafkaIp,
-                                                                       ConfigData.KafkaConfig.KafkaPort,
-                                                                       ConfigData.KafkaConfig.KafkaUser,
-                                                                       ConfigData.KafkaConfig.KafkaPassword,
-                                                                       ConfigData.KafkaConfig.KafkaCALocation,
-                                                                       ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_TradingInfo,
-                                                                       ConfigData.KafkaConfig.Kafka_Acks,
-                                                                       ConfigData.KafkaConfig.Kafka_CompressionType,
-                                                                       ConfigData.KafkaConfig.Kafka_LingerMs,
-                                                                       ConfigData.KafkaConfig.Kafka_BatchSize);
-                Logger.log.Info("Init Kafka Topic {0} success", ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_TradingInfo);
+                    Kafka_TradingInfoStatus = new KafkaHelper(ConfigData.KafkaConfig.KafkaAuth,
+                                                                           ConfigData.KafkaConfig.KafkaIp,
+                                                                           ConfigData.KafkaConfig.KafkaPort,
+                                                                           ConfigData.KafkaConfig.KafkaUser,
+                                                                           ConfigData.KafkaConfig.KafkaPassword,
+                                                                           ConfigData.KafkaConfig.KafkaCALocation,
+                                                                           ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_TradingInfo,
+                                                                           ConfigData.KafkaConfig.Kafka_Acks,
+                                                                           ConfigData.KafkaConfig.Kafka_CompressionType,
+                                                                           ConfigData.KafkaConfig.Kafka_LingerMs,
+                                                                           ConfigData.KafkaConfig.Kafka_BatchSize);
+                    Logger.log.Info("Init Kafka Topic {0} success", ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_TradingInfo);
 
-                c_Disruptor = new Disruptor<KafkaObjectEvent>(() => new KafkaObjectEvent(), bufferSize, TaskScheduler.Default,
-                                                                                               ProducerType.Single, ConfigData.StrategyMode);
-                //c_Disruptor.HandleEventsWith(new ProcessKafkaObjectEvent(Kafka_OrderStatus, Kafka_ExecutionStatus, Kafka_TradingInfoStatus));
-                c_StoreMapSeqEvent = new StoreMapSeqEvent();
-                c_Disruptor.HandleEventsWith(this).Then(c_StoreMapSeqEvent);
-                c_RingBuffer = c_Disruptor.RingBuffer;
-              
-                c_Disruptor.Start();
-                CommonLib.Logger.log.Info("Created  Instance KafkaClient:{0}", this.GetHashCode());
+                    c_Disruptor = new Disruptor<KafkaObjectEvent>(() => new KafkaObjectEvent(), bufferSize, TaskScheduler.Default,
+                                                                                                   ProducerType.Single, ConfigData.StrategyMode);
+                    //c_Disruptor.HandleEventsWith(new ProcessKafkaObjectEvent(Kafka_OrderStatus, Kafka_ExecutionStatus, Kafka_TradingInfoStatus));
+                    c_StoreMapSeqEvent = new StoreMapSeqEvent();
+                    c_Disruptor.HandleEventsWith(this).Then(c_StoreMapSeqEvent);
+                    c_RingBuffer = c_Disruptor.RingBuffer;
+
+                    c_Disruptor.Start();
+                    CommonLib.Logger.log.Info("Created  Instance KafkaClient:{0}", this.GetHashCode());
+                }
             }
             catch (Exception ex)
             {
@@ -108,36 +113,60 @@ namespace KafkaInterface
 
         public int NumOfMsg()
         {
-            return Kafka_OrderStatus.NumOfMsg() + Kafka_ExecutionStatus.NumOfMsg() + Kafka_TradingInfoStatus.NumOfMsg();
+            // Cấu hình chạy kafka hay không
+            if (ConfigData.KafkaConfig.EnableKafka)
+            {
+                return Kafka_OrderStatus.NumOfMsg() + Kafka_ExecutionStatus.NumOfMsg() + Kafka_TradingInfoStatus.NumOfMsg();
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public (long, long) ItemsInQueue()
         {
-            return (bufferSize - c_RingBuffer.GetRemainingCapacity(), bufferSize);
+            // Cấu hình chạy kafka hay không
+            if (ConfigData.KafkaConfig.EnableKafka)
+            {
+                return (bufferSize - c_RingBuffer.GetRemainingCapacity(), bufferSize);
+            }
+            else
+            {
+                return (0, 0);
+            }
         }
 
         public long Send2KafkaObject(string p_TopicName, object p_Object, long p_StartTimeProcess, int p_MessageSequence, char p_EventFlag)
         {
-            log.Info("Enqueue Data Message {0} to Kafka", p_Object.ToString());
+            // Cấu hình chạy kafka hay không
+            if (ConfigData.KafkaConfig.EnableKafka)
+            {
+                log.Info("Enqueue Data Message {0} to Kafka", p_Object.ToString());
 
-            // (1) Claim the next sequence
-            long sequence = c_RingBuffer.Next();
-            try
-            {
-                // (2) Get and configure the event for the sequence
-                c_RingBuffer[sequence].TopicName = p_TopicName;
-                c_RingBuffer[sequence].Object = p_Object;
-                c_RingBuffer[sequence].StartTimeProcess = p_StartTimeProcess;
-                c_RingBuffer[sequence].MessageSequence = p_MessageSequence;
-                c_RingBuffer[sequence].EventFlag = p_EventFlag;
+                // (1) Claim the next sequence
+                long sequence = c_RingBuffer.Next();
+                try
+                {
+                    // (2) Get and configure the event for the sequence
+                    c_RingBuffer[sequence].TopicName = p_TopicName;
+                    c_RingBuffer[sequence].Object = p_Object;
+                    c_RingBuffer[sequence].StartTimeProcess = p_StartTimeProcess;
+                    c_RingBuffer[sequence].MessageSequence = p_MessageSequence;
+                    c_RingBuffer[sequence].EventFlag = p_EventFlag;
+                }
+                finally
+                {
+                    // (3) Publish the event
+                    c_RingBuffer.Publish(sequence);
+                    log.Info("Enqueue Data Message {0} Complete at sequence {1}", c_RingBuffer[sequence].Object.ToString(), sequence);
+                }
+                return sequence;
             }
-            finally
+            else
             {
-                // (3) Publish the event
-                c_RingBuffer.Publish(sequence);
-                log.Info("Enqueue Data Message {0} Complete at sequence {1}", c_RingBuffer[sequence].Object.ToString(), sequence);
+                return SendKafkaStatus.SEND_SUCCESS;
             }
-            return sequence;
         }
 
         public void OnEvent(KafkaObjectEvent p_data, long sequence, bool endOfBatch)

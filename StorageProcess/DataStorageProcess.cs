@@ -34,19 +34,22 @@ namespace StorageProcess
 
         public void EnqueueData(FIXMessageBase fMsgBase, string p_Data_SoR)
         {
-            long sequence = _ringBuffer.Next();
-            Logger.log.Info($"DataStorageProcess -> EnqueueData |  sequence = {sequence}, fMsgBase_MsgType={fMsgBase.GetMsgType}, TypeIsSendOrRecei={p_Data_SoR}, ringBufferRemain={_ringBuffer.GetRemainingCapacity()}");
-            // (1) Claim the next sequence
-            try
+            if (ConfigData.EnableSaveDB)
             {
-                // (2) Get and configure the event for the sequence
-                _ringBuffer[sequence].fixMessageBaseData = fMsgBase;
-                _ringBuffer[sequence].typeMsgIsSendOrRecei = p_Data_SoR;
-            }
-            finally
-            {
-                // (3) Publish the event
-                _ringBuffer.Publish(sequence);
+                long sequence = _ringBuffer.Next();
+                Logger.log.Info($"DataStorageProcess -> EnqueueData |  sequence = {sequence}, fMsgBase_MsgType={fMsgBase.GetMsgType}, TypeIsSendOrRecei={p_Data_SoR}, ringBufferRemain={_ringBuffer.GetRemainingCapacity()}");
+                // (1) Claim the next sequence
+                try
+                {
+                    // (2) Get and configure the event for the sequence
+                    _ringBuffer[sequence].fixMessageBaseData = fMsgBase;
+                    _ringBuffer[sequence].typeMsgIsSendOrRecei = p_Data_SoR;
+                }
+                finally
+                {
+                    // (3) Publish the event
+                    _ringBuffer.Publish(sequence);
+                }
             }
         }
 
@@ -123,7 +126,7 @@ namespace StorageProcess
                         break;
 
                     // 10. Bảng msg_TPRL_HNX_CONFIRM (Msg có tag 35 = 8)
-                    case MessageType.ExecutionReport: 
+                    case MessageType.ExecutionReport:
                         ProcessSaveMsgType_35_8(sequence, fixMessageBase, p_ValueSaveEntry.typeMsgIsSendOrRecei);
                         break;
                 }
@@ -590,7 +593,6 @@ namespace StorageProcess
                     objSaveData.Createtime = DateTime.Now.ToString(ConfigData.formatDateTime);
                     //
                     objSaveData.OrderNo = msgData.OrderNo;
-
                 }
                 else if (fixMessageBase.GetMsgType == MessageType.CancelOrder) // // 35=F
                 {
@@ -735,7 +737,7 @@ namespace StorageProcess
                     objSaveData.Orderid = "";
                     objSaveData.Origcrossid = "";
                     objSaveData.Registid = "";
-                    objSaveData.Rfqreqid ="";
+                    objSaveData.Rfqreqid = "";
                     objSaveData.Quoterespid = msgData.QuoteRespID;
                     objSaveData.Quoteresptype = msgData.QuoteRespType.ToString();
                     objSaveData.Quoteid = "";

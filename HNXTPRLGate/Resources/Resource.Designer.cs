@@ -88,6 +88,15 @@ namespace HNXTPRLGate.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable kafka.
+        /// </summary>
+        public static string lblEnableKafka {
+            get {
+                return ResourceManager.GetString("lblEnableKafka", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HỆ THỐNG GATE TRÁI PHIẾU RIÊNG LẺ.
         /// </summary>
         public static string lblHeThongGateTPRL {
