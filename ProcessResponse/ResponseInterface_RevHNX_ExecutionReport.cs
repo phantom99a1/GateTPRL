@@ -1012,8 +1012,8 @@ namespace BusinessProcessResponse
                  - Nếu tag 449=003: Lấy giá trị tag 41 so sánh với exchangeID trong mem, lấy bản ghi có exchangeID=tag 41 và side =B --> trả ra orderNo cho KAFKA
                  *****Nhận được 35=EE, 5632=2 --> ""orderNo"" ="""""
                  */
-				if (p_Message.MatchReportType == 1)
-				{
+				//if (p_Message.MatchReportType == 1)
+				//{
 					if (p_Message.PartyID == p_Message.CoPartyID)
 					{
 						bool checkSendKafka = false;
@@ -1105,11 +1105,11 @@ namespace BusinessProcessResponse
 							Logger.ResponseLog.Warn($"HNXResponse_ExecOrderRepos -> Error can't send kakfka when received 35={MessageType.ExecOrderRepos} with MsgSeqNum(34)={p_Message.MsgSeqNum}, ClOrdID(11)={p_Message.ClOrdID}, PartyID(448)={p_Message.PartyID},  CoPartyID(449)={p_Message.CoPartyID}, OrderID(37)={p_Message.OrderID} when received exchange");
 						}
 					}
-				}
-				else
-				{
-					ProcessEE_BuilMsgRE(p_Message, p_OrderNo, p_Side, listSymbolFirmInfo);
-				}
+				//}
+				//else
+				//{
+				//	ProcessEE_BuilMsgRE(p_Message, p_OrderNo, p_Side, listSymbolFirmInfo);
+				//}
 			}
 			catch (Exception ex)
 			{
