@@ -1111,6 +1111,17 @@ namespace BusinessProcessResponse
                     {
                         p_Side = ORDER_SIDE.SIDE_BUY;
                     }
+                    else
+                    {
+                        if (p_Message.PartyID == ConfigData.FirmID)
+                        {
+                            p_Side = ORDER_SIDE.SIDE_SELL;
+                        }
+                        if (p_Message.CoPartyID == ConfigData.FirmID)
+                        {
+                            p_Side = ORDER_SIDE.SIDE_BUY;
+                        }
+                    }
                     ProcessEE_BuilMsgRE(p_Message, p_OrderNo, p_Side, listSymbolFirmInfo);
                 }
             }
