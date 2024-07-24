@@ -36,11 +36,11 @@ namespace CommonLib
     }
 
     public static class ConfigData
-
     {
         public static string MainBoard = string.Empty; //Bảng chính - vì hệ thống trái phiếu chỉ có 1 bảng, nên sẽ dùng phiên, của bảng này cho việc check phiên
 
         //Security
+        public static string NameCTCK = ""; 
         public static string AES_Key = ""; // 87c580ef1e5dfe7f89c3b869eb00c67c
 
         public static string AES_IV = ""; //eb00c67cd56bd758
@@ -96,7 +96,7 @@ namespace CommonLib
         public static string VaultUsername = "";
         public static string VaultPassword = "";
         public static string VaultPath = "";
-        public static bool EnableVault { get; set; } = true;
+        public static bool EnableVault { get; set; } = false;
         public static bool EnableMaskSensitiveData { get; set; } = false;
 
         public static bool ConnectExchange { get; set; } = false;
@@ -112,6 +112,7 @@ namespace CommonLib
         {
             if (configuration != null)
             {
+                NameCTCK = configuration["NameCTCK"].ToString();
                 AES_Key = configuration["AES_Key"].ToString();
                 AES_IV = configuration["AES_IV"].ToString();
                 //

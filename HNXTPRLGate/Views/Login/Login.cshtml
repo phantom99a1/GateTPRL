@@ -1,5 +1,7 @@
-﻿@{
+﻿@using CommonLib
+@{
     Layout = "";
+    string nameCTCK = ConfigData.NameCTCK;
 }
 
 <!DOCTYPE html>
@@ -39,7 +41,7 @@
                         <img src="/login/assets/image/img/login-page-logo.png" alt="page-logo" width="62" height="56">
                     </a> *@
 
-                    <span>Công ty Cổ phần Chứng khoán Tân Việt</span>
+                    <span>@nameCTCK</span>
                 </div>
 
                 <div class="flex-login--bottom">
