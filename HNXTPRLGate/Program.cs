@@ -60,7 +60,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 });
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -94,6 +93,7 @@ builder.Services.AddSwaggerGen(c =>
 	});
 	c.OperationFilter<CustomHeaderSwaggerAttribute>();
 });
+
 builder.Host.UseNLog();
 // Init configs
 CommonLib.ConfigData.InitConfig(builder.Configuration);
