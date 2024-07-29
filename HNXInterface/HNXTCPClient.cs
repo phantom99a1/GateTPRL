@@ -247,15 +247,23 @@ namespace HNXInterface
                 TcpClient _TcpClient = new TcpClient();
                 _TcpClient.NoDelay = true;
                 _TcpClient.Connect(c_HNXPeerInfo.IPAddress, c_HNXPeerInfo.Port);
+                if (_TcpClient.Connected)
+                {
 
-                c_CurrentConnected = new MyStream(_TcpClient, DateTime.Now.Ticks.ToString());
+                    c_CurrentConnected = new MyStream(_TcpClient, DateTime.Now.Ticks.ToString());
 
-                CommonLib.Logger.HNXTcpLog.Info("Connected  Connectedkey:{0}  on {1}:{2}", c_CurrentConnected.streamkey, c_CurrentConnected.LocalIP, c_CurrentConnected.LocalPort);
+                    CommonLib.Logger.HNXTcpLog.Info("Connected  Connectedkey:{0}  on {1}:{2}", c_CurrentConnected.streamkey, c_CurrentConnected.LocalIP, c_CurrentConnected.LocalPort);
 
-                __ClientStatus = enumClientStatus.CONNECTED;
-                //Kết nối thành công thì send message Login
-                SendLogin();
-                __ClientStatus = enumClientStatus.HANDSHAKING;
+                    __ClientStatus = enumClientStatus.CONNECTED;
+                    //Kết nối thành công thì send message Login
+                    SendLogin();
+                    __ClientStatus = enumClientStatus.HANDSHAKING;
+                }
+                else
+                {
+                    //Không kết nối thì giải phóng nó đi.
+                    _TcpClient.Dispose();
+                }    
             }
             catch (Exception ex)
             {
