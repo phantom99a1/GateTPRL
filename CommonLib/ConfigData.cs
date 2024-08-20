@@ -26,6 +26,8 @@ namespace CommonLib
 
         public double Kafka_LingerMs { get; set; } = 5;
         public int Kafka_BatchSize { get; set; } = 1000000;
+
+        public bool sslKafka { get; set; } = false;
     }
 
     public class RetryQueue
@@ -152,8 +154,9 @@ namespace CommonLib
                     KafkaTopic_HNXTPRL_OrderStatus = configuration["KafkaConfig:KafkaTopic_HNXTPRL_OrderStatus"],
                     KafkaTopic_HNXTPRL_OrderExecution = configuration["KafkaConfig:KafkaTopic_HNXTPRL_OrderExecution"],
                     KafkaTopic_HNXTPRL_TradingInfo = configuration["KafkaConfig:KafkaTopic_HNXTPRL_TradingInfo"],
-                    EnableKafka = bool.Parse(configuration["KafkaConfig:EnableKafka"])
-            };
+                    EnableKafka = bool.Parse(configuration["KafkaConfig:EnableKafka"]),
+                    sslKafka = bool.Parse(configuration["KafkaConfig:sslKafka"]),
+                };
                 // default Acks
                 KafkaConfig.Kafka_Acks = Acks.All;
                 //

@@ -63,7 +63,7 @@ namespace KafkaInterface
                                                                ConfigData.KafkaConfig.Kafka_Acks,
                                                                ConfigData.KafkaConfig.Kafka_CompressionType,
                                                                ConfigData.KafkaConfig.Kafka_LingerMs,
-                                                               ConfigData.KafkaConfig.Kafka_BatchSize);
+                                                               ConfigData.KafkaConfig.Kafka_BatchSize, ConfigData.KafkaConfig.sslKafka);
 
                     Logger.log.Info("Init Kafka Topic {0} success", ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus);
 
@@ -77,7 +77,7 @@ namespace KafkaInterface
                                                                            ConfigData.KafkaConfig.Kafka_Acks,
                                                                            ConfigData.KafkaConfig.Kafka_CompressionType,
                                                                            ConfigData.KafkaConfig.Kafka_LingerMs,
-                                                                           ConfigData.KafkaConfig.Kafka_BatchSize);
+                                                                           ConfigData.KafkaConfig.Kafka_BatchSize, ConfigData.KafkaConfig.sslKafka);
 
                     Logger.log.Info("Init Kafka Topic {0} success", ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderExecution);
 
@@ -91,7 +91,7 @@ namespace KafkaInterface
                                                                            ConfigData.KafkaConfig.Kafka_Acks,
                                                                            ConfigData.KafkaConfig.Kafka_CompressionType,
                                                                            ConfigData.KafkaConfig.Kafka_LingerMs,
-                                                                           ConfigData.KafkaConfig.Kafka_BatchSize);
+                                                                           ConfigData.KafkaConfig.Kafka_BatchSize, ConfigData.KafkaConfig.sslKafka);
                     Logger.log.Info("Init Kafka Topic {0} success", ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_TradingInfo);
 
                     c_Disruptor = new Disruptor<KafkaObjectEvent>(() => new KafkaObjectEvent(), bufferSize, TaskScheduler.Default,
