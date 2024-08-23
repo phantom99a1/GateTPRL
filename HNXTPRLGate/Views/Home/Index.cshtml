@@ -2,37 +2,31 @@
 @using APIMonitor.ObjectInfo;
 @model BoxConnectModel;
 
-<div class="main">
-    <div class="container">
-        <div class="group">
-            <div class="group__inner v1">
-                <div id="mainData">
-                    @await Html.PartialAsync("~/Views/Home/_BoxConnect.cshtml", Model)
-                </div>
+<div class="container">
+    <div class="group">
+        <div class="group__inner v1">
+            <div id="mainData">
+                @await Html.PartialAsync("~/Views/Home/_BoxConnect.cshtml", Model)
             </div>
+        </div>
 
-            <div class="group__inner">
+        <div class="group__inner">
+            <fieldset>
+                <legend>Error</legend>
                 <div class="group__box infomation">
                     <div class="box">
                         <div class="box__head">
-                            @Resource.lblThongBao
-                        </div>
-                        <div class="box__body"></div>
-                    </div>
-
-                    <div class="box">
-                        <div class="box__head">
-                            @Resource.lblLoiHeThong
+                            @Resource.lblApplicationError
                         </div>
                         <div class="box__body"></div>
                     </div>
                 </div>
+            </fieldset>
 
-                <div class="group__box refresh">
-                    <button><em class="fa-solid fa-arrows-rotate"></em></button>
-                    <div class="refresh__info">
-                        <span id="countdown"></span>
-                    </div>
+            <div class="group__box refresh">
+                <button><em class="fa-solid fa-arrows-rotate"></em></button>
+                <div class="refresh__info">
+                    <span id="countdown"></span>
                 </div>
             </div>
         </div>

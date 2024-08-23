@@ -121,6 +121,184 @@
         border-radius: 69%;
     }
 
+.group__inner.v1 {
+    max-width: 1250px;
+}
+
+    .group__inner.v1 #mainData {
+        display: grid;
+        gap: 24px;
+    }
+
+.group__inner {
+    height: 100%;
+}
+
+.group__inner:last-child fieldset {
+    height: calc(100vh - 226px);
+}
+
+.group__inner:last-child .box__body {
+    height: calc(100vh - 329px);
+}
+
+.group__box {
+    padding: 0;
+    background: unset;
+}
+    
+    .group__box-list {
+        display: unset;
+    }
+
+    .group__box-list > fieldset {
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 16px;
+    }
+
+    .group__box-list .box:last-child .value {
+        max-width: 265px !important;
+    }
+
+    .group__box.infomation .box__head {
+        font-size: 14px;
+        line-height: 22px;
+        padding: 16px 12px;
+    }
+
+    .group__box-access .block__wrap {
+        display: grid;
+        gap: 20px;
+        padding: 0 30px;
+    }
+
+    .group__box-access .box__search {
+        display: flex;
+        align-items: center;
+    }
+
+    .group__box-access .box__search .box__search-title {
+        padding-right: 40px;
+    }
+
+    .group__box-access .box__search .box__search-control.v1 {
+        padding-right: 15px;
+        position: relative;
+    }
+
+        .group__box-access .box__search .box__search-control.v1:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 12px;
+            width: 15px;
+            height: 15px;
+            background: url(../assets/image/icon/ic_search.svg) no-repeat center center;
+        }
+
+    .group__box-access .box__search-control.v1 input {
+        width: 100%;
+        min-width: 400px;
+        height: 36px;
+        border: unset;
+        border-radius: 14px;
+        padding: 10px 32px;
+    }
+
+        .group__box-access .box__search-control.v1 input:focus-visible {
+            outline-color: unset;
+        }
+
+    .group__box-access .box__search .box__search-control button {
+        background-color: #0984e3 !important;
+    }
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+    table th, table td {
+        border: 1px solid #878B87;
+        border-collapse: collapse;
+        padding: 7px 5px;
+        height: 30px !important;
+        font-weight: 600;
+        line-height: 15px;
+        padding: 3px 2px 2px 3px;
+        white-space: nowrap;
+    }
+
+    table th {
+        text-align: center;
+        background-color: #212121;
+        color: #bcbcbc;
+        border: 1px solid #555;
+        border-left: 0;
+    }
+
+    table td {
+        word-break: break-word;
+        font-size: 12px;
+        color: #dedede;
+        border: 1px solid #2f2f2f;
+        border-top: 0;
+        border-left: 0;
+    }
+
+    table.no-border th, table.no-border td {
+        border: none;
+        padding: 5px;
+    }
+
+.tablelist thead th {
+    border-right: 1px solid #333;
+}
+
+.tablelist thead .number {
+    border-left: 1px solid #333;
+}
+
+.tablelist tbody .number {
+    border-left: 1px solid #2f2f2f;
+}
+
+.tablelist tbody tr:nth-of-type(odd) {
+    background: rgba(0, 0, 0, 0.7215686275);
+}
+
+.tablelist tbody tr:nth-of-type(even) {
+    background-color: #212121;
+}
+
+.table-container .over-flow-x {
+    overflow: auto;
+    max-width: 100%;
+}
+
+.main {
+    padding: 24px 0;
+}
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+fieldset {
+    padding: 8px 20px 20px;
+    border: 1px solid rgba(145, 158, 171, 0.24);
+    border-radius: 16px;
+}
+
+legend {
+    width: unset;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0 10px;
+    margin-bottom: unset;
+}
+
 @keyframes cyan {
     0% {
         transform: rotate(0deg);

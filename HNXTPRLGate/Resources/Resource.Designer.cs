@@ -70,6 +70,15 @@ namespace HNXTPRLGate.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application Error.
+        /// </summary>
+        public static string lblApplicationError {
+            get {
+                return ResourceManager.GetString("lblApplicationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Control.
         /// </summary>
         public static string lblControl {
@@ -97,11 +106,20 @@ namespace HNXTPRLGate.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to HỆ THỐNG GATE TRÁI PHIẾU RIÊNG LẺ.
+        ///   Looks up a localized string similar to HỆ THỐNG GIÁM SÁT GATE TRÁI PHIẾU RIÊNG LẺ.
         /// </summary>
         public static string lblHeThongGateTPRL {
             get {
                 return ResourceManager.GetString("lblHeThongGateTPRL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HNX Connection Infor.
+        /// </summary>
+        public static string lblHNXConnectionInfor {
+            get {
+                return ResourceManager.GetString("lblHNXConnectionInfor", resourceCulture);
             }
         }
         
@@ -111,6 +129,15 @@ namespace HNXTPRLGate.Resources {
         public static string lblIP {
             get {
                 return ResourceManager.GetString("lblIP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KAFKA Connection Infor.
+        /// </summary>
+        public static string lblKafkaConnectionInfor {
+            get {
+                return ResourceManager.GetString("lblKafkaConnectionInfor", resourceCulture);
             }
         }
         
@@ -156,6 +183,15 @@ namespace HNXTPRLGate.Resources {
         public static string lblNumberMessageSend {
             get {
                 return ResourceManager.GetString("lblNumberMessageSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phiên giao dịch.
+        /// </summary>
+        public static string lblPhienGiaoDich {
+            get {
+                return ResourceManager.GetString("lblPhienGiaoDich", resourceCulture);
             }
         }
         
@@ -219,24 +255,6 @@ namespace HNXTPRLGate.Resources {
         public static string lblThongBao {
             get {
                 return ResourceManager.GetString("lblThongBao", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Thông tin kết nối đến HNX.
-        /// </summary>
-        public static string lblThongTinKetNoiDenHNX {
-            get {
-                return ResourceManager.GetString("lblThongTinKetNoiDenHNX", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Thông tin kết nối đến Kafka.
-        /// </summary>
-        public static string lblThongTinketNoiDenKafka {
-            get {
-                return ResourceManager.GetString("lblThongTinketNoiDenKafka", resourceCulture);
             }
         }
         
