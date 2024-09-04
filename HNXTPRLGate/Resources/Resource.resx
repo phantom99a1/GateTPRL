@@ -130,7 +130,7 @@
     <value>Enable kafka</value>
   </data>
   <data name="lblHeThongGateTPRL" xml:space="preserve">
-    <value>HỆ THỐNG GATE TRÁI PHIẾU RIÊNG LẺ</value>
+    <value>HỆ THỐNG GIÁM SÁT GATE TRÁI PHIẾU RIÊNG LẺ</value>
   </data>
   <data name="lblIP" xml:space="preserve">
     <value>IP</value>
@@ -168,14 +168,17 @@
   <data name="lblSymbol" xml:space="preserve">
     <value>Symbol</value>
   </data>
+  <data name="lblApplicationError" xml:space="preserve">
+    <value>Application Error</value>
+  </data>
   <data name="lblThongBao" xml:space="preserve">
     <value>Thông báo</value>
   </data>
-  <data name="lblThongTinKetNoiDenHNX" xml:space="preserve">
-    <value>Thông tin kết nối đến HNX</value>
+  <data name="lblHNXConnectionInfor" xml:space="preserve">
+    <value>HNX Connection Infor</value>
   </data>
-  <data name="lblThongTinketNoiDenKafka" xml:space="preserve">
-    <value>Thông tin kết nối đến Kafka</value>
+  <data name="lblKafkaConnectionInfor" xml:space="preserve">
+    <value>KAFKA Connection Infor</value>
   </data>
   <data name="lblTopicOrderExection" xml:space="preserve">
     <value>Topic Order Execution</value>
@@ -188,6 +191,9 @@
   </data>
   <data name="lblTradingSessionRequest" xml:space="preserve">
     <value>Trading session request</value>
+  </data>
+  <data name="lblPhienGiaoDich" xml:space="preserve">
+    <value>Phiên giao dịch</value>
   </data>
   <data name="lblTrangThaiGiaoDich" xml:space="preserve">
     <value>Trạng thái giao dịch</value>

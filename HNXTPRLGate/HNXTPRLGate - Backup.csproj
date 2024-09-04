@@ -12,17 +12,13 @@
   <ItemGroup>
     <Compile Remove="LogHNXData\**" />
     <Compile Remove="LogMWData\**" />
-    <Compile Remove="Views\Home\NewFolder\**" />
     <Content Remove="LogHNXData\**" />
     <Content Remove="LogMWData\**" />
-    <Content Remove="Views\Home\NewFolder\**" />
     <EmbeddedResource Remove="LogHNXData\**" />
     <EmbeddedResource Remove="LogMWData\**" />
-    <EmbeddedResource Remove="Views\Home\NewFolder\**" />
     <None Remove="LogHNXData\**" />
 	  <None Remove="LogMWData\**" />
 	  <None Remove="LogMWData\**" />
-	  <None Remove="Views\Home\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
