@@ -6,6 +6,7 @@
     BoxConnectModel boxConnect = new BoxConnectModel();
     boxConnect._HNXSystemConnect = Model._HNXSystemConnect != null ? Model._HNXSystemConnect : new HNXSystemConnectModel();
     boxConnect._KafkaSystemConnect = Model._KafkaSystemConnect != null ? Model._KafkaSystemConnect : new KafkaSystemConnectModel();
+    boxConnect.DataMem = Model.DataMem ?? new DataMemModel();    
 }
 
 <div class="group__box">
@@ -91,18 +92,18 @@
 				<div class="box__search">
 					<div class="box__search-title">Symbol ID</div>
 					<div class="box__search-control v1">
-						<input type="text" placeholder="Input Symbol ID" />
+						<input type="text" placeholder="Input Symbol ID" id="SymbolID"/>
 					</div>
 					<div class="box__search-control">
 						@*<input type="button" value="Search" />*@
-						<button class="primary" style="background-color:#ee514a">
+                        <button class="primary" style="background-color:#ee514a" onclick="SearchListSecurities()">
 							<span>Search</span>
 						</button>
 					</div>
 				</div>
-
-				<div class="table-container">
-					@Html.Partial("par_SecuritiesInfo")
+                
+                <div class="container" id="SecuritiesAreaID">
+                    @await Html.PartialAsync("par_SecuritiesInfo", boxConnect.DataMem)
 				</div>
 			</div>
         </fieldset>
@@ -113,11 +114,72 @@
     <div class="group__box-access">
         <fieldset>
             <legend>Rejection</legend>
-            <div class="block__wrap">
-                <div class="table-container">
-					@Html.Partial("par_Rejection")
+            <div class="block__wrap">                                
+                <div class="container" id="RejectAreaID">
+					@await Html.PartialAsync("par_Rejection", boxConnect.DataMem)
 				</div>
             </div>
         </fieldset>
     </div>
 </div>
+
+<script type="text/javascript">
+    function GetRejectionListByPage(pageIndex) {
+        $.ajax({
+            type: "GET",
+            url: "/Home/RejectionPaging",
+            data: {
+                "pageIndex": pageIndex,
+            },
+            beforeSend: function () {
+                SpinLoading(true);
+            },
+            success: function (data)
+            {
+                $("#RejectAreaID").html(data);
+            },
+            complete: function () {
+                SpinLoading(false);
+            }
+        });
+    }
+
+    function GetSecuritiesListByPage(pageIndex) {
+        $.ajax({
+            type: "GET",
+            url: "/Home/SecuritiesPaging",
+            data: {
+                "pageIndex": pageIndex,
+            },
+            beforeSend: function () {
+                SpinLoading(true);
+            },
+            success: function (data) {
+                $("#SecuritiesAreaID").html(data);
+            },
+            complete: function () {
+                SpinLoading(false);
+            }
+        });
+    }
+
+    function SearchListSecurities(){
+        var SymbolID = $('#SymbolID').val().trim() || '';
+        $.ajax({
+            type: "GET",
+            url: "/Home/SearchListSecurities",
+            data: {
+                "symbolID": SymbolID,
+            },
+            beforeSend: function () {
+                SpinLoading(true);
+            },
+            success: function (data) {
+                $("#SecuritiesAreaID").html(data);
+            },
+            complete: function () {
+                SpinLoading(false);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,118 @@
+﻿@using APIMonitor.Models
+@using CommonLib;
+@model ApplicationErrorModel
+@{
+    var applicationError = new ApplicationErrorModel();
+    applicationError.ListAllErrors = Model?.ListAllErrors ?? new();
+    applicationError.ListDisplayErrors = Model?.ListDisplayErrors ?? new();
+    applicationError.PageIndexApplicationError = Model?.PageIndexApplicationError;
+    applicationError.PageIndexMaxpplicationError = Model?.PageIndexMaxpplicationError;
+    var RecordInPage = ConfigData.RecordInPage;
+}
+<div style="overflow-y:auto; max-height:200px">
+    <table class="tablelist">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Error</th>
+                <th>Detail</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in applicationError.ListDisplayErrors.Select((data, index) => new { data, index }))
+            {
+                <tr>
+                    <td class="number text-center">@((Model?.PageIndexApplicationError - 1) * RecordInPage + item.index + 1)</td>
+                    <td style="text-align:left">@item.data.ThreadName - @item.data.MethodName</td>                    
+                    <td style="text-align:left">
+                        <button class="primary" style="background-color:#007bff" data-id="@item.index" onclick="GetDetailApplicationError(@item.index)">Detail</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@if (applicationError != null && applicationError.ListDisplayErrors.Count > 0)
+{
+    <div class="box__action d-flex justify-content-end mt-4">
+        @if (applicationError.PageIndexApplicationError > 1)
+        {
+            <div class="box__action d-flex px-3">
+                <button class="primary" style="background-color:#007bff" onclick="GetListApplicationErrorByPage(@applicationError.PageIndexApplicationError - 1)">Previous</button>
+            </div>
+        }
+
+        @if (applicationError.PageIndexApplicationError < applicationError.PageIndexMaxpplicationError)
+        {
+            <div class="box__action d-flex">
+                <button class="primary" style="background-color:#007bff" onclick="GetListApplicationErrorByPage(@applicationError.PageIndexApplicationError + 1)">Next</button>
+            </div>
+        }
+    </div>
+}
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <span class="close-btn">&times;</span>
+        <div id="popup-data"></div>
+    </div>
+</div>
+<style>
+    .popup {
+        display: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .popup-content {
+        position: relative;
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        width: 70%;
+        color:blue;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+</style>
+<script type="text/javascript">
+    function GetDetailApplicationError(index) {
+        $.ajax({
+            type: "GET",
+            url: "/Home/GetDetailApplicationError",
+            data: {
+                "index": index,
+            },
+            beforeSend: function () {
+                SpinLoading(true);
+            },
+            success: function (data) {
+                const dataDisplay = JSON.stringify(data)
+                document.getElementById("popup-data").innerHTML = dataDisplay;
+            },
+            complete: function () {
+                SpinLoading(false);
+            }
+        });
+        document.getElementById("popup").style.display = "block";
+    }
+
+    document.querySelector(".close-btn").onclick = function () {
+        document.getElementById("popup").style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == document.getElementById("popup")) {
+            document.getElementById("popup").style.display = "none";
+        }
+    }
+</script>

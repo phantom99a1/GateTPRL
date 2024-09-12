@@ -135,12 +135,17 @@ namespace HNX.FIXMessage
         public Boolean PossDupFlag;//  message gui la public hay private.
         //Neu =Y la message public, khi do MsgSeqNum la sequency cua cac goi tin public
         // con lai thi MsgSeqNum la message cua goi tin private
-        public string RefMsgType;
 
-        internal DateTime SendingTime;
+        //2024.09.09 Duat them get, set cho RefMgType 
+        public string RefMsgType { get; set; } = string.Empty;
+
+        internal DateTime SendingTime ;
         public string Signature;
         internal byte CheckSum;
-        public string Text = string.Empty;
+        /// <summary>
+        /// 2024.09.09 Duat bo sung them phan get set cho tham so Text
+        /// </summary>
+        public string Text { get; set; } = string.Empty;
 
         /// <summary>
         /// Tag 150
@@ -159,6 +164,8 @@ namespace HNX.FIXMessage
         public string IDRequest { get; set; } = "";
 
         public long TimeInit;
+
+        public string TimeRecv { get; set; }
         #endregion
     }
 }

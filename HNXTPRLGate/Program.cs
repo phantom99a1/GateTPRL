@@ -112,9 +112,22 @@ builder.Services.AddSingleton<Instrumentation>(provider =>
 	builder.Configuration.GetSection(options.SectionName).Bind(options);
 	return new Instrumentation(options);
 });
+//Add session
+builder.Services.AddDistributedMemoryCache(); // For in-memory cache
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+    options.Cookie.HttpOnly = true; // Ensures the cookie is only accessible via HTTP
+    options.Cookie.IsEssential = true; // Makes sure the cookie is sent even if user consent is not given
+});
 
+
+//
 var app = builder.Build();
 //
+//Test add session
+app.UseSession();
+
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseCors("AllowAllCors");
