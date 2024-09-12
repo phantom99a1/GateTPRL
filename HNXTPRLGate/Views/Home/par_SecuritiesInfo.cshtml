@@ -1,4 +1,16 @@
-﻿<div class="over-flow-x">
+﻿@using APIMonitor.Models
+@using HNX.FIXMessage
+@using CommonLib;
+@model DataMemModel;
+@{
+	var dataMem = new DataMemModel();
+	dataMem.ListSearchSecurities = Model?.ListSearchSecurities ?? new();
+	dataMem.ListDisplaySecurities = Model?.ListDisplaySecurities ?? new();
+	dataMem.PageIndexSecurities = Model?.PageIndexSecurities;
+	dataMem.PageIndexMaxSecurities = Model?.PageIndexMaxSecurities;
+	var RecordInPage = ConfigData.RecordInPage;
+}
+<div style="overflow-y:auto; max-height:200px">
 	<table class="tablelist">
 		<thead>
 			<tr>
@@ -15,32 +27,40 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td class="number" style="text-align:center">1</td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-			</tr>
-			<tr>
-				<td class="number" style="text-align:center">2</td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-			</tr>
+			@foreach (var item in dataMem.ListDisplaySecurities.Select((data, index) => new { data, index }))
+			{
+				<tr>
+					<td class="number text-center">@((Model?.PageIndexSecurities - 1) * RecordInPage + item.index + 1)</td>
+					<td style="text-align:center">@item.data.Symbol</td>
+					<td style="text-align:center">@item.data.SecurityTradingStatus</td>
+					<td style="text-align:center">@item.data.HighPxOut</td>
+					<td style="text-align:center">@item.data.LowPxOut</td>
+					<td style="text-align:center">@item.data.HighPxRep</td>
+					<td style="text-align:center">@item.data.LowPxRep</td>
+					<td style="text-align:center">@item.data.LastPx</td>
+					<td style="text-align:center">@item.data.HighPx</td>
+					<td style="text-align:center">@item.data.LowPx</td>
+				</tr>
+			}
 		</tbody>
 	</table>
 </div>
+@if (dataMem != null && dataMem.ListDisplaySecurities.Count > 0)
+{
+	<div class="box__action d-flex justify-content-end mt-4">
+		@if (dataMem.PageIndexSecurities > 1)
+		{
+			<div class="box__action d-flex px-3">
+				<button class="primary" style="background-color:#007bff" onclick="GetSecuritiesListByPage(@dataMem.PageIndexSecurities - 1)">Previous</button>
+			</div>
+		}
 
+		@if (dataMem.PageIndexSecurities < dataMem.PageIndexMaxSecurities)
+		{
+			<div class="box__action d-flex">
+				<button class="primary" style="background-color:#007bff" onclick="GetSecuritiesListByPage(@dataMem.PageIndexSecurities + 1)">Next</button>
+			</div>
+		}
+	</div>
+}
 <script></script>

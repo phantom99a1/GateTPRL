@@ -100,7 +100,11 @@ namespace HNX.FIXMessage
             //    if (_isSuccess == false) return false;
             //}
             else if (FIXMessageBase.TAG_SendingTime == field.Tag)
+            {
                 c_message.SendingTime = Utils.Convert.FromFIXUTCTimestamp(field.Value);
+                //
+                c_message.TimeRecv = field.Value;
+            }
             else if (FIXMessageBase.TAG_Text == field.Tag)
                 c_message.Text = field.Value;
             else if (FIXMessageBase.TAG_LastMsgSeqNumProcessed == field.Tag)

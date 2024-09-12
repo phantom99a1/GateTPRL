@@ -6,6 +6,7 @@ using CommonLib;
 using HNXInterface;
 using LocalMemory;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace APIMonitor
 {
@@ -29,6 +30,59 @@ namespace APIMonitor
         {
             BoxConnectModel _boxConnect = GetBoxConnectModel();
             return _boxConnect;
+        }
+
+        [HttpGet]
+        [Route("LogApplicationError")]
+        public ApplicationErrorModel LogApplicationError()
+        {
+            var applicationErrorModel = new ApplicationErrorModel();
+            List<ApplicationError> lines = new();
+            try
+            {
+                var time = DateTime.Now;
+                string monthSring = time.Month < 10 ? $"0{time.Month}" : time.Month.ToString();
+                string dayString = time.Day < 10 ? $"0{time.Day}" : time.Day.ToString();
+
+                var timeString = $"{time.Year}-{monthSring}-{dayString}";
+                string logFilePathTCP = $"bin/Debug/net6.0/log/{timeString}/HNXTPRL-TCP-error.log";
+                string logFilePathGate = $"bin/Debug/net6.0/log/{timeString}/HNXTPRLGate-error.log";
+                var fileStreamOptions = new FileStreamOptions
+                {
+                    Share = FileShare.ReadWrite
+                };
+                
+                int lineCount = 0;
+
+                if (System.IO.File.Exists(logFilePathTCP))
+                {
+                    using var reader = new StreamReader(logFilePathTCP, fileStreamOptions);
+                    string line;
+                    while ((line = reader.ReadLine()) != null && lineCount < ConfigData.MaxLinesReader)
+                    {
+                        var applicationError = JsonConvert.DeserializeObject<ApplicationError>(line) ?? new ApplicationError();
+                        lines.Add(applicationError);
+                        lineCount++;
+                    }
+                }
+                if (System.IO.File.Exists(logFilePathGate))
+                {
+                    using var reader = new StreamReader(logFilePathGate, fileStreamOptions);
+                    string line;
+                    while ((line = reader.ReadLine()) != null && lineCount < ConfigData.MaxLinesReader)
+                    {
+                        var applicationError = JsonConvert.DeserializeObject<ApplicationError>(line) ?? new ApplicationError();
+                        lines.Add(applicationError);
+                        lineCount++;
+                    }
+                }                
+                applicationErrorModel.ListAllErrors = lines;
+            }
+            catch (Exception ex)
+            {
+                Logger.log.Error($"Error call LogApplicationError() in HomeController, Exception: {ex?.ToString()}");
+            }
+            return applicationErrorModel;
         }
 
         [HttpPost]
@@ -249,6 +303,15 @@ namespace APIMonitor
                 _boxConnect.Session = TradingRuleData.GetTradingSessionNameofMainBoard();
                 _boxConnect._HNXSystemConnect = _hnxSystem;
                 _boxConnect._KafkaSystemConnect = _KafkaSystem;
+
+                //Thêm model cho phần MessageReject và SecurityInformation
+                var _DataMem = new DataMemModel
+                {
+                    ListAllMsgRejectOnMemory = DataMem.lstAllMsgRejectOnMemory,
+                    ListSearchSecurities = DataMem.lstAllSecurities
+                };
+                //
+                _boxConnect.DataMem = _DataMem;
             }
             catch (Exception ex)
             {

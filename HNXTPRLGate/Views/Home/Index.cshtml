@@ -18,7 +18,9 @@
                         <div class="box__head">
                             @Resource.lblApplicationError
                         </div>
-                        <div class="box__body"></div>
+                        <div class="box__body" id="ApplicationErrorID">
+                            @await Html.PartialAsync("par_ApplicationError", Model.ApplicationError)
+                        </div>
                     </div>
                 </div>
             </fieldset>
@@ -46,4 +48,23 @@
         }
         timeleft -= 1;
     }, 1000);
+
+    function GetListApplicationErrorByPage(pageIndex){
+        $.ajax({
+            type: "GET",
+            url: "/Home/ApplicationErrorPaging",
+            data: {
+                "pageIndex": pageIndex,
+            },
+            beforeSend: function () {
+                SpinLoading(true);
+            },
+            success: function (data) {
+                $("#ApplicationErrorID").html(data);
+            },
+            complete: function () {
+                SpinLoading(false);
+            }
+        });
+    }
 </script>

@@ -20,7 +20,11 @@ namespace HNXInterface
             switch (message.GetMsgType)
             {
                 case MessageType.SecurityStatus: // sở gửi 35=f
-                    ProcessSecurityStatus((MessageSecurityStatus)message);
+                    //2024/09/05 Thêm list security information
+                    MessageSecurityStatus messageSecurityStatus = (MessageSecurityStatus)message;
+                    DataMem.lstAllSecurities.Add(messageSecurityStatus);
+                    //End 2024/09/05
+                    ProcessSecurityStatus(messageSecurityStatus);
                     //BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
                     SharedStorageProcess.c_DataStorageProcess.EnqueueData(message, Data_SoR.Recei);
                     break;
@@ -127,7 +131,7 @@ namespace HNXInterface
         }
 
         public void ProcessSecurityStatus(MessageSecurityStatus message)
-        {
+        {            
             TradingRuleData.ProcessSecurityStatus(message);
             c_ResponseInterface.ResponseHNXSendSecurityStatus(message);
         }

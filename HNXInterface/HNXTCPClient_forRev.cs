@@ -63,7 +63,12 @@ namespace HNXInterface
                     break;
 
                 case MessageType.Reject:
-                    ProcessReject((MessageReject)fMsgBase);
+                    //2024.09.05 add msg reject on memory
+                    MessageReject messageReject = (MessageReject)fMsgBase;
+                    DataMem.lstAllMsgRejectOnMemory.Add(messageReject);
+                    // end 2024.09.05 
+
+                    ProcessReject(messageReject);
                     // BacND: bổ sung thêm ghi vào DB sau khi gửi sở và save file xong
                     SharedStorageProcess.c_DataStorageProcess.EnqueueData(fMsgBase, Data_SoR.Recei);
                     break;
@@ -82,7 +87,7 @@ namespace HNXInterface
                     ProcessLogout((MessageLogout)fMsgBase);
                     // BacND: bổ sung thêm ghi vào DB sau khi gửi sở và save file xong
                     SharedStorageProcess.c_DataStorageProcess.EnqueueData(fMsgBase, Data_SoR.Recei);
-                    break;
+                    break;                
             }
             GateSeqInfo.Set_LastCliProcess(fMsgBase.MsgSeqNum);
             GateSeqInfo.Set_LastSerProcess(fMsgBase.LastMsgSeqNumProcessed);
@@ -170,7 +175,7 @@ namespace HNXInterface
             {
                 return;
             }
-        }
+        }        
 
         public void ProcessResendRequest(MessageResendRequest fMsgResendRequest)
         {

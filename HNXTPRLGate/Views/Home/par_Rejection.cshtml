@@ -1,4 +1,23 @@
-﻿<div class="over-flow-x">
+﻿@using APIMonitor.Models
+@using HNX.FIXMessage
+@using System.Globalization
+@using CommonLib;
+@model DataMemModel;
+@{
+	var dataMem = new DataMemModel();
+	dataMem.ListAllMsgRejectOnMemory = Model?.ListAllMsgRejectOnMemory ?? new List<MessageReject>();
+	dataMem.ListDisplayMsgRejectOnMemory = Model?.ListDisplayMsgRejectOnMemory ?? new List<MessageReject>();
+	dataMem.PageIndexRejection = Model?.PageIndexRejection;
+	dataMem.PageIndexMaxRejection = Model?.PageIndexMaxRejection;
+	var RecordInPage = ConfigData.RecordInPage;
+	string FormatDate(string stringDate)
+	{
+		DateTime dateTime = DateTime.ParseExact(stringDate, "yyyyMMdd-HH:mm:ss", CultureInfo.InvariantCulture);
+		string result = dateTime.ToString("yyyy/MM/dd");
+		return result;
+	}
+}
+<div class="over-flow-x" style="overflow-y:auto; max-height:200px">
 	<table class="tablelist">
 		<thead>
 			<tr>
@@ -10,25 +29,37 @@
 				<th style="text-align:left">Ref Message Type</th>
 			</tr>
 		</thead>
-		<tbody>
-			<tr>
-				<td class="number" style="text-align:center">1</td>
-				<td style="text-align:left"></td>
-				<td style="text-align:left"></td>
-				<td style="text-align:left"></td>
-				<td style="text-align:left"></td>
-				<td style="text-align:left"></td>
-			</tr>
-			<tr>
-				<td class="number" style="text-align:center">2</td>
-				<td style="text-align:left"></td>
-				<td style="text-align:left"></td>
-				<td style="text-align:left"></td>
-				<td style="text-align:left"></td>
-				<td style="text-align:left"></td>
-			</tr>
+		<tbody style="overflow-y:scroll">
+			@foreach(var item in dataMem.ListDisplayMsgRejectOnMemory.Select((data, index) => new{data, index}))
+			{
+				<tr>
+					<td class="number text-center">@((Model?.PageIndexRejection - 1) * RecordInPage + item.index + 1)</td>
+					<td style="text-align:left">@item.data.Text</td>
+					<td style="text-align:left">@FormatDate(item.data.TimeRecv)</td>
+					<td style="text-align:left">@item.data.RefSeqNum</td>
+					<td style="text-align:left">@item.data.OrderNo</td>
+					<td style="text-align:left">@item.data.RefMsgType</td>
+				</tr>
+			}
 		</tbody>
 	</table>
 </div>
-
+@if (dataMem != null && dataMem.ListDisplayMsgRejectOnMemory.Count > 0)
+{
+	<div class="box__action d-flex justify-content-end mt-4">
+		@if(dataMem.PageIndexRejection > 1)
+		{
+			<div class="box__action d-flex px-3">
+				<button class="primary" style="background-color:#007bff" onclick="GetRejectionListByPage(@dataMem.PageIndexRejection - 1)">Previous</button>
+			</div>
+		}
+		
+		@if(dataMem.PageIndexRejection < dataMem.PageIndexMaxRejection)
+		{
+			<div class="box__action d-flex">
+				<button class="primary" style="background-color:#007bff" onclick="GetRejectionListByPage(@dataMem.PageIndexRejection + 1)">Next</button>
+			</div>
+		}		
+	</div>
+}
 <script></script>

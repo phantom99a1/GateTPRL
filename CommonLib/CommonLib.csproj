@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HNX.FIXMessage\HNX.FIXMessage.csproj" />
+    <ProjectReference Include="..\ObjectInfo\ObjectInfo.csproj" />
   </ItemGroup>
 
 </Project>
