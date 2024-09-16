@@ -108,7 +108,7 @@ namespace CommonLib
         public static int TimeDelaySaveDB = 1000;
         public static string formatDateTime = "yyyy-MM-dd HH:mm:ss";
         public static bool LoopWhenSaveDBError = false;
-        public static int RecordInPage = 10;
+        public static int RecordInPage = 15;
         public static int MaxLinesReader = 5000;
         public static void InitConfig(IConfiguration configuration)
         {

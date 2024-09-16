@@ -35,7 +35,7 @@ namespace HNXUnitTest
                                                               ConfigData.KafkaConfig.Kafka_Acks,
                                                               ConfigData.KafkaConfig.Kafka_CompressionType,
                                                               ConfigData.KafkaConfig.Kafka_LingerMs,
-                                                              ConfigData.KafkaConfig.Kafka_BatchSize);
+                                                              ConfigData.KafkaConfig.Kafka_BatchSize, false);
             //
             IKafkaHelper Kafka_ExecutionStatus = new KafkaHelper(ConfigData.KafkaConfig.KafkaAuth,
                                                                      ConfigData.KafkaConfig.KafkaIp,
@@ -47,7 +47,7 @@ namespace HNXUnitTest
                                                                      ConfigData.KafkaConfig.Kafka_Acks,
                                                                      ConfigData.KafkaConfig.Kafka_CompressionType,
                                                                      ConfigData.KafkaConfig.Kafka_LingerMs,
-                                                                     ConfigData.KafkaConfig.Kafka_BatchSize);
+                                                                     ConfigData.KafkaConfig.Kafka_BatchSize, false);
             //
             IKafkaHelper Kafka_TradingInfoStatus = new KafkaHelper(ConfigData.KafkaConfig.KafkaAuth,
                                                                    ConfigData.KafkaConfig.KafkaIp,
@@ -59,7 +59,7 @@ namespace HNXUnitTest
                                                                    ConfigData.KafkaConfig.Kafka_Acks,
                                                                    ConfigData.KafkaConfig.Kafka_CompressionType,
                                                                    ConfigData.KafkaConfig.Kafka_LingerMs,
-                                                                   ConfigData.KafkaConfig.Kafka_BatchSize);
+                                                                   ConfigData.KafkaConfig.Kafka_BatchSize, false);
             //
             Kafka_OrderStatus.SendToKafkaObject(new ResponseMessageKafka());
             Kafka_OrderStatus.NumOfMsg();

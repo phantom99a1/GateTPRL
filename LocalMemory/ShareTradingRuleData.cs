@@ -57,6 +57,16 @@ namespace LocalMemory
 
         }
 
+        public static string GetTradingSessionCodeofMainBoard()
+        {
+			string _MainBoard = ConfigData.MainBoard;
+			if (Boards.ContainsKey(_MainBoard))
+			{
+				return Boards[_MainBoard].TradingSession;
+			}
+			return string.Empty;
+		}
+
         public static bool IsHaveData()
         {
             if (Boards.Count == 0)

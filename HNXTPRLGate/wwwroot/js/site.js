@@ -61,6 +61,7 @@ function ReloadData() {
                 document.getElementById("countdown").innerHTML = timeleft + " seconds auto refresh";
                 ReloadData();
                 ReloadSessionFlag();
+                ReloadDataError();
             } else {
                 document.getElementById("countdown").innerHTML = timeleft + " seconds auto refresh";
             }
@@ -298,4 +299,24 @@ function fnLogOut()
     } catch (e) {
         console.log(e);
     }
+}
+
+function ReloadDataError() {
+    const pageIndex = 1;
+    $.ajax({
+        type: "GET",
+        url: "/Home/ApplicationErrorPaging",
+        data: {
+            "pageIndex": pageIndex,
+        },
+        beforeSend: function () {
+            SpinLoading(true);
+        },
+        success: function (data) {
+            $("#ApplicationErrorID").html(data);
+        },
+        complete: function () {
+            SpinLoading(false);
+        }
+    });
 }
