@@ -43,7 +43,8 @@ namespace HNXInterface
 
         public void ProcessSessionMsg(FIXMessageBase fMsgBase)
         {
-			if (fMsgBase.MsgSeqNum > GateSeqInfo.LastCliProcessSeq)
+            Logger.HNXTcpLog.Warn("123, HNX send sequence {0} < client's LastProcessSequence {1} at Message {2}", fMsgBase.MsgSeqNum, GateSeqInfo.LastCliProcessSeq, fMsgBase.GetMessageRaw);
+            if (fMsgBase.MsgSeqNum > GateSeqInfo.LastCliProcessSeq)
             {
                 // Gửi Resend request
                 Send_ResendRequest(GateSeqInfo.LastCliProcessSeq + 1, fMsgBase.MsgSeqNum);
@@ -89,7 +90,8 @@ namespace HNXInterface
                     SharedStorageProcess.c_DataStorageProcess.EnqueueData(fMsgBase, Data_SoR.Recei);
                     break;                
             }
-			GateSeqInfo.Set_LastCliProcess(fMsgBase.MsgSeqNum);
+            Logger.HNXTcpLog.Warn("456, HNX send sequence {0} < client's LastProcessSequence {1} at Message {2} {3}", fMsgBase.MsgSeqNum, GateSeqInfo.LastCliProcessSeq, fMsgBase.GetMessageRaw, fMsgBase.MsgSeqNum);
+            GateSeqInfo.Set_LastCliProcess(fMsgBase.MsgSeqNum);
             GateSeqInfo.Set_LastSerProcess(fMsgBase.LastMsgSeqNumProcessed);
             GateSeqInfo.Set_SerSeq(fMsgBase.MsgSeqNum);
         }
