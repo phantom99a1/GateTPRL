@@ -59,7 +59,7 @@
 @if (dataMem != null && dataMem.ListDisplaySecurities.Count > 0)
 {
 	<div class="box__action d-flex justify-content-between align-items-center mt-4 w-100">
-		<span class="px-2">@RecordInPage bản ghi/1 trang</span>
+		<span class="px-2">@dataMem.ListDisplaySecurities.Count bản ghi/trang</span>
 		<div class="box__action d-flex px-3">
 			<button class="primary" style="background-color:#007bff" onclick="GetSecuritiesListByPage(1)">First Page</button>
 		</div>

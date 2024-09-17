@@ -6,7 +6,7 @@ using StorageProcess;
 
 namespace HNXInterface
 {
-    public class ProcessRevHNX
+	public class ProcessRevHNX
     {
         public IResponseInterface c_ResponseInterface;
 
@@ -60,6 +60,9 @@ namespace HNXInterface
                     break;
 
                 case MessageType.Reject: // sở gửi 35=3
+                    //Add 2024.09.17 ITmonitor
+                    CommonFunc.FuncAddMessageRejectForITMonitor(message);
+                    //End
                     ProcessRejectQuote((MessageReject)message);                    
                     break;
 
@@ -140,5 +143,7 @@ namespace HNXInterface
         {
             c_ResponseInterface.ResponseHNXTopicTradingInfomation(message);
         }
+
+      
     }
 }

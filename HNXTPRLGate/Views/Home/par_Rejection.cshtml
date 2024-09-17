@@ -47,8 +47,8 @@
 </div>
 @if (dataMem != null && dataMem.ListDisplayMsgRejectOnMemory.Count > 0)
 {
-	<div class="box__action d-flex justify-content-between  align-items-center mt-4 col-8">
-		<span class="px-2">@RecordInPage bản ghi/1 trang</span>
+	<div class="box__action d-flex justify-content-between  align-items-center mt-4">
+		<span class="px-2">@dataMem.ListDisplayMsgRejectOnMemory.Count bản ghi/trang</span>
 		<div class="box__action d-flex px-3">
 			<button class="primary" style="background-color:#007bff" onclick="GetRejectionListByPage(1)">First Page</button>
 		</div>
