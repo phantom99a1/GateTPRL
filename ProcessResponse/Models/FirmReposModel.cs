@@ -30,7 +30,6 @@
         public string RejectReason { get; set; } = "";
         public string Text { get; set; } = "";
         public string SendingTime { get; set; } = "";
-        public int RefSeqNum { get; set; } = 0;
     }
 
     public class ReposSideListResponse

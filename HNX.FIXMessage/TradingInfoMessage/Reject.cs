@@ -22,9 +22,9 @@ namespace HNX.FIXMessage
         #endregion 
 
         public int SessionRejectReason;
-        public int RefSeqNum;
+        public int RefSeqNum { get; set; } = 0;
 
-        public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
+		public string OrderNo { get; set; } = ""; // Dùng để lưu OrderNo khi push queue save db
 
         public MessageReject()
             : base()

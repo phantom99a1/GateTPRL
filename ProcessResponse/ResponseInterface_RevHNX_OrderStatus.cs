@@ -1204,9 +1204,7 @@ namespace BusinessProcessResponse
                     _Response.RejectReasonCode = p_Message.SessionRejectReason.ToString();
                     _Response.RejectReason = ConfigData.DictError_Code_Text.ContainsKey(_Response.RejectReasonCode) ? ConfigData.DictError_Code_Text[_Response.RejectReasonCode] : string.Empty;
                     _Response.Text = !string.IsNullOrEmpty(p_Message.Text) ? p_Message.Text : "";
-                    _Response.SendingTime = HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime);                    
-                    //Bổ sung RefSeqNum
-                    _Response.RefSeqNum = p_Message.RefSeqNum;
+                    _Response.SendingTime = HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime);                  
                     // send kafka
                     c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
                     //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
@@ -1246,9 +1244,7 @@ namespace BusinessProcessResponse
                     _Response.ClientID = "";
                     _Response.ClientIDCounterFirm = "";
                     _Response.MemberCounterFirm = "";
-                    _Response.NoSide = 0;
-					//Bổ sung RefSeqNum
-					_Response.RefSeqNum = p_Message.RefSeqNum;
+                    _Response.NoSide = 0;					
 					//
 					List<ReposSideListResponse> lstSymbolFirmInfoRes = new List<ReposSideListResponse>();
                     ReposSideListResponse _reposSideList = new ReposSideListResponse();
@@ -1305,9 +1301,7 @@ namespace BusinessProcessResponse
                     _Response.RejectReasonCode = p_Message.SessionRejectReason.ToString();
                     _Response.RejectReason = ConfigData.DictError_Code_Text.ContainsKey(_Response.RejectReasonCode) ? ConfigData.DictError_Code_Text[_Response.RejectReasonCode] : string.Empty;
                     _Response.Text = "";
-                    _Response.SendingTime = HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime);
-					//Bổ sung RefSeqNum
-					_Response.RefSeqNum = p_Message.RefSeqNum;
+                    _Response.SendingTime = HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime);					
 					c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
 
                     //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
@@ -1343,9 +1337,7 @@ namespace BusinessProcessResponse
                     _Response.EffectiveTime = "";
                     _Response.Text = "";
                     _Response.RejectReasonCode = p_Message.SessionRejectReason.ToString();
-                    _Response.RejectReason = ConfigData.DictError_Code_Text.ContainsKey(_Response.RejectReasonCode) ? ConfigData.DictError_Code_Text[_Response.RejectReasonCode] : string.Empty;
-					//Bổ sung RefSeqNum
-					_Response.RefSeqNum = p_Message.RefSeqNum;
+                    _Response.RejectReason = ConfigData.DictError_Code_Text.ContainsKey(_Response.RejectReasonCode) ? ConfigData.DictError_Code_Text[_Response.RejectReasonCode] : string.Empty;					
 					// send kafka
 					c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
 

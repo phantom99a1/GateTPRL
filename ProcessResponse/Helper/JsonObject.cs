@@ -35,7 +35,6 @@ namespace BusinessProcessResponse
         public string RejectReasonCode { get; set; } = string.Empty;
         public string RejectReason { get; set; } = string.Empty;
         public string SendingTime { get; set; } = string.Empty;
-		public int RefSeqNum { get; set; } = 0;
 	}
 
 	// Object trả ra kafka khi nhận được msg
