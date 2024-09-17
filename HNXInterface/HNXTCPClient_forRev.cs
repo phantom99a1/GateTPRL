@@ -48,11 +48,11 @@ namespace HNXInterface
                 // Gửi Resend request
                 Send_ResendRequest(GateSeqInfo.LastCliProcessSeq + 1, fMsgBase.MsgSeqNum);
             }
-            else if (fMsgBase.MsgSeqNum < GateSeqInfo.LastCliProcessSeq)
-            {
-                Logger.HNXTcpLog.Warn("Something went wrong, HNX send sequence {0} < client's LastProcessSequence {1} at Message {2}", fMsgBase.MsgSeqNum, GateSeqInfo.LastCliProcessSeq, fMsgBase.GetMessageRaw);
-                return;
-            }
+            //else if (fMsgBase.MsgSeqNum < GateSeqInfo.LastCliProcessSeq)
+            //{
+            //    Logger.HNXTcpLog.Warn("Something went wrong, HNX send sequence {0} < client's LastProcessSequence {1} at Message {2}", fMsgBase.MsgSeqNum, GateSeqInfo.LastCliProcessSeq, fMsgBase.GetMessageRaw);
+            //    return;
+            //}
             switch (fMsgBase.GetMsgType)
             {
                 case MessageType.Logon:
