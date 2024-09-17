@@ -68,6 +68,7 @@ namespace HNX.FIXMessage
         public string GetMessageRaw
         {
             get { return MessageRaw; }
+            set { MessageRaw = value; }
         }
 
         internal string MessageRawEncrypt;

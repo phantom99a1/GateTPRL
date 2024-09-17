@@ -18,7 +18,7 @@
 		return result;
 	}
 }
-<div class="over-flow-x" style="overflow-y:auto; max-height:200px">
+<div class="over-flow-x" style="overflow-y:auto; max-height:200px;max-width:80%">
 	<table class="tablelist">
 		<thead>
 			<tr>
@@ -35,7 +35,7 @@
 			{
 				<tr>
 					<td class="number text-center">@((Model?.PageIndexRejection - 1) * RecordInPage + item.index + 1)</td>
-					<td style="text-align:left">@item.data.Text</td>
+					<td style="text-align:left">@item.data.GetMessageRaw</td>
 					<td style="text-align:left">@FormatDate(item.data.TimeRecv)</td>
 					<td style="text-align:left">@item.data.RefSeqNum</td>
 					<td style="text-align:left">@item.data.OrderNo</td>
@@ -74,14 +74,14 @@
 }
 <style>
 	table {
-		text-align: left;
-		position: relative;
 		border-collapse: collapse;
+		width:100%;
 	}
 
 	th, td {
 		padding: 0.25rem;
-		border: 1px solid #f0f0f0
+		border: 1px solid #f0f0f0;
+		text-align: left;
 	}
 
 	th {
