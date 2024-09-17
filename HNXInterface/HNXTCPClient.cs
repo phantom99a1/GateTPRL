@@ -199,24 +199,33 @@ namespace HNXInterface
                             SendTestquest();
                             continue;
                         }
-                        if (!IsRequest)
-                        {
-                            // tức là chưa có gì, gửi request thông tin chứng khoán lên
-                            MessageSecurityStatusRequest _msg_e = new MessageSecurityStatusRequest();
-                            _msg_e.Symbol = "";
-                            _msg_e.SecurityStatusReqID = DateTime.Now.ToString("HHmmss");
-                            _msg_e.SenderCompID = CommonLib.ConfigData.TraderID;
-                            _msg_e.TargetCompID = Common.HNX_TargetCompID;
-                            _msg_e.TargetSubID = Common.HNX_TargetSubID;
-                            SendToExchange(_msg_e);
 
-                            MessageTradingSessionStatusRequest _msg_g = new MessageTradingSessionStatusRequest();
-                            _msg_g.TradSesReqID = "0"; //lấy tất các bảng, cho nó đơn giản
-                            _msg_g.SubscriptionRequestType = '2';
-                            _msg_g.TradSesMode = 1;//lấy thông tin phiên theo bảng
-                            SendToExchange(_msg_g);
-                            IsRequest = true;
+                        //2024.09.17 SangDD add thêm theo yc phi chức năng của MBS
+                        //Thêm đoạn  GetStockinfo trong config default = true
+                        if (ConfigData.GetStockinfo == true)
+                        {
+
+                            if (!IsRequest)
+                            {
+                                // tức là chưa có gì, gửi request thông tin chứng khoán lên
+                                MessageSecurityStatusRequest _msg_e = new MessageSecurityStatusRequest();
+                                _msg_e.Symbol = "";
+                                _msg_e.SecurityStatusReqID = DateTime.Now.ToString("HHmmss");
+                                _msg_e.SenderCompID = CommonLib.ConfigData.TraderID;
+                                _msg_e.TargetCompID = Common.HNX_TargetCompID;
+                                _msg_e.TargetSubID = Common.HNX_TargetSubID;
+                                SendToExchange(_msg_e);
+
+                                MessageTradingSessionStatusRequest _msg_g = new MessageTradingSessionStatusRequest();
+                                _msg_g.TradSesReqID = "0"; //lấy tất các bảng, cho nó đơn giản
+                                _msg_g.SubscriptionRequestType = '2';
+                                _msg_g.TradSesMode = 1;//lấy thông tin phiên theo bảng
+                                SendToExchange(_msg_g);
+                                IsRequest = true;
+                            }
                         }
+                        //
+
                     }
                     else if (__ClientStatus == enumClientStatus.DISCONNECT || c_CurrentConnected == null || !c_CurrentConnected.isAvaiable)
                     {

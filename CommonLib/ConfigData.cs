@@ -103,6 +103,9 @@ namespace CommonLib
 
         public static bool ConnectExchange { get; set; } = false;
         public static bool EnableSaveDB { get; set; } = false;
+        //Gửi lấy thông tin chứng khoán khi start 
+        public static bool GetStockinfo { get; set; } = true;
+        
 
         public static string gConnectionString { get; set; } = string.Empty;
         public static int TimeDelaySaveDB = 1000;
@@ -237,6 +240,8 @@ namespace CommonLib
 
                 gConnectionString = Utils.DecryptAES(configuration["ConnectionString"].ToString(), AES_Key, AES_IV);
                 EnableSaveDB = bool.Parse(configuration["EnableSaveDB"]);
+
+                GetStockinfo = bool.Parse(configuration["GetStockinfo"]);
             }
         }
 
