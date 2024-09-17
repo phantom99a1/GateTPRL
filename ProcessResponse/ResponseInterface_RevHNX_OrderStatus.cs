@@ -1205,6 +1205,8 @@ namespace BusinessProcessResponse
                     _Response.RejectReason = ConfigData.DictError_Code_Text.ContainsKey(_Response.RejectReasonCode) ? ConfigData.DictError_Code_Text[_Response.RejectReasonCode] : string.Empty;
                     _Response.Text = !string.IsNullOrEmpty(p_Message.Text) ? p_Message.Text : "";
                     _Response.SendingTime = HNX.FIXMessage.Utils.Convert.ToFIXUTCTimestamp(p_Message.GetSendingTime);
+                    //Bổ sung RefSeqNum
+                    _Response.RefSeqNum = p_Message.RefSeqNum;
                     // send kafka
                     c_KafkaClient.Send2KafkaObject(ConfigData.KafkaConfig.KafkaTopic_HNXTPRL_OrderStatus, _Response, p_Message.TimeInit, p_Message.MsgSeqNum, FlagSendKafka.FORWARD_FROM_HNX);
                     //2024.05.22 BacND: bổ sung thêm ghi vào DB sau khi nhận về từ sở
