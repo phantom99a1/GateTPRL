@@ -35,11 +35,12 @@ namespace BusinessProcessResponse
         public string RejectReasonCode { get; set; } = string.Empty;
         public string RejectReason { get; set; } = string.Empty;
         public string SendingTime { get; set; } = string.Empty;
-    }
+		public int RefSeqNum { get; set; } = 0;
+	}
 
-    // Object trả ra kafka khi nhận được msg
-    // Khi nhận được lệnh Khớp Map từ 35=8
-    public class ResponseOrderFilledToKafka
+	// Object trả ra kafka khi nhận được msg
+	// Khi nhận được lệnh Khớp Map từ 35=8
+	public class ResponseOrderFilledToKafka
     {
         public string MsgType { get; set; } = string.Empty;
         public string SendingTime { get; set; } = string.Empty;
