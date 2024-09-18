@@ -80,5 +80,105 @@
                 </div>
             </div>
         </fieldset>
-    </div>     
+    </div>
 </div>
+
+<div class="group__box">
+    <div class="group__box-access">
+        <fieldset>
+            <legend>Securities Information</legend>
+			<div class="block__wrap">
+				<div class="box__search">
+					<div class="box__search-title">Symbol ID</div>
+					<div class="box__search-control v1">
+						<input type="text" placeholder="Input Symbol ID" id="SymbolID"/>
+					</div>
+					<div class="box__search-control">
+						@*<input type="button" value="Search" />*@
+                        <button class="primary" style="background-color:#ee514a" onclick="SearchListSecurities()">
+							<span>Search</span>
+						</button>
+					</div>
+				</div>
+                
+                <div id="SecuritiesAreaID">
+                    @await Html.PartialAsync("par_SecuritiesInfo", boxConnect.DataMem)
+				</div>
+			</div>
+        </fieldset>
+    </div>
+</div>
+
+<div class="group__box">
+    <div class="group__box-access">
+        <fieldset>
+            <legend>Rejection</legend>
+            <div class="block__wrap">                                
+                <div id="RejectAreaID">
+					@await Html.PartialAsync("par_Rejection", boxConnect.DataMem)
+				</div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function GetRejectionListByPage(pageIndex) {
+        $.ajax({
+            type: "GET",
+            url: "/Home/RejectionPaging",
+            data: {
+                "pageIndex": pageIndex,
+            },
+            beforeSend: function () {
+                SpinLoading(true);
+            },
+            success: function (data)
+            {
+                $("#RejectAreaID").html(data);
+            },
+            complete: function () {
+                SpinLoading(false);
+            }
+        });
+    }
+
+    function GetSecuritiesListByPage(pageIndex) {
+        $.ajax({
+            type: "GET",
+            url: "/Home/SecuritiesPaging",
+            data: {
+                "pageIndex": pageIndex,
+            },
+            beforeSend: function () {
+                SpinLoading(true);
+            },
+            success: function (data) {
+                $("#SecuritiesAreaID").html(data);
+            },
+            complete: function () {
+                SpinLoading(false);
+            }
+        });
+    }
+
+    function SearchListSecurities(){
+        var SymbolID = $('#SymbolID').val().trim() || '';
+        $.ajax({
+            type: "GET",
+            url: "/Home/SearchListSecurities",
+            data: {
+                "symbolID": SymbolID,
+            },
+            beforeSend: function () {
+                SpinLoading(true);
+            },
+            success: function (data) {
+                $("#SecuritiesAreaID").html(data);
+            },
+            complete: function () {
+                SpinLoading(false);
+            }
+        });
+    }
+</script>
