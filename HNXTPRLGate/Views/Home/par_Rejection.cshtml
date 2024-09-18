@@ -35,11 +35,11 @@
 			{
 				<tr>
 					<td class="number text-center">@((Model?.PageIndexRejection - 1) * RecordInPage + item.index + 1)</td>
-					<td style="text-align:left; max-width:350px;white-space:break-spaces">@item.data.GetMessageRaw.Replace("",";")</td>
-					<td style="text-align:left">@FormatDate(item.data.TimeRecv)</td>
-					<td style="text-align:left">@item.data.RefSeqNum</td>
-					<td style="text-align:left">@item.data.OrderNo</td>
-					<td style="text-align:left">@item.data.RefMsgType</td>
+					<td style="text-align:left;margin:20px; max-width:350px;white-space:break-spaces">@item.data.GetMessageRaw.Replace(""," ")</td>
+					<td style="text-align:left;margin:20px">@FormatDate(item.data.TimeRecv)</td>
+					<td style="text-align:left;margin:20px">@item.data.RefSeqNum</td>
+					<td style="text-align:left;margin:20px">@item.data.OrderNo</td>
+					<td style="text-align:left;margin:20px">@item.data.RefMsgType</td>
 				</tr>
 			}
 		</tbody>
@@ -47,24 +47,26 @@
 </div>
 @if (dataMem != null && dataMem.ListDisplayMsgRejectOnMemory.Count > 0)
 {
-	<div class="box__action d-flex justify-content-center align-items-center mt-4" style="max-width:90%">
-		<span class="px-2">@dataMem.ListDisplayMsgRejectOnMemory.Count bản ghi/trang</span>
-		<div class="box__action d-flex px-3">
-			<button class="btn btn-link" style="color:#fff" onclick="GetRejectionListByPage(1)">First Page</button>
+	<div class="d-flex">
+		<span class="mt-4 d-flex justify-content-start align-items-center w-100">@dataMem.ListDisplayMsgRejectOnMemory.Count bản ghi/trang</span>
+		<div class="box__action d-flex justify-content-center align-items-center mt-4" style="max-width:90%">
+			<div class="box__action d-flex">
+				<button class="btn btn-link" style="color:#fff" onclick="GetRejectionListByPage(1)">&lt;&lt;</button>
+			</div>
+			<div class="box__action d-flex">
+				<button class="btn btn-link @(dataMem.PageIndexRejection > 1 ? "" : "disabled")" style="color:#fff" onclick="GetRejectionListByPage(@dataMem.PageIndexRejection - 1)">&lt;</button>
+			</div>
+			<div class="box__action d-flex px-1 mt-1">
+				<span>@dataMem.PageIndexRejection/@dataMem.PageIndexMaxRejection</span>
+			</div>
+			<div class="box__action d-flex">
+				<button class="btn btn-link @(dataMem.PageIndexRejection < dataMem.PageIndexMaxRejection ? "" : "disabled")" style="color:#fff" onclick="GetRejectionListByPage(@dataMem.PageIndexRejection + 1)">&gt;</button>
+			</div>
+			<div class="box__action d-flex">
+				<button class="btn btn-link" style="color:#fff" onclick="GetRejectionListByPage(@dataMem.PageIndexMaxRejection)">&gt;&gt;</button>
+			</div>
 		</div>
-		<div class="box__action d-flex px-3">
-			<button class="btn btn-link @(dataMem.PageIndexRejection > 1 ? "" : "disabled")" style="color:#fff" onclick="GetRejectionListByPage(@dataMem.PageIndexRejection - 1)">Previous</button>
-		</div>
-		<div class="box__action d-flex px-3 mt-2">
-			<span>@dataMem.PageIndexRejection/@dataMem.PageIndexMaxRejection</span>
-		</div>
-		<div class="box__action d-flex">
-			<button class="btn btn-link @(dataMem.PageIndexRejection < dataMem.PageIndexMaxRejection ? "" : "disabled")" style="color:#fff" onclick="GetRejectionListByPage(@dataMem.PageIndexRejection + 1)">&gt;</button>
-		</div>
-		<div class="box__action d-flex">
-			<button class="btn btn-link" style="color:#fff" onclick="GetRejectionListByPage(@dataMem.PageIndexMaxRejection)">&gt;&gt;</button>
-		</div>
-	</div>
+	</div>	
 }
 <style>
 	.box__action button:hover{

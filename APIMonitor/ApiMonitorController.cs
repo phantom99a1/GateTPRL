@@ -100,7 +100,19 @@ namespace APIMonitor
             var gateTPRLMonitor = new GateTPRLMonitorModel();
             try
             {
+                var time = DateTime.Now;
+                string monthSring = time.Month < 10 ? $"0{time.Month}" : time.Month.ToString();
+                string dayString = time.Day < 10 ? $"0{time.Day}" : time.Day.ToString();
+                string fileLogHTXLocal = "LogHNXData";
+                string fileLogHNXPublic = "/root/suppercore/TVSI_HNXTPRLGate/LogHNXData";
 
+                var timeString = $"{time.Year}-{monthSring}-{dayString}";
+                string logFilePathTCPLocal = $"{fileLogHTXLocal}/{timeString}/HNXTPRL-TCP-error.log";
+                string logFilePathTCPPublic = $"{fileLogHNXPublic}/{timeString}/HNXTPRL-TCP-error.log";               
+                var fileStreamOptions = new FileStreamOptions
+                {
+                    Share = FileShare.ReadWrite
+                };
             }
             catch (Exception ex)
             {
