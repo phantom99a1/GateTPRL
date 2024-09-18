@@ -9,6 +9,17 @@
 	dataMem.PageIndexSecurities = Model?.PageIndexSecurities;
 	dataMem.PageIndexMaxSecurities = Model?.PageIndexMaxSecurities;
 	var RecordInPage = ConfigData.RecordInPage;
+	var dicSecurityTrading = new Dictionary<int, string>()
+	{
+		{0,"Bình thường"},
+		{1,"CK không được giao dịch trong ngày"},
+		{2,"Ngừng giao dịch"},
+		{6,"huỷ niêm yết"},
+		{9,"Chờ giao dịch"},
+		{10,"Tạm ngừng"},
+		{11,"Hạn chế giao dịch"},
+		{25,"Trái phiếu đặc biệt"},
+	};
 }
 <div style="overflow-y:auto; max-height:200px">
 	<table class="tablelist">
@@ -32,7 +43,7 @@
 				<tr>
 					<td class="number text-center">@((Model?.PageIndexSecurities - 1) * RecordInPage + item.index + 1)</td>
 					<td style="text-align:center">@item.data.Symbol</td>
-					<td style="text-align:center">@item.data.SecurityTradingStatus</td>
+					<td style="text-align:center">@dicSecurityTrading[item.data.SecurityTradingStatus]</td>
 					<td style="text-align:center">@item.data.HighPxOut</td>
 					<td style="text-align:center">@item.data.LowPxOut</td>
 					<td style="text-align:center">@item.data.HighPxRep</td>
@@ -47,20 +58,47 @@
 </div>
 @if (dataMem != null && dataMem.ListDisplaySecurities.Count > 0)
 {
-	<div class="box__action d-flex justify-content-end mt-4">
+	<div class="box__action d-flex justify-content-between align-items-center mt-4 w-100">
+		<span class="px-2">@dataMem.ListDisplaySecurities.Count bản ghi/trang</span>
+		<div class="box__action d-flex px-3">
+			<button class="primary" style="background-color:#007bff" onclick="GetSecuritiesListByPage(1)">First Page</button>
+		</div>
 		@if (dataMem.PageIndexSecurities > 1)
 		{
 			<div class="box__action d-flex px-3">
 				<button class="primary" style="background-color:#007bff" onclick="GetSecuritiesListByPage(@dataMem.PageIndexSecurities - 1)">Previous</button>
 			</div>
 		}
-
+		<div class="box__action d-flex px-3">
+			<span>@dataMem.PageIndexSecurities/@dataMem.PageIndexMaxSecurities</span>
+		</div>
 		@if (dataMem.PageIndexSecurities < dataMem.PageIndexMaxSecurities)
 		{
-			<div class="box__action d-flex">
+			<div class="box__action d-flex px-3">
 				<button class="primary" style="background-color:#007bff" onclick="GetSecuritiesListByPage(@dataMem.PageIndexSecurities + 1)">Next</button>
 			</div>
 		}
+		<div class="box__action d-flex">
+			<button class="primary" style="background-color:#007bff" onclick="GetSecuritiesListByPage(@dataMem.PageIndexMaxSecurities)">Last Page</button>
+		</div>
 	</div>
 }
-<script></script>
+<style>
+	table {
+		text-align: left;
+		position: relative;
+		border-collapse: collapse;
+	}
+
+	th, td {
+		padding: 0.25rem;
+		border: 1px solid #f0f0f0
+	}
+	
+	th {
+		background: white;
+		position: sticky;
+		top: 0;
+		box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+	}
+</style>

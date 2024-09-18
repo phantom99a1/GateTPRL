@@ -9,7 +9,7 @@
     applicationError.PageIndexMaxpplicationError = Model?.PageIndexMaxpplicationError;
     var RecordInPage = ConfigData.RecordInPage;
 }
-<div style="overflow-y:auto; max-height:200px">
+<div style="overflow-y:auto; max-height:80%">
     <table class="tablelist">
         <thead>
             <tr>
@@ -25,7 +25,7 @@
                     <td class="number text-center">@((Model?.PageIndexApplicationError - 1) * RecordInPage + item.index + 1)</td>
                     <td style="text-align:left">@item.data.ThreadName - @item.data.MethodName</td>                    
                     <td style="text-align:left">
-                        <button class="primary" style="background-color:#007bff" data-id="@item.index" onclick="GetDetailApplicationError(@item.index)">Detail</button>
+                        <button class="primary" style="background-color:#007bff" data-id="@item.index" onclick="GetDetailApplicationError('@item.index')">Detail</button>
                     </td>
                 </tr>
             }
@@ -34,20 +34,29 @@
 </div>
 @if (applicationError != null && applicationError.ListDisplayErrors.Count > 0)
 {
-    <div class="box__action d-flex justify-content-end mt-4">
+    <div class="box__action d-flex justify-content-between align-items-center mt-4">
+        <span class="px-2">@applicationError.ListDisplayErrors.Count bản ghi/trang</span>
+        <div class="box__action d-flex px-3">
+            <button class="primary" style="background-color:#007bff" onclick="GetListApplicationErrorByPage(1)">First Page</button>
+        </div>
         @if (applicationError.PageIndexApplicationError > 1)
         {
             <div class="box__action d-flex px-3">
                 <button class="primary" style="background-color:#007bff" onclick="GetListApplicationErrorByPage(@applicationError.PageIndexApplicationError - 1)">Previous</button>
             </div>
         }
-
+        <div class="box__action d-flex px-3">
+            <span>@applicationError.PageIndexApplicationError/@applicationError.PageIndexMaxpplicationError</span>
+        </div>
         @if (applicationError.PageIndexApplicationError < applicationError.PageIndexMaxpplicationError)
         {
             <div class="box__action d-flex">
                 <button class="primary" style="background-color:#007bff" onclick="GetListApplicationErrorByPage(@applicationError.PageIndexApplicationError + 1)">Next</button>
             </div>
         }
+        <div class="box__action d-flex">
+            <button class="primary" style="background-color:#007bff" onclick="GetListApplicationErrorByPage(@applicationError.PageIndexMaxpplicationError)">Last Page</button>
+        </div>
     </div>
 }
 <div id="popup" class="popup">
@@ -57,6 +66,23 @@
     </div>
 </div>
 <style>
+    table {
+        text-align: left;
+        position: relative;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 0.25rem;
+        border: 1px solid #f0f0f0
+    }
+
+    th {
+        background: white;
+        position: sticky;
+        top: 0;
+        box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+    }
     .popup {
         display: none;
         position: fixed;
@@ -91,16 +117,10 @@
             url: "/Home/GetDetailApplicationError",
             data: {
                 "index": index,
-            },
-            beforeSend: function () {
-                SpinLoading(true);
-            },
+            },            
             success: function (data) {
                 const dataDisplay = JSON.stringify(data)
                 document.getElementById("popup-data").innerHTML = dataDisplay;
-            },
-            complete: function () {
-                SpinLoading(false);
             }
         });
         document.getElementById("popup").style.display = "block";

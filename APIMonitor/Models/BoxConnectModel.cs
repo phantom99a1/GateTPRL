@@ -13,5 +13,7 @@ namespace APIMonitor.ObjectInfo
         public ApplicationErrorModel? ApplicationError { get; set; }
 
         public string Session { get; set; } = string.Empty;
+
+        public string TradingSession { get; set; } = string.Empty;
     }
 }

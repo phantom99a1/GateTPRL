@@ -12,12 +12,13 @@
 	var RecordInPage = ConfigData.RecordInPage;
 	string FormatDate(string stringDate)
 	{
-		DateTime dateTime = DateTime.ParseExact(stringDate, "yyyyMMdd-HH:mm:ss", CultureInfo.InvariantCulture);
-		string result = dateTime.ToString("yyyy/MM/dd");
+		DateTime utcTime = DateTime.ParseExact(stringDate, "yyyyMMdd-HH:mm:ss", CultureInfo.InvariantCulture);
+		TimeZoneInfo vietNamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+		string result = TimeZoneInfo.ConvertTimeFromUtc(utcTime, vietNamTimeZone).ToString("yyyy/MM/dd HH:mm:ss");
 		return result;
 	}
 }
-<div class="over-flow-x" style="overflow-y:auto; max-height:200px">
+<div class="over-flow-x" style="overflow-y:auto; max-height:200px;max-width:100%">
 	<table class="tablelist">
 		<thead>
 			<tr>
@@ -34,7 +35,7 @@
 			{
 				<tr>
 					<td class="number text-center">@((Model?.PageIndexRejection - 1) * RecordInPage + item.index + 1)</td>
-					<td style="text-align:left">@item.data.Text</td>
+					<td style="text-align:left; max-width:350px;white-space:break-spaces">@item.data.GetMessageRaw.Replace("",";")</td>
 					<td style="text-align:left">@FormatDate(item.data.TimeRecv)</td>
 					<td style="text-align:left">@item.data.RefSeqNum</td>
 					<td style="text-align:left">@item.data.OrderNo</td>
@@ -46,20 +47,47 @@
 </div>
 @if (dataMem != null && dataMem.ListDisplayMsgRejectOnMemory.Count > 0)
 {
-	<div class="box__action d-flex justify-content-end mt-4">
+	<div class="box__action d-flex justify-content-between align-items-center mt-4" style="max-width:90%">
+		<span class="px-2">@dataMem.ListDisplayMsgRejectOnMemory.Count bản ghi/trang</span>
+		<div class="box__action d-flex px-3">
+			<button class="primary" style="background-color:#007bff" onclick="GetRejectionListByPage(1)">First Page</button>
+		</div>
 		@if(dataMem.PageIndexRejection > 1)
 		{
 			<div class="box__action d-flex px-3">
 				<button class="primary" style="background-color:#007bff" onclick="GetRejectionListByPage(@dataMem.PageIndexRejection - 1)">Previous</button>
 			</div>
 		}
-		
+		<div class="box__action d-flex px-3">
+			<span>@dataMem.PageIndexRejection/@dataMem.PageIndexMaxRejection</span>
+		</div>
 		@if(dataMem.PageIndexRejection < dataMem.PageIndexMaxRejection)
 		{
 			<div class="box__action d-flex">
 				<button class="primary" style="background-color:#007bff" onclick="GetRejectionListByPage(@dataMem.PageIndexRejection + 1)">Next</button>
 			</div>
-		}		
+		}
+		<div class="box__action d-flex">
+			<button class="primary" style="background-color:#007bff" onclick="GetRejectionListByPage(@dataMem.PageIndexMaxRejection)">Last Page</button>
+		</div>
 	</div>
 }
-<script></script>
+<style>
+	table {
+		border-collapse: collapse;
+		width:100%;
+	}
+
+	th, td {
+		padding: 0.25rem;
+		border: 1px solid #f0f0f0;
+		text-align: left;
+	}
+
+	th {
+		background: white;
+		position: sticky;
+		top: 0;
+		box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+	}
+</style>

@@ -1,13 +1,11 @@
 ﻿using CommonLib;
-using Confluent.Kafka;
 using HNX.FIXMessage;
 using LocalMemory;
-using Microsoft.AspNetCore.Mvc.Filters;
 using StorageProcess;
 
 namespace HNXInterface
 {
-    public partial class HNXTCPClient : iHNXClient, IDisposable
+	public partial class HNXTCPClient : iHNXClient, IDisposable
     {
         private int LastResendSeq = 0;
         private int LastBeginResendSeq = 0;
@@ -64,10 +62,9 @@ namespace HNXInterface
 
                 case MessageType.Reject:
                     //2024.09.05 add msg reject on memory
+                    CommonFunc.FuncAddMessageRejectForITMonitor(fMsgBase);
+                    //End
                     MessageReject messageReject = (MessageReject)fMsgBase;
-                    DataMem.lstAllMsgRejectOnMemory.Add(messageReject);
-                    // end 2024.09.05 
-
                     ProcessReject(messageReject);
                     // BacND: bổ sung thêm ghi vào DB sau khi gửi sở và save file xong
                     SharedStorageProcess.c_DataStorageProcess.EnqueueData(fMsgBase, Data_SoR.Recei);

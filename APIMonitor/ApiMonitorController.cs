@@ -3,10 +3,12 @@ using APIMonitor.Models;
 using APIMonitor.ObjectInfo;
 using BusinessProcessResponse;
 using CommonLib;
+using HNX.FIXMessage;
 using HNXInterface;
 using LocalMemory;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace APIMonitor
 {
@@ -301,15 +303,19 @@ namespace APIMonitor
                 _KafkaSystem.EnableKafka = ConfigData.KafkaConfig.EnableKafka == true ? "On" : "Off";
                 //
                 _boxConnect.Session = TradingRuleData.GetTradingSessionNameofMainBoard();
+                _boxConnect.TradingSession = TradingRuleData.GetTradingSessionCodeofMainBoard();
                 _boxConnect._HNXSystemConnect = _hnxSystem;
                 _boxConnect._KafkaSystemConnect = _KafkaSystem;
 
                 //Thêm model cho phần MessageReject và SecurityInformation
-                var _DataMem = new DataMemModel
+                var listAllSecurities = DataMem.lstAllSecurities.GroupBy(item => item.Symbol)
+                    .Select(item => item.OrderByDescending(m => m.IssueDate).FirstOrDefault()).ToList() as List<MessageSecurityStatus>;
+
+				var _DataMem = new DataMemModel
                 {
                     ListAllMsgRejectOnMemory = DataMem.lstAllMsgRejectOnMemory,
-                    ListSearchSecurities = DataMem.lstAllSecurities
-                };
+                    ListSearchSecurities = listAllSecurities
+				};
                 //
                 _boxConnect.DataMem = _DataMem;
             }
