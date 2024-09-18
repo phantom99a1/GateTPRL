@@ -58,41 +58,38 @@
 </div>
 @if (dataMem != null && dataMem.ListDisplaySecurities.Count > 0)
 {
-	<div class="box__action d-flex justify-content-between align-items-center mt-4 w-100">
+	<div class="box__action d-flex justify-content-center align-items-center mt-4 w-100">
 		<span class="px-2">@dataMem.ListDisplaySecurities.Count bản ghi/trang</span>
 		<div class="box__action d-flex px-3">
-			<button class="primary" style="background-color:#007bff" onclick="GetSecuritiesListByPage(1)">First Page</button>
+			<button class="btn btn-link" style="color: #fff" onclick="GetSecuritiesListByPage(1)">&lt;&lt;</button>
 		</div>
-		@if (dataMem.PageIndexSecurities > 1)
-		{
-			<div class="box__action d-flex px-3">
-				<button class="primary" style="background-color:#007bff" onclick="GetSecuritiesListByPage(@dataMem.PageIndexSecurities - 1)">Previous</button>
-			</div>
-		}
 		<div class="box__action d-flex px-3">
+			<button class="btn btn-link  @(dataMem.PageIndexSecurities > 1 ? "" : "disabled")" style="color: #fff" onclick="GetSecuritiesListByPage(@dataMem.PageIndexSecurities - 1)">&lt;</button>
+		</div>
+		<div class="box__action d-flex px-3 mt-2">
 			<span>@dataMem.PageIndexSecurities/@dataMem.PageIndexMaxSecurities</span>
 		</div>
-		@if (dataMem.PageIndexSecurities < dataMem.PageIndexMaxSecurities)
-		{
-			<div class="box__action d-flex px-3">
-				<button class="primary" style="background-color:#007bff" onclick="GetSecuritiesListByPage(@dataMem.PageIndexSecurities + 1)">Next</button>
-			</div>
-		}
+		<div class="box__action d-flex px-3">
+			<button class="btn btn-link @(dataMem.PageIndexSecurities < dataMem.PageIndexMaxSecurities ? "" : "disabled")" style="color: #fff" onclick="GetSecuritiesListByPage(@dataMem.PageIndexSecurities + 1)">&gt;</button>
+		</div>
 		<div class="box__action d-flex">
-			<button class="primary" style="background-color:#007bff" onclick="GetSecuritiesListByPage(@dataMem.PageIndexMaxSecurities)">Last Page</button>
+			<button class="btn btn-link" style="color: #fff" onclick="GetSecuritiesListByPage(@dataMem.PageIndexMaxSecurities)">&gt;&gt;</button>
 		</div>
 	</div>
 }
 <style>
+	.box__action button:hover{
+		text-decoration: none;
+	}
 	table {
 		text-align: left;
-		position: relative;
+		width:100%;
 		border-collapse: collapse;
 	}
 
 	th, td {
 		padding: 0.25rem;
-		border: 1px solid #f0f0f0
+		border: 1px solid #f0f0f0;
 	}
 	
 	th {
@@ -100,5 +97,7 @@
 		position: sticky;
 		top: 0;
 		box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+		z-index:1;
+		margin: 0;
 	}
 </style>
