@@ -71,15 +71,9 @@
             url: "/Home/SecuritiesPaging",
             data: {
                 "pageIndex": pageIndex,
-            },
-            beforeSend: function () {
-                SpinLoading(true);
-            },
+            },            
             success: function (data) {
                 $("#SecuritiesAreaID").html(data);
-            },
-            complete: function () {
-                SpinLoading(false);
             }
         });
     }
@@ -92,14 +86,8 @@
             data: {
                 "symbolID": SymbolID,
             },
-            beforeSend: function () {
-                SpinLoading(true);
-            },
             success: function (data) {
                 $("#SecuritiesAreaID").html(data);
-            },
-            complete: function () {
-                SpinLoading(false);
             }
         });
     }

@@ -117,16 +117,10 @@
             url: "/Home/GetDetailApplicationError",
             data: {
                 "index": index,
-            },
-            beforeSend: function () {
-                SpinLoading(true);
-            },
+            },            
             success: function (data) {
                 const dataDisplay = JSON.stringify(data)
                 document.getElementById("popup-data").innerHTML = dataDisplay;
-            },
-            complete: function () {
-                SpinLoading(false);
             }
         });
         document.getElementById("popup").style.display = "block";
