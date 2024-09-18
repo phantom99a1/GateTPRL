@@ -46,7 +46,7 @@ namespace APIMonitor
                 string monthSring = time.Month < 10 ? $"0{time.Month}" : time.Month.ToString();
                 string dayString = time.Day < 10 ? $"0{time.Day}" : time.Day.ToString();
                 string fileLogLocal = "bin/Debug/net6.0/log";
-                string fileLogPublic = "/root/suppercore/HnxTPRLGate/log";
+                string fileLogPublic = "/root/suppercore/TVSI_HNXTPRLGate/log";
 
 				var timeString = $"{time.Year}-{monthSring}-{dayString}";
                 string logFilePathTCPLocal = $"{fileLogLocal}/{timeString}/HNXTPRL-TCP-error.log";
