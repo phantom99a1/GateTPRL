@@ -88,9 +88,25 @@ namespace APIMonitor
             }
             catch (Exception ex)
             {
-                Logger.log.Error($"Error call LogApplicationError() in HomeController, Exception: {ex?.ToString()}");
+                Logger.log.Error($"Error call LogApplicationError() in ApiMonitorController, Exception: {ex?.ToString()}");
             }
             return applicationErrorModel;
+        }
+
+        [HttpGet]
+        [Route("GateTPRLMonitor")]
+        public GateTPRLMonitorModel GetGateTPRLMonitor()
+        {
+            var gateTPRLMonitor = new GateTPRLMonitorModel();
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                Logger.log.Error($"Error call GetGateTPRLMonitor() in ApiMonitorController, Exception: {ex?.ToString()}");
+            }
+            return gateTPRLMonitor;
         }
 
         [HttpPost]
