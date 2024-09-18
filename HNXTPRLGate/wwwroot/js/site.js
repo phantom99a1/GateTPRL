@@ -308,15 +308,9 @@ function ReloadDataError() {
         url: "/Home/ApplicationErrorPaging",
         data: {
             "pageIndex": pageIndex,
-        },
-        beforeSend: function () {
-            SpinLoading(true);
-        },
+        },       
         success: function (data) {
             $("#ApplicationErrorID").html(data);
-        },
-        complete: function () {
-            SpinLoading(false);
-        }
+        }        
     });
 }
