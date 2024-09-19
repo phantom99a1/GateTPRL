@@ -1,4 +1,10 @@
-﻿.loading-container:after {
+﻿.header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.loading-container:after {
     content: "";
     position: absolute;
     top: 0;
@@ -142,6 +148,11 @@
     height: calc(100vh - 329px);
 }
 
+.group__inner:last-child .box__body #popup-data {
+    overflow-wrap: break-word;
+    word-break: break-all;
+}
+
 .group__box {
     padding: 0;
     background: unset;
@@ -151,14 +162,19 @@
         display: unset;
     }
 
+    .group__box-list.v1 .value {
+        max-width: 270px !important;
+    }
+
     .group__box-list > fieldset {
-        display: grid;
-        grid-template-columns: auto auto;
+        /*display: grid;
+        grid-template-columns: auto auto;*/
+        display: flex;
         gap: 16px;
     }
 
-    .group__box-list .box:last-child .value {
-        max-width: 265px !important;
+    .group__box-list .box {
+        flex: 1;
     }
 
     .group__box.infomation .box__head {
@@ -167,9 +183,27 @@
         padding: 16px 12px;
     }
 
+    .group__box.infomation .popup {
+        z-index: 999;
+    }
+
+    .group__box.infomation .border-css {
+        z-index: 1;
+        position: relative;
+    }
+
+    .group__box.infomation .border-css::-webkit-scrollbar-track {
+        border: 0;
+        border-bottom: 1px solid #434141;
+    }
+
     .group__box-access .block__wrap {
         display: grid;
         gap: 20px;
+    }
+
+    .group__box-access .block__wrap .container {
+        padding: 0;
     }
 
     .group__box-access .block__wrap .over-flow-x {
@@ -250,12 +284,17 @@ table {
         border: 1px solid #434141;
         border-top: 0;
         border-left: 0;
+        line-height: 1.7;
     }
 
     table.no-border th, table.no-border td {
         border: none;
         padding: 5px;
     }
+
+.tablelist {
+    border-collapse: separate;
+}
 
 .tablelist thead th {
     border-right: 1px solid #4b4646;
@@ -294,6 +333,8 @@ table {
 
 ::-webkit-scrollbar-track {
     background-color: transparent;
+    border: 1px solid #434141;
+    border-left: 0;
 }
 
 ::-webkit-scrollbar-thumb {
