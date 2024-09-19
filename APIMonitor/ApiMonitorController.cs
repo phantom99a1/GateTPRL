@@ -39,20 +39,23 @@ namespace APIMonitor
         public ApplicationErrorModel LogApplicationError()
         {
             var applicationErrorModel = new ApplicationErrorModel();
+            int numberFormatMonthDay = 10;
             List<ApplicationError> lines = new();
             try
             {
                 var time = DateTime.Now;
-                string monthSring = time.Month < 10 ? $"0{time.Month}" : time.Month.ToString();
-                string dayString = time.Day < 10 ? $"0{time.Day}" : time.Day.ToString();
-                string fileLogLocal = "bin/Debug/net6.0/log";
-                string fileLogPublic = "/root/suppercore/TVSI_HNXTPRLGate/log";
+                string monthSring = time.Month < numberFormatMonthDay ? $"0{time.Month}" : time.Month.ToString();
+                string dayString = time.Day < numberFormatMonthDay ? $"0{time.Day}" : time.Day.ToString();
+                string fileLogLocal = ConfigData.LogApplicationErrorLocal;
+                string fileLogPublic = ConfigData.LogApplicationErrorPublic;
+                string HNXTPRLTCPErrorFilePath = ConfigData.HNXTPRLTCPErrorFilePath;
+                string HNXTPRLGateErrorFilePath = ConfigData.HNXTPRLGateErrorFilePath;
 
-				var timeString = $"{time.Year}-{monthSring}-{dayString}";
-                string logFilePathTCPLocal = $"{fileLogLocal}/{timeString}/HNXTPRL-TCP-error.log";
-                string logFilePathTCPPublic = $"{fileLogPublic}/{timeString}/HNXTPRL-TCP-error.log";
-                string logFilePathGateLocal = $"{fileLogLocal}/{timeString}/HNXTPRLGate-error.log";
-				string logFilePathGatePublic = $"{fileLogPublic}/{timeString}/HNXTPRLGate-error.log";
+                var timeString = $"{time.Year}-{monthSring}-{dayString}";
+                string logFilePathTCPLocal = $"{fileLogLocal}/{timeString}/{HNXTPRLTCPErrorFilePath}";
+                string logFilePathTCPPublic = $"{fileLogPublic}/{timeString}/{HNXTPRLTCPErrorFilePath}";
+                string logFilePathGateLocal = $"{fileLogLocal}/{timeString}/{HNXTPRLGateErrorFilePath}";
+				string logFilePathGatePublic = $"{fileLogPublic}/{timeString}/{HNXTPRLGateErrorFilePath}";
 				var fileStreamOptions = new FileStreamOptions
                 {
                     Share = FileShare.ReadWrite
@@ -91,36 +94,8 @@ namespace APIMonitor
                 Logger.log.Error($"Error call LogApplicationError() in ApiMonitorController, Exception: {ex?.ToString()}");
             }
             return applicationErrorModel;
-        }
-
-        [HttpGet]
-        [Route("GateTPRLMonitor")]
-        public GateTPRLMonitorModel GetGateTPRLMonitor()
-        {
-            var gateTPRLMonitor = new GateTPRLMonitorModel();
-            try
-            {
-                var time = DateTime.Now;
-                string monthSring = time.Month < 10 ? $"0{time.Month}" : time.Month.ToString();
-                string dayString = time.Day < 10 ? $"0{time.Day}" : time.Day.ToString();
-                string fileLogHTXLocal = "LogHNXData";
-                string fileLogHNXPublic = "/root/suppercore/TVSI_HNXTPRLGate/LogHNXData";
-
-                var timeString = $"{time.Year}-{monthSring}-{dayString}";
-                string logFilePathTCPLocal = $"{fileLogHTXLocal}/{timeString}/HNXTPRL-TCP-error.log";
-                string logFilePathTCPPublic = $"{fileLogHNXPublic}/{timeString}/HNXTPRL-TCP-error.log";               
-                var fileStreamOptions = new FileStreamOptions
-                {
-                    Share = FileShare.ReadWrite
-                };
-            }
-            catch (Exception ex)
-            {
-                Logger.log.Error($"Error call GetGateTPRLMonitor() in ApiMonitorController, Exception: {ex?.ToString()}");
-            }
-            return gateTPRLMonitor;
-        }
-
+        }        
+        
         [HttpPost]
         [Route("change-gateway-password")]
         public int ChangGatewayPassword([FromQuery] string? p_oldpass, [FromQuery] string? p_newpass)
@@ -352,6 +327,15 @@ namespace APIMonitor
 				};
                 //
                 _boxConnect.DataMem = _DataMem;
+                //Thêm phần giám sát số lượng Message
+                var _GateTPRLMonitor = new GateTPRLMonitorModel()
+                {
+                    ExchangeRevMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeRevMessageNum,
+                    ExchangeSendMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeSendMessageNum,
+                    ExchangeQueueMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeRevMessageNum > 0 ? 
+                    DataMem.gateTPRLMonitorExchange.ExchangeRevMessageNum - DataMem.gateTPRLMonitorExchange.ExchangeSendMessageNum : 0,
+                };
+                _boxConnect.GateTPRLMonitor = _GateTPRLMonitor;
             }
             catch (Exception ex)
             {

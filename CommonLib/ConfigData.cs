@@ -113,6 +113,10 @@ namespace CommonLib
         public static bool LoopWhenSaveDBError = false;
         public static int RecordInPage = 15;
         public static int MaxLinesReader = 5000;
+        public static string LogApplicationErrorLocal = "bin/Debug/net6.0/log";
+        public static string LogApplicationErrorPublic = "/root/suppercore/TVSI_HNXTPRLGate/log";
+        public static string HNXTPRLGateErrorFilePath = "HNXTPRLGate-error.log";
+        public static string HNXTPRLTCPErrorFilePath = "HNXTPRL-TCP-error.log";
         public static void InitConfig(IConfiguration configuration)
         {
             if (configuration != null)

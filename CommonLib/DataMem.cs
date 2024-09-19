@@ -13,5 +13,10 @@ namespace CommonLib
         /// List lưu toàn bộ các securities
         /// </summary>
         public static List<MessageSecurityStatus> lstAllSecurities = new();
+
+        /// <summary>
+        /// Lấy ra số lượng message Exchange
+        /// </summary>
+        public static GateTPRLMonitorExchange gateTPRLMonitorExchange = new(); 
     }
 }
