@@ -58,8 +58,8 @@ namespace HNXTPRLGate.Controllers
 
 						int? countPageIndexMaxRejection = listAllMsgRejectOnMemory?.Count;
                         int? countPageIndexSecurities = listSearchSecurities?.Count;
-                        _boxConnect.DataMem.PageIndexMaxRejection = (countPageIndexMaxRejection > 0 && countPageIndexMaxRejection % RecordInPage == 0) ? countPageIndexMaxRejection / RecordInPage : countPageIndexMaxRejection / RecordInPage + 1;
-                        _boxConnect.DataMem.PageIndexMaxSecurities = (countPageIndexSecurities > 0 && countPageIndexSecurities % RecordInPage == 0)
+                        _boxConnect.DataMem.PageIndexMaxRejection = (countPageIndexMaxRejection % RecordInPage == 0) ? countPageIndexMaxRejection / RecordInPage : countPageIndexMaxRejection / RecordInPage + 1;
+                        _boxConnect.DataMem.PageIndexMaxSecurities = (countPageIndexSecurities % RecordInPage == 0)
                             ? countPageIndexSecurities / RecordInPage : countPageIndexSecurities / RecordInPage + 1;
                         _boxConnect.DataMem.PageIndexRejection = _boxConnect.DataMem.PageIndexMaxRejection >= 1 ? 1 : 0;
                         _boxConnect.DataMem.PageIndexSecurities = _boxConnect.DataMem.PageIndexMaxSecurities >= 1 ? 1 : 0;
@@ -75,8 +75,8 @@ namespace HNXTPRLGate.Controllers
 					_boxConnect.ApplicationError = applicationLog;
                     _boxConnect.ApplicationError.ListAllErrors = applicationLog?.ListAllErrors ?? new();
 					_boxConnect.ApplicationError.ListDisplayErrors = applicationLog?.ListAllErrors.Skip(0).Take(RecordInPage).ToList() ?? new();
-					_boxConnect.ApplicationError.PageIndexMaxpplicationError = (countPageIndexMaxError > 0 && countPageIndexMaxError % RecordInPage == 0) ? countPageIndexMaxError / RecordInPage : countPageIndexMaxError /RecordInPage + 1;
-					_boxConnect.ApplicationError.PageIndexApplicationError = 1;
+					_boxConnect.ApplicationError.PageIndexMaxpplicationError = (countPageIndexMaxError % RecordInPage == 0) ? countPageIndexMaxError / RecordInPage : countPageIndexMaxError /RecordInPage + 1;
+					_boxConnect.ApplicationError.PageIndexApplicationError = _boxConnect.ApplicationError.PageIndexMaxpplicationError >= 1 ? 1 : 0;
                 }
             }
 			catch (Exception ex)
@@ -111,7 +111,7 @@ namespace HNXTPRLGate.Controllers
                     _boxConnect.ApplicationError = applicationLog;
                     _boxConnect.ApplicationError.ListAllErrors = applicationLog?.ListAllErrors ?? new();
                     _boxConnect.ApplicationError.ListDisplayErrors = applicationLog?.ListAllErrors.Skip(0).Take(RecordInPage).ToList() ?? new();
-                    _boxConnect.ApplicationError.PageIndexMaxpplicationError = (countPageIndexMaxError > 0 && countPageIndexMaxError % RecordInPage == 0) ? countPageIndexMaxError / RecordInPage : countPageIndexMaxError / RecordInPage + 1;
+                    _boxConnect.ApplicationError.PageIndexMaxpplicationError = (countPageIndexMaxError % RecordInPage == 0) ? countPageIndexMaxError / RecordInPage : countPageIndexMaxError / RecordInPage + 1;
                     _boxConnect.ApplicationError.PageIndexApplicationError = 1;
                 }
             }
@@ -139,7 +139,7 @@ namespace HNXTPRLGate.Controllers
 					var listAllMsgRejectOnMemory = _boxConnect?.DataMem?.ListAllMsgRejectOnMemory;
 					int? countPageIndexMaxRejection = listAllMsgRejectOnMemory?.Count;
 
-					_boxConnect.DataMem.PageIndexMaxRejection = (countPageIndexMaxRejection > 0 && countPageIndexMaxRejection % RecordInPage == 0) 
+					_boxConnect.DataMem.PageIndexMaxRejection = (countPageIndexMaxRejection % RecordInPage == 0) 
 						? countPageIndexMaxRejection / RecordInPage : countPageIndexMaxRejection / RecordInPage + 1;
 					_boxConnect.DataMem.PageIndexRejection = pageIndex;
 					_boxConnect.DataMem.ListAllMsgRejectOnMemory = listAllMsgRejectOnMemory?.OrderByDescending(item => item.TimeRecv).ToList() ?? new();
@@ -174,7 +174,7 @@ namespace HNXTPRLGate.Controllers
 				{
 					int? countPageIndexMaxSecurities = listSecuritiesSearch?.ToList().Count;
 
-					_boxConnect.DataMem.PageIndexMaxSecurities = (countPageIndexMaxSecurities > 0 && countPageIndexMaxSecurities % RecordInPage == 0) ? countPageIndexMaxSecurities / RecordInPage : countPageIndexMaxSecurities / RecordInPage + 1;
+					_boxConnect.DataMem.PageIndexMaxSecurities = (countPageIndexMaxSecurities % RecordInPage == 0) ? countPageIndexMaxSecurities / RecordInPage : countPageIndexMaxSecurities / RecordInPage + 1;
 					_boxConnect.DataMem.PageIndexSecurities = 1;
 					_boxConnect.DataMem.ListSearchSecurities = listSecuritiesSearch?.OrderBy(item => item.Symbol).ToList() ?? new();
 					_boxConnect.DataMem.ListDisplaySecurities = listSecuritiesSearch?.OrderBy(item => item.Symbol)
@@ -211,7 +211,7 @@ namespace HNXTPRLGate.Controllers
 					var listSearchSecurities = _boxConnect?.DataMem?.ListSearchSecurities;
 					int? countPageIndexMaxSecurities = _boxConnect?.DataMem?.ListSearchSecurities.Count;
 
-					_boxConnect.DataMem.PageIndexMaxSecurities = (countPageIndexMaxSecurities > 0 && countPageIndexMaxSecurities % RecordInPage == 0) ? countPageIndexMaxSecurities / RecordInPage : countPageIndexMaxSecurities / RecordInPage + 1;
+					_boxConnect.DataMem.PageIndexMaxSecurities = (countPageIndexMaxSecurities % RecordInPage == 0) ? countPageIndexMaxSecurities / RecordInPage : countPageIndexMaxSecurities / RecordInPage + 1;
 					_boxConnect.DataMem.PageIndexSecurities = pageIndex;
 					_boxConnect.DataMem.ListSearchSecurities = listSearchSecurities?.OrderBy(item => item.Symbol).ToList() ?? new();
 					_boxConnect.DataMem.ListDisplaySecurities = listSearchSecurities?.OrderBy(item => item.Symbol)
@@ -243,7 +243,7 @@ namespace HNXTPRLGate.Controllers
                     _boxConnect.ApplicationError = applicationLog;
                     _boxConnect.ApplicationError.ListAllErrors = listAllErrors ?? new();
                     _boxConnect.ApplicationError.ListDisplayErrors = listAllErrors?.Skip((pageIndex - 1) * RecordInPage).Take(RecordInPage).ToList() ?? new();
-                    _boxConnect.ApplicationError.PageIndexMaxpplicationError = (countPageIndexMaxError > 0 && countPageIndexMaxError % RecordInPage == 0) 
+                    _boxConnect.ApplicationError.PageIndexMaxpplicationError = (countPageIndexMaxError % RecordInPage == 0) 
 						? countPageIndexMaxError / RecordInPage : countPageIndexMaxError / RecordInPage + 1;
                     _boxConnect.ApplicationError.PageIndexApplicationError = pageIndex;
                 }				

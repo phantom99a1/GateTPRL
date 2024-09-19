@@ -23,9 +23,11 @@
             {
                 <tr>
                     <td class="number text-center">@((Model?.PageIndexApplicationError - 1) * RecordInPage + item.index + 1)</td>
-                    <td style="text-align:left;white-space:break-spaces;width:80%">@item.data.MethodName - @item.data.Line</td>
+                    <td style="text-align:left;white-space:break-spaces;width:200px">@item.data.MethodName - @item.data.ThreadName</td>
                     <td style="text-align:left">
-                        <button class="btn btn-link" style="color:#fff" data-id="@item.index" onclick="GetDetailApplicationError('@item.index')">Detail</button>
+                        <button class="btn btn-link" style="color:#fff" data-id="@item.index" onclick="GetDetailApplicationError('@item.index')">
+                            <i class="far fa-eye"></i>
+                        </button>
                     </td>
                 </tr>
             }
@@ -34,31 +36,34 @@
 </div>
 @if (applicationError != null && applicationError.ListDisplayErrors.Count > 0)
 {
-    <div class="box__action d-flex justify-content-center align-items-center mt-4">
-        <span class="px-2">@applicationError.ListDisplayErrors.Count bản ghi/trang</span>
-        <div class="box__action d-flex px-3">
-            <button class="btn btn-link" style="color:#fff" onclick="GetListApplicationErrorByPage(1)">&lt;&lt;</button>
-        </div>
-        <div class="box__action d-flex px-3">
-            <button class="btn btn-link @(applicationError.PageIndexApplicationError > 1 ? "": "disabled")"
-                style="color:#fff" onclick="GetListApplicationErrorByPage(@applicationError.PageIndexApplicationError - 1)">
-                &lt;
-            </button>
-        </div>
-        <div class="box__action d-flex px-3 mt-2">
-            <span>@applicationError.PageIndexApplicationError/@applicationError.PageIndexMaxpplicationError</span>
-        </div>
-        <div class="box__action d-flex">
-            <button class="btn btn-link @(applicationError.PageIndexApplicationError < applicationError.PageIndexMaxpplicationError ? "" : "disabled")"
-                style="color:#fff" onclick="GetListApplicationErrorByPage(@applicationError.PageIndexApplicationError + 1)">
-                &gt;
-            </button>
-        </div>
-        <div class="box__action d-flex">
-            <button class="btn btn-link" style="color:#fff" onclick="GetListApplicationErrorByPage(@applicationError.PageIndexMaxpplicationError)">&gt;&gt;</button>
+    <div class="d-flex" style="bottom:0">
+        <span class="mt-4 d-flex justify-content-start align-items-center w-100">@applicationError.ListDisplayErrors.Count bản ghi/trang</span>
+        <div class="box__action d-flex justify-content-center align-items-center mt-4">
+            <div class="box__action d-flex">
+                <button class="btn btn-link" style="color:#fff" onclick="GetListApplicationErrorByPage(1)">&lt;&lt;</button>
+            </div>
+            <div class="box__action d-flex">
+                <button class="btn btn-link @(applicationError.PageIndexApplicationError > 1 ? "": "disabled")"
+                        style="color:#fff" onclick="GetListApplicationErrorByPage(@applicationError.PageIndexApplicationError - 1)">
+                    &lt;
+                </button>
+            </div>
+            <div class="box__action d-flex px-1 mt-1">
+                <span>@applicationError.PageIndexApplicationError/@applicationError.PageIndexMaxpplicationError</span>
+            </div>
+            <div class="box__action d-flex">
+                <button class="btn btn-link @(applicationError.PageIndexApplicationError < applicationError.PageIndexMaxpplicationError ? "" : "disabled")"
+                        style="color:#fff" onclick="GetListApplicationErrorByPage(@applicationError.PageIndexApplicationError + 1)">
+                    &gt;
+                </button>
+            </div>
+            <div class="box__action d-flex">
+                <button class="btn btn-link" style="color:#fff" onclick="GetListApplicationErrorByPage(@applicationError.PageIndexMaxpplicationError)">&gt;&gt;</button>
+            </div>
         </div>
     </div>
 }
+
 <div id="popup" class="popup">
     <div class="popup-content">
         <span class="close-btn">&times;</span>

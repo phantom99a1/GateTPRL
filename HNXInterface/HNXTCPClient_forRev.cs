@@ -86,6 +86,8 @@ namespace HNXInterface
                     SharedStorageProcess.c_DataStorageProcess.EnqueueData(fMsgBase, Data_SoR.Recei);
                     break;                
             }
+            //Thêm phần quản lý messageExchange
+            DataMem.gateTPRLMonitorExchange.ExchangeRevMessageNum = fMsgBase.MsgSeqNum;
             GateSeqInfo.Set_LastCliProcess(fMsgBase.MsgSeqNum);
             GateSeqInfo.Set_LastSerProcess(fMsgBase.LastMsgSeqNumProcessed);
             GateSeqInfo.Set_SerSeq(fMsgBase.MsgSeqNum);
@@ -111,6 +113,8 @@ namespace HNXInterface
                     return;
                 }
             }
+            //Thêm phần quản lý messageExchange
+            DataMem.gateTPRLMonitorExchange.ExchangeRevMessageNum = fMsgBase.MsgSeqNum;
             //Xử lý message ở đây
             GateSeqInfo.Set_LastSerProcess(fMsgBase.LastMsgSeqNumProcessed);
             GateSeqInfo.Set_SerSeq(fMsgBase.MsgSeqNum);
