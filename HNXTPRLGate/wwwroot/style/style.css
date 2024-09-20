@@ -190,6 +190,7 @@
     .group__box.infomation .border-css {
         z-index: 1;
         position: relative;
+        height: calc(100% - 36px);
     }
 
     .group__box.infomation .border-css::-webkit-scrollbar-track {
@@ -349,9 +350,10 @@ table {
 
 /* Styles pagination */
 .pagination {
-    padding: 12px 16px;
+    padding: 0 16px;
     border: 1px solid #434141;
-    border-top: 0;
+    border-radius: unset;
+    background-color: #313b45;
 }
 
 .pagination .box__action:last-child > .btn {
