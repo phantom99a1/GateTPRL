@@ -111,9 +111,12 @@ namespace CommonLib
         public static int TimeDelaySaveDB = 1000;
         public static string formatDateTime = "yyyy-MM-dd HH:mm:ss";
         public static bool LoopWhenSaveDBError = false;
+        //#2024.09.20 Revie code => Sửa lại đẩy xuống Config 
         public static int RecordInPage = 15;
         public static int MaxLinesReader = 5000;
+        //#2024.09.20 Revie code => Sửa lại đẩy xuống Config 
         public static string LogApplicationErrorLocal = "bin/Debug/net6.0/log";
+        //#2024.09.20 Revie code => Sửa lại đẩy xuống Config 
         public static string LogApplicationErrorPublic = "/root/suppercore/TVSI_HNXTPRLGate/log";
         public static string HNXTPRLGateErrorFilePath = "HNXTPRLGate-error.log";
         public static string HNXTPRLTCPErrorFilePath = "HNXTPRL-TCP-error.log";

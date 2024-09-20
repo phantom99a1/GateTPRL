@@ -6,6 +6,7 @@ namespace CommonLib
     {
         /// <summary>
         /// List lưu toàn bộ danh sách các msg reject từ Sở
+        /// Mục đích để sử dụng cho phần hiển thị ITMonitor
         /// </summary>
         public static List<MessageReject> lstAllMsgRejectOnMemory = new();
 
