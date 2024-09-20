@@ -62,6 +62,7 @@ function ReloadData() {
                 ReloadData();
                 ReloadSessionFlag();
                 ReloadDataError();
+                ReloadDataRejection();
             } else {
                 document.getElementById("countdown").innerHTML = timeleft + " seconds auto refresh";
             }
@@ -312,5 +313,19 @@ function ReloadDataError() {
         success: function (data) {
             $("#ApplicationErrorID").html(data);
         }        
+    });
+}
+
+function ReloadDataRejection() {
+    const pageIndex = 1;
+    $.ajax({
+        type: "GET",
+        url: "/Home/RejectionPaging",
+        data: {
+            "pageIndex": pageIndex,
+        },
+        success: function (data) {
+            $("#RejectAreaID").html(data);
+        }
     });
 }

@@ -20,6 +20,11 @@
 		{11,"Hạn chế giao dịch"},
 		{25,"Trái phiếu đặc biệt"},
 	};
+	string formatNumber(long number)
+	{
+		string formattedNumber = String.Format("{0:N0}", number);
+		return formattedNumber;
+	}
 }
 
 <div style="overflow-y:auto; max-height:200px">
@@ -44,14 +49,14 @@
 				<tr>
 					<td class="number text-center">@((Model?.PageIndexSecurities - 1) * RecordInPage + item.index + 1)</td>
 					<td style="text-align:center">@item.data.Symbol</td>
-					<td style="text-align:center">@dicSecurityTrading[item.data.SecurityTradingStatus]</td>
-					<td style="text-align:center">@item.data.HighPxOut</td>
-					<td style="text-align:center">@item.data.LowPxOut</td>
-					<td style="text-align:center">@item.data.HighPxRep</td>
-					<td style="text-align:center">@item.data.LowPxRep</td>
-					<td style="text-align:center">@item.data.LastPx</td>
-					<td style="text-align:center">@item.data.HighPx</td>
-					<td style="text-align:center">@item.data.LowPx</td>
+					<td style="text-align:left">@dicSecurityTrading[item.data.SecurityTradingStatus]</td>
+					<td style="text-align:right">@formatNumber(item.data.HighPxOut)</td>
+					<td style="text-align:right">@formatNumber(item.data.LowPxOut)</td>
+					<td style="text-align:right">@formatNumber(item.data.HighPxRep)</td>
+					<td style="text-align:right">@formatNumber(item.data.LowPxRep)</td>
+					<td style="text-align:right">@formatNumber(item.data.LastPx)</td>
+					<td style="text-align:right">@formatNumber(item.data.HighPx)</td>
+					<td style="text-align:right">@formatNumber(item.data.LowPx)</td>
 				</tr>
 			}
 		</tbody>

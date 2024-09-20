@@ -106,15 +106,6 @@ namespace HNXTPRLGate.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GateTPRLMonitor.
-        /// </summary>
-        public static string lblGateTPRL {
-            get {
-                return ResourceManager.GetString("lblGateTPRL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to HỆ THỐNG GIÁM SÁT GATE TRÁI PHIẾU RIÊNG LẺ.
         /// </summary>
         public static string lblHeThongGateTPRL {
@@ -174,6 +165,15 @@ namespace HNXTPRLGate.Resources {
         public static string lblLoiHeThong {
             get {
                 return ResourceManager.GetString("lblLoiHeThong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message In Queue.
+        /// </summary>
+        public static string lblMessageInQueue {
+            get {
+                return ResourceManager.GetString("lblMessageInQueue", resourceCulture);
             }
         }
         

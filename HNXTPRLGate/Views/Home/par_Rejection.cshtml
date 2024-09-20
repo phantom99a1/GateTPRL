@@ -23,11 +23,11 @@
 		<thead>
 			<tr>
 				<th class="number">No</th>
-				<th style="text-align:left">Message reject (35=3)</th>
-				<th style="text-align:left">Time</th>
-				<th style="text-align:left">Rejected Sequence</th>
-				<th style="text-align:left">Order No</th>
-				<th style="text-align:left">Ref Message Type</th>
+				<th>Message reject (35=3)</th>
+				<th>Time</th>
+				<th>Rejected Sequence</th>
+				<th>Order No</th>
+				<th>Ref Message Type</th>
 			</tr>
 		</thead>
 		<tbody style="overflow-y:scroll">
@@ -37,8 +37,8 @@
 					<td class="number text-center">@((Model?.PageIndexRejection - 1) * RecordInPage + item.index + 1)</td>
 					<td style="text-align:left;margin:20px; max-width:350px;white-space:break-spaces">@item.data.GetMessageRaw.Replace(""," ")</td>
 					<td style="text-align:left;margin:20px">@FormatDate(item.data.TimeRecv)</td>
-					<td style="text-align:left;margin:20px">@item.data.RefSeqNum</td>
-					<td style="text-align:left;margin:20px">@item.data.OrderNo</td>
+					<td style="text-align:right;margin:20px">@item.data.RefSeqNum</td>
+					<td style="text-align:right;margin:20px">@item.data.OrderNo</td>
 					<td style="text-align:left;margin:20px">@item.data.RefMsgType</td>
 				</tr>
 			}

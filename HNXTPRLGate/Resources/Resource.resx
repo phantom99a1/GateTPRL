@@ -138,8 +138,8 @@
   <data name="lblLastProcessedSequence" xml:space="preserve">
     <value>Last processed sequence</value>
   </data>
-  <data name="lblGateTPRL" xml:space="preserve">
-    <value>GateTPRLMonitor</value>
+  <data name="lblMessageInQueue" xml:space="preserve">
+    <value>Message In Queue</value>
   </data>
   <data name="lblLogout" xml:space="preserve">
     <value>Logout</value>
