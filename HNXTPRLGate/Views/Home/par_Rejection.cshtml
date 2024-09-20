@@ -47,9 +47,9 @@
 </div>
 @if (dataMem != null && dataMem.ListDisplayMsgRejectOnMemory.Count > 0)
 {
-	<div class="d-flex">
-		<span class="mt-4 d-flex justify-content-start align-items-center w-100">@dataMem.ListDisplayMsgRejectOnMemory.Count bản ghi/trang</span>
-		<div class="box__action d-flex justify-content-center align-items-center mt-4" style="max-width:90%">
+	<div class="pagination d-flex">
+		<span class="d-flex justify-content-start align-items-center w-100">@dataMem.ListDisplayMsgRejectOnMemory.Count bản ghi/trang</span>
+		<div class="box__action d-flex justify-content-center align-items-center" style="max-width:90%">
 			<div class="box__action d-flex">
 				<button class="btn btn-link" style="color:#fff" onclick="GetRejectionListByPage(1)">&lt;&lt;</button>
 			</div>

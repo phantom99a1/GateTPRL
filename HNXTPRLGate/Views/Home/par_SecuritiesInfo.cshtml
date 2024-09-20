@@ -59,9 +59,9 @@
 </div>
 @if (dataMem != null && dataMem.ListDisplaySecurities.Count > 0)
 {
-	<div class="d-flex">
-		<span class="mt-4 d-flex justify-content-start align-items-center w-100">@dataMem.ListDisplaySecurities.Count bản ghi/trang</span>
-		<div class="box__action d-flex justify-content-end align-items-center mt-4 w-100">
+	<div class="pagination d-flex">
+		<span class="d-flex justify-content-start align-items-center w-100">@dataMem.ListDisplaySecurities.Count bản ghi/trang</span>
+		<div class="box__action d-flex justify-content-end align-items-center w-100">
 			<div class="box__action d-flex">
 				<button class="btn btn-link" style="color: #fff" onclick="GetSecuritiesListByPage(1)">&lt;&lt;</button>
 			</div>

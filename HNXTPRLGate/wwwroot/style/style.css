@@ -197,6 +197,11 @@
         border-bottom: 1px solid #434141;
     }
 
+    .group__box-access fieldset {
+        min-height: 358px;
+        max-height: 358px;
+    }
+
     .group__box-access .block__wrap {
         display: grid;
         gap: 20px;
@@ -340,6 +345,17 @@ table {
 ::-webkit-scrollbar-thumb {
     background-color: #c4c4c4;
     border-radius: 5px;
+}
+
+/* Styles pagination */
+.pagination {
+    padding: 12px 16px;
+    border: 1px solid #434141;
+    border-top: 0;
+}
+
+.pagination .box__action:last-child > .btn {
+    padding-right: 0;
 }
 
 /* Styles for basic forms
