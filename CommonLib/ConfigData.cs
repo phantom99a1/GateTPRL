@@ -113,8 +113,7 @@ namespace CommonLib
         public static bool LoopWhenSaveDBError = false;
         public static int RecordInPage { get; set; }
         public static int MaxLinesReader { get; set; }
-        public static string LogApplicationErrorLocal { get; set; } = string.Empty;
-        public static string LogApplicationErrorPublic { get; set; } = string.Empty;
+        public static string LogApplicationError { get; set; } = string.Empty;
         public static string HNXTPRLGateErrorFilePath { get; set; } = string.Empty;
         public static string HNXTPRLTCPErrorFilePath { get; set; } = string.Empty;
         public static void InitConfig(IConfiguration configuration)
@@ -249,8 +248,7 @@ namespace CommonLib
 
                 RecordInPage = int.Parse(configuration["RecordInPage"]);
                 MaxLinesReader = int.Parse(configuration["MaxLinesReader"]);
-                LogApplicationErrorLocal = configuration["LogApplicationErrorLocal"];
-                LogApplicationErrorPublic = configuration["LogApplicationErrorPublic"];
+                LogApplicationError = configuration["LogApplicationError"];
                 HNXTPRLGateErrorFilePath = configuration["HNXTPRLGateErrorFilePath"];
                 HNXTPRLTCPErrorFilePath = configuration["HNXTPRLTCPErrorFilePath"];
             }

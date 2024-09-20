@@ -46,16 +46,13 @@ namespace APIMonitor
                 var time = DateTime.Now;
                 string monthSring = time.Month < numberFormatMonthDay ? $"0{time.Month}" : time.Month.ToString();
                 string dayString = time.Day < numberFormatMonthDay ? $"0{time.Day}" : time.Day.ToString();
-                string fileLogLocal = ConfigData.LogApplicationErrorLocal;
-                string fileLogPublic = ConfigData.LogApplicationErrorPublic;
+                string fileLogError = ConfigData.LogApplicationError;
                 string HNXTPRLTCPErrorFilePath = ConfigData.HNXTPRLTCPErrorFilePath;
                 string HNXTPRLGateErrorFilePath = ConfigData.HNXTPRLGateErrorFilePath;
 
                 var timeString = $"{time.Year}-{monthSring}-{dayString}";
-                string logFilePathTCPLocal = $"{fileLogLocal}/{timeString}/{HNXTPRLTCPErrorFilePath}";
-                string logFilePathTCPPublic = $"{fileLogPublic}/{timeString}/{HNXTPRLTCPErrorFilePath}";
-                string logFilePathGateLocal = $"{fileLogLocal}/{timeString}/{HNXTPRLGateErrorFilePath}";
-				string logFilePathGatePublic = $"{fileLogPublic}/{timeString}/{HNXTPRLGateErrorFilePath}";
+                string logFilePathTCPError = $"{fileLogError}/{timeString}/{HNXTPRLTCPErrorFilePath}";
+                string logFilePathGateError = $"{fileLogError}/{timeString}/{HNXTPRLGateErrorFilePath}";
 				var fileStreamOptions = new FileStreamOptions
                 {
                     Share = FileShare.ReadWrite
@@ -63,10 +60,9 @@ namespace APIMonitor
                 
                 int lineCount = 0;
 
-                if (System.IO.File.Exists(logFilePathTCPLocal) || System.IO.File.Exists(logFilePathTCPPublic))
+                if (System.IO.File.Exists(logFilePathTCPError))
                 {
-                    using var reader = System.IO.File.Exists(logFilePathTCPLocal) ? 
-                        new StreamReader(logFilePathTCPLocal, fileStreamOptions) : new StreamReader(logFilePathTCPPublic, fileStreamOptions);
+                    using var reader = new StreamReader(logFilePathTCPError, fileStreamOptions);
                     string line;
                     while ((line = reader.ReadLine()) != null && lineCount < ConfigData.MaxLinesReader)
                     {
@@ -75,10 +71,9 @@ namespace APIMonitor
                         lineCount++;
                     }
                 }
-                if (System.IO.File.Exists(logFilePathGateLocal) || System.IO.File.Exists(logFilePathGatePublic))
+                if (System.IO.File.Exists(logFilePathGateError))
                 {
-                    using var reader = System.IO.File.Exists(logFilePathGateLocal) ?
-                        new StreamReader(logFilePathGateLocal, fileStreamOptions) : new StreamReader(logFilePathGatePublic, fileStreamOptions);
+                    using var reader =  new StreamReader(logFilePathGateError, fileStreamOptions);
                     string line;
                     while ((line = reader.ReadLine()) != null && lineCount < ConfigData.MaxLinesReader)
                     {
