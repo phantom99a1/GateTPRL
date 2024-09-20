@@ -111,15 +111,12 @@ namespace CommonLib
         public static int TimeDelaySaveDB = 1000;
         public static string formatDateTime = "yyyy-MM-dd HH:mm:ss";
         public static bool LoopWhenSaveDBError = false;
-        //#2024.09.20 Revie code => Sửa lại đẩy xuống Config 
-        public static int RecordInPage = 15;
-        public static int MaxLinesReader = 5000;
-        //#2024.09.20 Revie code => Sửa lại đẩy xuống Config 
-        public static string LogApplicationErrorLocal = "bin/Debug/net6.0/log";
-        //#2024.09.20 Revie code => Sửa lại đẩy xuống Config 
-        public static string LogApplicationErrorPublic = "/root/suppercore/TVSI_HNXTPRLGate/log";
-        public static string HNXTPRLGateErrorFilePath = "HNXTPRLGate-error.log";
-        public static string HNXTPRLTCPErrorFilePath = "HNXTPRL-TCP-error.log";
+        public static int RecordInPage { get; set; }
+        public static int MaxLinesReader { get; set; }
+        public static string LogApplicationErrorLocal { get; set; } = string.Empty;
+        public static string LogApplicationErrorPublic { get; set; } = string.Empty;
+        public static string HNXTPRLGateErrorFilePath { get; set; } = string.Empty;
+        public static string HNXTPRLTCPErrorFilePath { get; set; } = string.Empty;
         public static void InitConfig(IConfiguration configuration)
         {
             if (configuration != null)
@@ -249,6 +246,13 @@ namespace CommonLib
                 EnableSaveDB = bool.Parse(configuration["EnableSaveDB"]);
 
                 GetStockinfo = bool.Parse(configuration["GetStockinfo"]);
+
+                RecordInPage = int.Parse(configuration["RecordInPage"]);
+                MaxLinesReader = int.Parse(configuration["MaxLinesReader"]);
+                LogApplicationErrorLocal = configuration["LogApplicationErrorLocal"];
+                LogApplicationErrorPublic = configuration["LogApplicationErrorPublic"];
+                HNXTPRLGateErrorFilePath = configuration["HNXTPRLGateErrorFilePath"];
+                HNXTPRLTCPErrorFilePath = configuration["HNXTPRLTCPErrorFilePath"];
             }
         }
 

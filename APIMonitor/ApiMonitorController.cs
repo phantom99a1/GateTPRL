@@ -94,8 +94,31 @@ namespace APIMonitor
                 Logger.log.Error($"Error call LogApplicationError() in ApiMonitorController, Exception: {ex?.ToString()}");
             }
             return applicationErrorModel;
-        }        
-        
+        }
+        [HttpGet]
+        [Route("GateTPRLMonitor")]
+        public GateTPRLMonitorModel GetGateTPRLMonitor()
+        {
+            var gateTPRLMonitor = new GateTPRLMonitorModel();
+            try
+            {
+                gateTPRLMonitor.ExchangeRevMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeRevMessageNum;
+                gateTPRLMonitor.ExchangeSendMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeSendMessageNum;
+                gateTPRLMonitor.ExchangeQueueMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeQueueMessageNum;
+                gateTPRLMonitor.TradingSession = TradingRuleData.GetTradingSessionCodeofMainBoard();
+                gateTPRLMonitor.TradingStatus = TradingRuleData.GetTradingSessionNameofMainBoard();
+                gateTPRLMonitor.CoreRevMessageNum = 0;
+                gateTPRLMonitor.CoreSendMessageNum = 0;
+                gateTPRLMonitor.CoreQueueMessageNum = 0;
+            }
+            catch (Exception ex)
+            {
+                Logger.log.Error($"Error call GetGateTPRLMonitor() in ApiMonitorController, Exception: {ex?.ToString()}");
+            }
+            return gateTPRLMonitor;
+        }
+
+
         [HttpPost]
         [Route("change-gateway-password")]
         public int ChangGatewayPassword([FromQuery] string? p_oldpass, [FromQuery] string? p_newpass)
@@ -332,8 +355,7 @@ namespace APIMonitor
                 {
                     ExchangeRevMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeRevMessageNum,
                     ExchangeSendMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeSendMessageNum,
-                    ExchangeQueueMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeRevMessageNum > 0 ? 
-                    DataMem.gateTPRLMonitorExchange.ExchangeRevMessageNum - DataMem.gateTPRLMonitorExchange.ExchangeSendMessageNum : 0,
+                    ExchangeQueueMessageNum = 0,
                 };
                 _boxConnect.GateTPRLMonitor = _GateTPRLMonitor;
             }
