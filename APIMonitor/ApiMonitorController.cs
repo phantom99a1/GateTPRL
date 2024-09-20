@@ -101,10 +101,7 @@ namespace APIMonitor
                 gateTPRLMonitor.ExchangeSendMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeSendMessageNum;
                 gateTPRLMonitor.ExchangeQueueMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeQueueMessageNum;
                 gateTPRLMonitor.TradingSession = TradingRuleData.GetTradingSessionCodeofMainBoard();
-                gateTPRLMonitor.TradingStatus = TradingRuleData.GetTradingSessionNameofMainBoard();
-                gateTPRLMonitor.CoreRevMessageNum = 0;
-                gateTPRLMonitor.CoreSendMessageNum = 0;
-                gateTPRLMonitor.CoreQueueMessageNum = 0;
+                gateTPRLMonitor.TradingStatus = TradingRuleData.GetTradingSessionNameofMainBoard();                
             }
             catch (Exception ex)
             {
