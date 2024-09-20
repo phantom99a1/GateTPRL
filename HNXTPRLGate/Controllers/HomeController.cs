@@ -7,6 +7,7 @@ using HNX.FIXMessage;
 using HNXInterface;
 using HNXTPRLGate.Helpers;
 using LocalMemory;
+using LogStation;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NLog.Fluent;
@@ -128,8 +129,10 @@ namespace HNXTPRLGate.Controllers
         public IActionResult GetRejectionListByPaging(int pageIndex)
         {
             var _boxConnect = new BoxConnectModel();
+            long t1 = DateTime.Now.Ticks;
             try
             {
+                Logger.ApiLog.Info($"Start call GetRejectionListByPaging with pageIndex: {pageIndex} ");
                 var client = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
                 var request = new RestRequest("api/ApiMonitor/get-boxconnect-info", Method.Get);
                 var response = client.Execute(request);
@@ -146,6 +149,8 @@ namespace HNXTPRLGate.Controllers
 					_boxConnect.DataMem.ListDisplayMsgRejectOnMemory = listAllMsgRejectOnMemory?.OrderByDescending(item => item.TimeRecv)
 						.Skip((pageIndex - 1)*RecordInPage).Take(RecordInPage).ToList() ?? new();
 				}
+                Logger.ApiLog.Info($"End call GetRejectionListByPaging with pageIndex: {pageIndex}; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
+                LogStationFacade.RecordforPT("GetRejectionListByPaging", DateTime.Now.Ticks - t1, true, "HomeController");
             }
 
             catch (Exception ex)
@@ -160,9 +165,11 @@ namespace HNXTPRLGate.Controllers
 		public IActionResult SearchListSecurities(string symbolID)
 		{
 			var _boxConnect = new BoxConnectModel();
-			try
+            long t1 = DateTime.Now.Ticks;
+            try
 			{
-				var client = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
+                Logger.ApiLog.Info($"Start call SearchListSecurities with symbolID: {symbolID} ");
+                var client = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
 				var request = new RestRequest("api/ApiMonitor/get-boxconnect-info", Method.Get);
 				var response = client.Execute(request);
 				_boxConnect = JsonConvert.DeserializeObject<BoxConnectModel>(response.Content ?? "");
@@ -181,6 +188,8 @@ namespace HNXTPRLGate.Controllers
 						.Skip(0).Take(RecordInPage).ToList() ?? new();
 					HttpContext.Session.SetString("SearchModel", JsonConvert.SerializeObject(_boxConnect));
 				}
+                Logger.ApiLog.Info($"End call SearchListSecurities with symbolID: {symbolID}; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
+                LogStationFacade.RecordforPT("SearchListSecurities", DateTime.Now.Ticks - t1, true, "HomeController");
             }
             catch (Exception ex)
 			{
@@ -194,8 +203,10 @@ namespace HNXTPRLGate.Controllers
 		public IActionResult GetListSecuritiesByPage(int pageIndex)
 		{
 			var _boxConnect = new BoxConnectModel();
-			try
+            long t1 = DateTime.Now.Ticks;
+            try
 			{
+                Logger.ApiLog.Info($"Start call GetListSecuritiesByPage with pageIndex: {pageIndex} ");
                 var searchModelString = HttpContext.Session.GetString("SearchModel");
                 _boxConnect = JsonConvert.DeserializeObject<BoxConnectModel>(searchModelString ?? "");
                 if (_boxConnect == null)
@@ -217,7 +228,9 @@ namespace HNXTPRLGate.Controllers
 					_boxConnect.DataMem.ListDisplaySecurities = listSearchSecurities?.OrderBy(item => item.Symbol)
 						.Skip((pageIndex - 1) * RecordInPage).Take(RecordInPage).ToList() ?? new();
 				}
-			}
+                Logger.ApiLog.Info($"End call GetListSecuritiesByPage with pageIndex: {pageIndex}; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
+                LogStationFacade.RecordforPT("GetListSecuritiesByPage", DateTime.Now.Ticks - t1, true, "HomeController");
+            }
 			catch (Exception ex)
 			{
 				Logger.log.Error($"Error call GetListSecuritiesByPage() in HomeController, Exception: {ex?.ToString()}");
@@ -229,9 +242,11 @@ namespace HNXTPRLGate.Controllers
 		[Route("/Home/ApplicationErrorPaging")]
 		public IActionResult GetListApplicationErrorByPage(int pageIndex)
 		{
-			var _boxConnect = new BoxConnectModel();
+            long t1 = DateTime.Now.Ticks;
+            var _boxConnect = new BoxConnectModel();
 			try
 			{
+                Logger.ApiLog.Info($"Start call GetListApplicationErrorByPage with pageIndex: {pageIndex} ");
                 var clientLogError = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
                 var requestLog = new RestRequest("api/ApiMonitor/LogApplicationError", Method.Get);
                 var responseLog = clientLogError.Execute(requestLog);
@@ -246,11 +261,13 @@ namespace HNXTPRLGate.Controllers
                     _boxConnect.ApplicationError.PageIndexMaxpplicationError = (countPageIndexMaxError % RecordInPage == 0) 
 						? countPageIndexMaxError / RecordInPage : countPageIndexMaxError / RecordInPage + 1;
                     _boxConnect.ApplicationError.PageIndexApplicationError = pageIndex;
-                }				
+                }
+                Logger.ApiLog.Info($"End call GetListApplicationErrorByPage with pageIndex: {pageIndex}; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
+                LogStationFacade.RecordforPT("GetListApplicationErrorByPage", DateTime.Now.Ticks - t1, true, "HomeController");
             }
 			catch (Exception ex)
 			{
-                Logger.log.Error($"Error call GetListApplicationErrorByPage() in HomeController, Exception: {ex?.ToString()}");
+                Logger.log.Error($"Error call GetListApplicationErrorByPage with pageIndex: {pageIndex} in HomeController, Exception: {ex?.ToString()}");
             }
 			return PartialView("par_ApplicationError", _boxConnect?.ApplicationError);
 		}
@@ -259,11 +276,24 @@ namespace HNXTPRLGate.Controllers
 		[Route("/Home/GetDetailApplicationError")]
         public IActionResult GetDetailApplicationError(int index)
 		{
-            var clientLogError = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
-            var requestLog = new RestRequest("api/ApiMonitor/LogApplicationError", Method.Get);
-            var responseLog = clientLogError.Execute(requestLog);
-            var applicationLog = JsonConvert.DeserializeObject<ApplicationErrorModel>(responseLog?.Content ?? "");
-			var result = applicationLog?.ListAllErrors[index];
+			var result = new ApplicationError();
+            long t1 = DateTime.Now.Ticks;
+            try
+			{
+                Logger.ApiLog.Info($"Start call GetDetailApplicationError with index: {index} ");
+                var clientLogError = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
+                var requestLog = new RestRequest("api/ApiMonitor/LogApplicationError", Method.Get);
+                var responseLog = clientLogError.Execute(requestLog);
+                var applicationLog = JsonConvert.DeserializeObject<ApplicationErrorModel>(responseLog?.Content ?? "");
+                result = applicationLog?.ListAllErrors[index];
+                Logger.ApiLog.Info($"End call GetDetailApplicationError with index: {index}; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
+                LogStationFacade.RecordforPT("GetDetailApplicationError", DateTime.Now.Ticks - t1, true, "HomeController");
+            }
+			catch (Exception ex)
+			{
+                Logger.log.Error($"Error call GetDetailApplicationError with index = {index} in HomeController, Exception: {ex?.ToString()}");
+            }
+            
             return Ok(result);
         }
 
