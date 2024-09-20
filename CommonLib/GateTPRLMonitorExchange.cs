@@ -1,4 +1,6 @@
-﻿namespace CommonLib
+﻿//#2024.09.20 Revie code => thêm comment rõ mục đich
+//Comment rõ mục đích để làm gì 
+namespace CommonLib
 {
     public class GateTPRLMonitorExchange
     {
