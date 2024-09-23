@@ -27,7 +27,10 @@
                             <a class="nav-item nav-link" id="nav-securities-tab" data-toggle="tab"
                                href="#nav-securities" role="tab" aria-controls="nav-securities"
                                aria-selected="false">Securities status request</a>
-                           
+
+                            <a class="nav-item nav-link" id="nav-sequence-tab" data-toggle="tab"
+                               href="#nav-sequence" role="tab" aria-controls="nav-sequence"
+                               aria-selected="false">Change gateway sequence</a>
                         </div>
 
                           
@@ -119,6 +122,33 @@
                                 <div class="box__foot">
                                     <div>
                                         <button class="primary" onclick="btnSecuritiesRequest()">Submit</button>
+                                    </div>
+                                </div>
+                                <div class="divider"></div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="nav-sequence" role="tabpanel" aria-labelledby="nav-sequence-tab">
+                            <div class="box">
+                                <div class="box__head">Change gateway sequence</div>
+
+                                <div class="box__body">
+                                    <form action="">
+                                        <div class="form-group">
+                                            <label for="txtSequence">Sequence *</label>
+                                            <input id="txtSequence" type="text" class="form-control" value="" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="txtLastSequence">Last process sequence *</label>
+                                            <input id="txtLastSequence" type="text" class="form-control" value="" />
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="box__foot">
+                                    <div>
+                                        <button class="primary" >Submit</button>
                                     </div>
                                 </div>
                                 <div class="divider"></div>

@@ -329,3 +329,34 @@ function ReloadDataRejection() {
         }
     });
 }
+
+function btnChangeGatewaySequence() {
+    try {
+        var _txtSequence = $('#txtSequence').val().trim() || '';
+        if (_txtSequence == '' || _txtSequence == null) {
+            nvsError("Sequence is required!");
+            return;
+        }
+        var _txtLastSequence = $('#txtLastSequence').val().trim() || '';
+        if (_txtLastSequence == '' || _txtLastSequence == null) {
+            nvsError("LastSequence is required!");
+            return;
+        }
+
+        var _numberSequence = Number(_txtSequence);
+        var _numberLastSequence = Number(_txtLastSequence);
+        if (isNaN(_numberSequence) || _numberSequence < 0) {
+            nvsError("Sequence is invalid!");
+            return;
+        }
+        if (isNaN(_numberLastSequence) || _numberLastSequence < 0) {
+            nvsError("LastSequence is invalid!");
+            return;
+        }
+        nvsConfirm("Are you sure to process change gateway sequence?", function () {
+            //function to change sequence??
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}

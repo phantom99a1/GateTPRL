@@ -142,6 +142,15 @@ namespace HNXInterface
             }
         }
 
+        //2024/09/23 thêm hàm xử lý phần reset seq
+        public void ResetSequence(int sequence, int lastProcessSequence)
+        {
+            GateSeqInfo.Set_CliSeq(sequence);
+            GateSeqInfo.Set_SerSeq(lastProcessSequence);
+            GateSeqInfo.Set_LastCliProcess(sequence);
+            GateSeqInfo.Set_LastSerProcess(lastProcessSequence);
+        }
+
         private void ThreadReadSocketData()
         {
             CommonLib.Logger.log.Info($"START ExecuteClientSocketThread ManagedThreadId:{Thread.CurrentThread.ManagedThreadId.ToString()}");
