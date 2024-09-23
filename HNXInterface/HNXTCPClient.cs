@@ -75,15 +75,27 @@ namespace HNXInterface
             return GateSeqInfo.LastCliProcessSeq;
         }
 
+        public int ChangeSeq(int value)
+        {
+            GateSeqInfo.Set_CliSeq(value);
+            return GateSeqInfo.CliSeq;
+        }
+
+        public int ChangeLastSeqProcess(int value)
+        {
+            GateSeqInfo.Set_LastCliProcess(value);
+            return GateSeqInfo.LastCliProcessSeq;
+        }
+
         public int TradingSessionID()
         {
             return tradingSessionID;
         }
 
-        public void ChangeSeq(int Seq)
+       /* public void ChangeSeq(int Seq)
         {
             GateSeqInfo.Set_CliSeq(Seq);
-        }
+        }*/
 
         // 01.03.2024 bacnd rem lai k thay dung de giam unit test
         //public void ChangeLastSeqProcess(int LasSeqProcess)
