@@ -19,6 +19,10 @@ namespace HNXInterface
         public enumClientStatus ClientStatus();
         public int Seq();
         public int LastSeqProcess();
+
+        public int ChangeSeq(int value);
+
+        public int ChangeLastSeqProcess(int value);
         public bool SendSecurityStatusRequest(string tradingCode, string Symbol);
 
         public int LastMapSeqProcess { get; }
