@@ -354,7 +354,28 @@ function btnChangeGatewaySequence() {
             return;
         }
         nvsConfirm("Are you sure to process change gateway sequence?", function () {
-            //function to change sequence??
+            $.ajax({
+                type: "POST",
+                url: "/change-gateway-sequence",
+                data: {
+                    "sequence": _txtSequence,
+                    "lastprocessSequence": _txtLastSequence
+                },
+                success: function (data) {
+                    if (data.code > 0) {
+                        nvsSuccess(data.message);
+                        $('#txtSequence').val('');
+                        $('#txtLastSequence').val('');
+                    }
+                    else {
+                        nvsError(data.message);
+                    }
+                },
+                error: function (data) {
+                    console.log(data.error);
+                    nvsError(data.error);
+                }
+            });
         });
     } catch (e) {
         console.log(e);

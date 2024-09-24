@@ -110,6 +110,27 @@ namespace APIMonitor
             return gateTPRLMonitor;
         }
 
+        [HttpPost]
+        [Route("change-gateway-sequence")]
+        public int ChangeGatewaySequence([FromQuery] string sequence, [FromQuery] string lastProcessSequence)
+        {
+            try
+            {
+                int cliSeq = c_iHNXClient.ChangeSeq(int.Parse(sequence));
+                int lastSeq = c_iHNXClient.ChangeLastSeqProcess(int.Parse(lastProcessSequence));
+                var result = new { cliSeq, lastSeq };
+                if(result != null)
+                {
+                    return 1;
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Logger.log.Error($"Error call ChangeGatewaySequence() in ApiMonitorController, Exception: {ex?.ToString()}");
+                return -1;
+            }
+        }
 
         [HttpPost]
         [Route("change-gateway-password")]

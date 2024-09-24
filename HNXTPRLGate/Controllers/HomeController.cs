@@ -297,6 +297,49 @@ namespace HNXTPRLGate.Controllers
             return Ok(result);
         }
 
+		[AuthActionFilter(Const_UserRole.Role_Full)]
+		[HttpPost]
+		[Route("change-gateway-sequence")]
+		public IActionResult ChangeGatewaySequence(string sequence, string lastProcessSequence)
+		{
+			try
+			{
+                UserInfo userInfo = HttpContext.GetCurrentUser();
+                Logger.log.Info($"User name: {userInfo?.Username} -> change Gateway Sequence Request - IP Source: {HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString()} - action: {HttpContext.Request.Method}");
+                //
+                if (!string.IsNullOrWhiteSpace(sequence))
+                {
+                    _ = sequence.Trim();
+                }
+                if (!string.IsNullOrWhiteSpace(lastProcessSequence))
+                {
+                    _ = lastProcessSequence.Trim();
+                }
+                var client = new RestClient(ConfigData.APIMonitorDomain + ":" + ConfigData.APIMonitorPort);
+                var request = new RestRequest("api/ApiMonitor/change-gateway-sequence", Method.Post);
+                //
+                request.AddParameter("sequence", sequence, ParameterType.QueryString);
+                request.AddParameter("lastProcessSequence", lastProcessSequence, ParameterType.QueryString);
+                var response = client.Execute(request);
+                //
+                var res = Utils.ParseInt(response?.Content ?? "");
+                string userStatusText = ShareMemoryData.c_UserStatusText;
+                if (res > 0)
+                {
+                    return Json(new { code = 1, message = "Change Gateway Sequence request success!" });
+                }
+                else
+                {
+                    return Json(new { code = -1, message = "Error Change Gateway Sequence request!" });
+                }
+            }
+			catch (Exception ex)
+			{
+                Logger.log.Error($"Error call ChangeGatewaySequence in HomeController  ,Exception: {ex?.ToString()}");
+                return Json(new { code = -1, message = "Error catch system." });
+            }            
+        }
+
         [AuthActionFilter(Const_UserRole.Role_Full)]
 		[HttpPost]
 		[Route("showformcontrol")]
