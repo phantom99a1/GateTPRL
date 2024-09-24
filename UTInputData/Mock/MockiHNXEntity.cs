@@ -54,5 +54,14 @@ namespace UTInputData.Mock
             return true;
         }
 
+        public int ChangeSeq(int value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int ChangeLastSeqProcess(int value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
