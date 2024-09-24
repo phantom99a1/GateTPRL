@@ -6,9 +6,9 @@ using CommonLib;
 using HNX.FIXMessage;
 using HNXInterface;
 using LocalMemory;
+using LogStation;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace APIMonitor
 {
@@ -49,9 +49,11 @@ namespace APIMonitor
         {
             int numberFormatMonthDay = 10;
             List<ApplicationError> lines = new();
-            try
+			long t1 = DateTime.Now.Ticks;
+			try
             {
-                var time = DateTime.Now;
+				Logger.ApiLog.Info($"Start call GetLogApplicationErrorList");
+				var time = DateTime.Now;
                 string monthSring = time.Month < numberFormatMonthDay ? $"0{time.Month}" : time.Month.ToString();
                 string dayString = time.Day < numberFormatMonthDay ? $"0{time.Day}" : time.Day.ToString();
                 string fileLogError = ConfigData.LogApplicationError;
@@ -89,8 +91,10 @@ namespace APIMonitor
                         lines.Add(applicationError);
                         lineCount++;
                     }
-                }                
-            }
+                }
+				Logger.ApiLog.Info($"End call GetLogApplicationErrorList; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
+				LogStationFacade.RecordforPT("GetLogApplicationErrorList", DateTime.Now.Ticks - t1, true, "ApiMonitorController");
+			}
             catch (Exception ex)
             {
                 Logger.log.Error($"Error call GetLogApplicationErrorList() in ApiMonitorController, Exception: {ex?.ToString()}");
@@ -102,9 +106,11 @@ namespace APIMonitor
         public GateTPRLMonitorModel GetGateTPRLMonitor()
         {
             var gateTPRLMonitor = new GateTPRLMonitorModel();
-            try
+			long t1 = DateTime.Now.Ticks;
+			try
             {
-                gateTPRLMonitor.ExchangeRevMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeRevMessageNum;
+				Logger.ApiLog.Info($"Start call GetGateTPRLMonitor");
+				gateTPRLMonitor.ExchangeRevMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeRevMessageNum;
                 gateTPRLMonitor.ExchangeSendMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeSendMessageNum;
                 gateTPRLMonitor.ExchangeQueueMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeQueueMessageNum;
                 gateTPRLMonitor.TradingSession = TradingRuleData.GetTradingSessionCodeofMainBoard();
@@ -119,7 +125,9 @@ namespace APIMonitor
                 {
                     gateTPRLMonitor.LoginStatus = "1";
                 }
-            }
+				Logger.ApiLog.Info($"End call GetGateTPRLMonitor; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
+				LogStationFacade.RecordforPT("GetGateTPRLMonitor", DateTime.Now.Ticks - t1, true, "ApiMonitorController");
+			}
             catch (Exception ex)
             {
                 Logger.log.Error($"Error call GetGateTPRLMonitor() in ApiMonitorController, Exception: {ex?.ToString()}");
@@ -131,16 +139,20 @@ namespace APIMonitor
         [Route("change-gateway-sequence")]
         public int ChangeGatewaySequence([FromQuery] string sequence, [FromQuery] string lastProcessSequence)
         {
-            try
+			long t1 = DateTime.Now.Ticks;
+			try
             {
-                int cliSeq = c_iHNXClient.ChangeSeq(int.Parse(sequence));
+				Logger.ApiLog.Info($"Start call ChangeGatewaySequence with sequence: {sequence}, lastProcessSequence: {lastProcessSequence} ");
+				int cliSeq = c_iHNXClient.ChangeSeq(int.Parse(sequence));
                 int lastSeq = c_iHNXClient.ChangeLastSeqProcess(int.Parse(lastProcessSequence));
                 var result = new { cliSeq, lastSeq };
                 if(result != null)
                 {
                     return 1;
                 }
-                return 0;
+				Logger.ApiLog.Info($"End call ChangeGatewaySequence with sequence: {sequence}, lastProcessSequence: {lastProcessSequence}; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
+				LogStationFacade.RecordforPT("ChangeGatewaySequence", DateTime.Now.Ticks - t1, true, "ApiMonitorController");
+				return 0;
             }
             catch (Exception ex)
             {

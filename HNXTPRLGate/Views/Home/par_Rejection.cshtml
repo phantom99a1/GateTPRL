@@ -18,7 +18,7 @@
 		return result;
 	}
 }
-<div class="over-flow-x" style="overflow-y:auto; max-height:200px;max-width:100%">
+<div style="overflow-y:auto; max-height:250px">
 	<table class="tablelist">
 		<thead>
 			<tr>
@@ -30,13 +30,13 @@
 				<th>Ref Message Type</th>
 			</tr>
 		</thead>
-		<tbody style="overflow-y:scroll">
+		<tbody>
 			@foreach(var item in dataMem.ListDisplayMsgRejectOnMemory.Select((data, index) => new{data, index}))
 			{
 				<tr>
 					<td class="number text-center">@((Model?.PageIndexRejection - 1) * RecordInPage + item.index + 1)</td>
 					<td style="text-align:left;margin:20px; max-width:350px;white-space:break-spaces">@item.data.GetMessageRaw.Replace(""," ")</td>
-					<td style="text-align:left;margin:20px">@FormatDate(item.data.TimeRecv)</td>
+					<td style="text-align:center;margin:20px">@FormatDate(item.data.TimeRecv)</td>
 					<td style="text-align:right;margin:20px">@item.data.RefSeqNum</td>
 					<td style="text-align:left;margin:20px">@item.data.OrderNo</td>
 					<td style="text-align:left;margin:20px">@item.data.RefMsgType</td>
@@ -88,5 +88,7 @@
 		position: sticky;
 		top: 0;
 		box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+		z-index: 1;
+		margin: 0;
 	}
 </style>
