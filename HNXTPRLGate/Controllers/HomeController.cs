@@ -47,7 +47,7 @@ namespace HNXTPRLGate.Controllers
 				var response = client.Execute(request);                
                 _boxConnect = JsonConvert.DeserializeObject<BoxConnectModel>(response?.Content ?? "");
                 var clientLogError = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
-                var requestLog = new RestRequest("api/ApiMonitor/LogApplicationError", Method.Get);
+                var requestLog = new RestRequest("api/ApiMonitor/GetApplicationError", Method.Get);
                 var responseLog = clientLogError.Execute(requestLog);
 				var applicationLog = JsonConvert.DeserializeObject<ApplicationErrorModel>(responseLog?.Content ?? "");				
 				if (_boxConnect != null)
@@ -102,7 +102,7 @@ namespace HNXTPRLGate.Controllers
 				var response = client.Execute(request);
 				_boxConnect = JsonConvert.DeserializeObject<BoxConnectModel>(response?.Content ?? "");
                 var clientLogError = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
-                var requestLog = new RestRequest("api/ApiMonitor/LogApplicationError", Method.Get);
+                var requestLog = new RestRequest("api/ApiMonitor/GetApplicationError", Method.Get);
                 var responseLog = clientLogError.Execute(requestLog);
                 var applicationLog = JsonConvert.DeserializeObject<ApplicationErrorModel>(responseLog?.Content ?? "");
 
@@ -248,7 +248,7 @@ namespace HNXTPRLGate.Controllers
 			{
                 Logger.ApiLog.Info($"Start call GetListApplicationErrorByPage with pageIndex: {pageIndex} ");
                 var clientLogError = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
-                var requestLog = new RestRequest("api/ApiMonitor/LogApplicationError", Method.Get);
+                var requestLog = new RestRequest("api/ApiMonitor/GetApplicationError", Method.Get);
                 var responseLog = clientLogError.Execute(requestLog);
                 var applicationLog = JsonConvert.DeserializeObject<ApplicationErrorModel>(responseLog?.Content ?? "");
 				if(_boxConnect != null)
@@ -282,7 +282,7 @@ namespace HNXTPRLGate.Controllers
 			{
                 Logger.ApiLog.Info($"Start call GetDetailApplicationError with index: {index} ");
                 var clientLogError = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
-                var requestLog = new RestRequest("api/ApiMonitor/LogApplicationError", Method.Get);
+                var requestLog = new RestRequest("api/ApiMonitor/GetApplicationError", Method.Get);
                 var responseLog = clientLogError.Execute(requestLog);
                 var applicationLog = JsonConvert.DeserializeObject<ApplicationErrorModel>(responseLog?.Content ?? "");
                 result = applicationLog?.ListAllErrors[index];
@@ -315,7 +315,7 @@ namespace HNXTPRLGate.Controllers
                 {
                     _ = lastProcessSequence.Trim();
                 }
-                var client = new RestClient(ConfigData.APIMonitorDomain + ":" + ConfigData.APIMonitorPort);
+                var client = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
                 var request = new RestRequest("api/ApiMonitor/change-gateway-sequence", Method.Post);
                 //
                 request.AddParameter("sequence", sequence, ParameterType.QueryString);

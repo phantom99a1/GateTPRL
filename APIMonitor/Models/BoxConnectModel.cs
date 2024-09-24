@@ -16,6 +16,6 @@ namespace APIMonitor.ObjectInfo
 
         public string Session { get; set; } = string.Empty;
 
-        public string TradingSession { get; set; } = string.Empty;
+        public string TradingSession { get; set; } = "N/A";
     }
 }

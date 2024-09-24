@@ -64,7 +64,7 @@ namespace LocalMemory
 			{
 				return Boards[_MainBoard].TradingSession;
 			}
-			return string.Empty;
+			return "N/A";
 		}
 
         public static bool IsHaveData()

@@ -25,7 +25,7 @@
                     <td class="number text-center">@((Model?.PageIndexApplicationError - 1) * RecordInPage + item.index + 1)</td>
                     <td style="text-align:left;white-space:break-spaces;width:200px">@item.data.MethodName - @item.data.ThreadName</td>
                     <td style="text-align:left">
-                        <button class="btn btn-link" style="color:#fff" data-id="@item.index" onclick="GetDetailApplicationError('@item.index')">
+                        <button class="btn btn-link" style="color:#fff" data-id="@item.index" onclick="GetDetailApplicationError('@((Model?.PageIndexApplicationError - 1) * RecordInPage + item.index)')">
                             <i class="far fa-eye"></i>
                         </button>
                     </td>

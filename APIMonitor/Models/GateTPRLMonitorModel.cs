@@ -11,5 +11,7 @@
         public string TradingStatus { get; set; } = string.Empty;
 
         public string TradingSession { get; set; } = string.Empty;
+
+        public string LoginStatus { get; set; } = string.Empty;
     }
 }

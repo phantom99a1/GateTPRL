@@ -35,10 +35,18 @@ namespace APIMonitor
         }
 
         [HttpGet]
-        [Route("LogApplicationError")]
-        public ApplicationErrorModel LogApplicationError()
+        [Route("GetApplicationError")]
+        public ApplicationErrorModel ApplicationError()
         {
             var applicationErrorModel = new ApplicationErrorModel();
+            applicationErrorModel.ListAllErrors = GetLogApplicationErrorList();
+            return applicationErrorModel;
+        }
+
+        [HttpGet]
+        [Route("LogApplicationError")]
+        public List<ApplicationError> GetLogApplicationErrorList()
+        {
             int numberFormatMonthDay = 10;
             List<ApplicationError> lines = new();
             try
@@ -82,13 +90,12 @@ namespace APIMonitor
                         lineCount++;
                     }
                 }                
-                applicationErrorModel.ListAllErrors = lines;
             }
             catch (Exception ex)
             {
-                Logger.log.Error($"Error call LogApplicationError() in ApiMonitorController, Exception: {ex?.ToString()}");
+                Logger.log.Error($"Error call GetLogApplicationErrorList() in ApiMonitorController, Exception: {ex?.ToString()}");
             }
-            return applicationErrorModel;
+            return lines;
         }
         [HttpGet]
         [Route("GateTPRLMonitor")]
@@ -101,7 +108,17 @@ namespace APIMonitor
                 gateTPRLMonitor.ExchangeSendMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeSendMessageNum;
                 gateTPRLMonitor.ExchangeQueueMessageNum = DataMem.gateTPRLMonitorExchange.ExchangeQueueMessageNum;
                 gateTPRLMonitor.TradingSession = TradingRuleData.GetTradingSessionCodeofMainBoard();
-                gateTPRLMonitor.TradingStatus = TradingRuleData.GetTradingSessionNameofMainBoard();                
+                gateTPRLMonitor.TradingStatus = TradingRuleData.GetTradeSesStatusofMainBoard();
+                if (c_iHNXClient.ClientStatus() != enumClientStatus.DATA_TRANSFER
+                    && c_iHNXClient.ClientStatus() != enumClientStatus.PROCESS_RESEND
+                    && c_iHNXClient.ClientStatus() != enumClientStatus.RESEND_REQUEST)
+                {
+                    gateTPRLMonitor.LoginStatus = "0";
+                }
+                else
+                {
+                    gateTPRLMonitor.LoginStatus = "1";
+                }
             }
             catch (Exception ex)
             {
