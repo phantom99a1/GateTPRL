@@ -20,6 +20,12 @@ namespace CommonLib
         /// Lấy ra số lượng message Exchange
         ///  Mục đích để sử dụng cho phần hiển thị ITMonitor ở mục  GateTPRLMonitor
         /// </summary>
-        public static GateTPRLMonitorExchange gateTPRLMonitorExchange = new(); 
-    }
+        public static GateTPRLMonitorExchange gateTPRLMonitorExchange = new();
+
+		/// <summary>
+		/// Lưu list thông tin cảnh báo cho đơn vị vận hành khi vượt ngưỡng, hệ thống gặp lỗi
+		///  Mục đích để sử dụng cho bên Core gọi vào sẽ nhận được thông tin
+		/// </summary>
+        public static List<GateTPRLWarningThreshold> lstGateTPRLWarningThreshold = new();
+	}
 }

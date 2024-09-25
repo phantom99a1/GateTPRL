@@ -73,7 +73,7 @@ namespace HNXTPRLGate.Controllers
 							.Skip(0).Take(RecordInPage).ToList() ?? new();
                     }
                     int? countPageIndexMaxError = applicationLog?.ListAllErrors?.Count;
-					_boxConnect.ApplicationError = applicationLog;
+					_boxConnect.ApplicationError = applicationLog ?? new();
                     _boxConnect.ApplicationError.ListAllErrors = applicationLog?.ListAllErrors ?? new();
 					_boxConnect.ApplicationError.ListDisplayErrors = applicationLog?.ListAllErrors.Skip(0).Take(RecordInPage).ToList() ?? new();
 					_boxConnect.ApplicationError.PageIndexMaxpplicationError = (countPageIndexMaxError % RecordInPage == 0) ? countPageIndexMaxError / RecordInPage : countPageIndexMaxError /RecordInPage + 1;
@@ -109,7 +109,7 @@ namespace HNXTPRLGate.Controllers
 				if(_boxConnect != null)
 				{
                     int? countPageIndexMaxError = applicationLog?.ListAllErrors?.Count;
-                    _boxConnect.ApplicationError = applicationLog;
+                    _boxConnect.ApplicationError = applicationLog ?? new();
                     _boxConnect.ApplicationError.ListAllErrors = applicationLog?.ListAllErrors ?? new();
                     _boxConnect.ApplicationError.ListDisplayErrors = applicationLog?.ListAllErrors.Skip(0).Take(RecordInPage).ToList() ?? new();
                     _boxConnect.ApplicationError.PageIndexMaxpplicationError = (countPageIndexMaxError % RecordInPage == 0) ? countPageIndexMaxError / RecordInPage : countPageIndexMaxError / RecordInPage + 1;

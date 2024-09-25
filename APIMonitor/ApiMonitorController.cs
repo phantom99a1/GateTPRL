@@ -135,7 +135,27 @@ namespace APIMonitor
             return gateTPRLMonitor;
         }
 
-        [HttpPost]
+        [HttpGet]
+        [Route("GateTPRLWarningThreshold")]
+        public List<GateTPRLWarningThreshold> GetGateTPRLWarningThreshold()
+        {
+            var listGateTPRLWarningThreshold = new List<GateTPRLWarningThreshold>();
+			long t1 = DateTime.Now.Ticks;
+			try
+			{
+				Logger.ApiLog.Info($"Start call GetGateTPRLWarningThreshold");
+                listGateTPRLWarningThreshold = DataMem.lstGateTPRLWarningThreshold;
+				Logger.ApiLog.Info($"End call GetGateTPRLWarningThreshold; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
+				LogStationFacade.RecordforPT("GetGateTPRLWarningThreshold", DateTime.Now.Ticks - t1, true, "ApiMonitorController");
+			}
+			catch (Exception ex)
+			{
+				Logger.log.Error($"Error call GetGateTPRLWarningThreshold() in ApiMonitorController, Exception: {ex?.ToString()}");
+			}
+            return listGateTPRLWarningThreshold;
+		}
+
+		[HttpPost]
         [Route("change-gateway-sequence")]
         public int ChangeGatewaySequence([FromQuery] string sequence, [FromQuery] string lastProcessSequence)
         {

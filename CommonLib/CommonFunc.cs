@@ -1,6 +1,7 @@
 ﻿using HNX.FIXMessage;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,5 +28,39 @@ namespace CommonLib
                 Logger.log.Error(ex.Message.ToString());
             }
         }
-    }
+
+		/// <summary>
+		/// Function Add thông tin trả về cho phần thông báo khi gặp vượt ngưỡng, hệ thống bị lỗi
+		/// </summary>
+		/// <param name="message"></param>
+        public static void FuncAddGateTPRLWarningThreshold(FIXMessageBase message)
+        {
+            try
+            {
+                //2024.09.25 add data on memory
+                double maxSeqBusinessSend = ConfigData.MaxSeqBusinessSend;
+                double seqBusinessAchieve = message.LastMsgSeqNumProcessed;
+                double threshold = Math.Round((seqBusinessAchieve/ maxSeqBusinessSend) * 100,2);
+				DateTime utcTime = DateTime.ParseExact(message.TimeRecv, "yyyyMMdd-HH:mm:ss", CultureInfo.InvariantCulture);
+				TimeZoneInfo vietNamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+				string vietNamTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, vietNamTimeZone).ToString("yyyy/MM/dd HH:mm:ss");
+                var warningPointPercent = ConfigData.WarningPointPercent;
+				var warningThreshold = new GateTPRLWarningThreshold()
+                {
+                    MaxSeqBusinessSend = ConfigData.MaxSeqBusinessSend,
+                    SeqBusinessAchieve = message.LastMsgSeqNumProcessed,
+                    Threshold = threshold,
+                    Description = threshold >= warningPointPercent ? $"Số lệnh đã đạt ngưỡng {warningPointPercent} của phiên đang giao dịch" 
+                    : "Số lượng lệnh vẫn chưa đạt ngưỡng của phiên giao dịch",
+                    ProcessingTime = vietNamTime
+				};
+                DataMem.lstGateTPRLWarningThreshold.Add(warningThreshold);
+                //End 2024/09/25
+            }
+            catch (Exception ex)
+            {
+				Logger.log.Error(ex.Message.ToString());
+			}
+        }
+	}
 }

@@ -116,7 +116,10 @@ namespace CommonLib
         public static string LogApplicationError { get; set; } = string.Empty;
         public static string HNXTPRLGateErrorFilePath { get; set; } = string.Empty;
         public static string HNXTPRLTCPErrorFilePath { get; set; } = string.Empty;
-        public static void InitConfig(IConfiguration configuration)
+        public static int MaxSeqBusinessSend {  get; set; }
+        public static int WarningPointPercent {  get; set; }
+
+		public static void InitConfig(IConfiguration configuration)
         {
             if (configuration != null)
             {
@@ -251,7 +254,9 @@ namespace CommonLib
                 LogApplicationError = configuration["LogApplicationError"];
                 HNXTPRLGateErrorFilePath = configuration["HNXTPRLGateErrorFilePath"];
                 HNXTPRLTCPErrorFilePath = configuration["HNXTPRLTCPErrorFilePath"];
-            }
+                MaxSeqBusinessSend = int.Parse(configuration["MaxSeqBusinessSend"]);
+                WarningPointPercent = int.Parse(configuration["WarningPointPercent"]);
+			}
         }
 
         public class UserInfo
