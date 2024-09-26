@@ -4,7 +4,7 @@
 @model BoxConnectModel;
 @{
     BoxConnectModel boxConnect = new BoxConnectModel();    
-    boxConnect.DataMem = Model.DataMem ?? new DataMemModel();
+    boxConnect.DataMem = Model?.DataMem ?? new DataMemModel();
 }
 <div class="group__box">
     <div class="group__box-access">

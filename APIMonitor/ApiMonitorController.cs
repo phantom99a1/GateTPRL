@@ -38,8 +38,10 @@ namespace APIMonitor
         [Route("GetApplicationError")]
         public ApplicationErrorModel ApplicationError()
         {
-            var applicationErrorModel = new ApplicationErrorModel();
-            applicationErrorModel.ListAllErrors = GetLogApplicationErrorList();
+            var applicationErrorModel = new ApplicationErrorModel
+            {
+                ListAllErrors = GetLogApplicationErrorList()
+            };
             return applicationErrorModel;
         }
 
@@ -99,7 +101,7 @@ namespace APIMonitor
             {
                 Logger.log.Error($"Error call GetLogApplicationErrorList() in ApiMonitorController, Exception: {ex?.ToString()}");
             }
-            return lines;
+            return lines.OrderByDescending(item => item.Time).ToList();
         }
         [HttpGet]
         [Route("GateTPRLMonitor")]
@@ -140,22 +142,22 @@ namespace APIMonitor
         public List<GateTPRLWarningThreshold> GetGateTPRLWarningThreshold()
         {
             var listGateTPRLWarningThreshold = new List<GateTPRLWarningThreshold>();
-			long t1 = DateTime.Now.Ticks;
-			try
-			{
-				Logger.ApiLog.Info($"Start call GetGateTPRLWarningThreshold");
+            long t1 = DateTime.Now.Ticks;
+            try
+            {
+                Logger.ApiLog.Info($"Start call GetGateTPRLWarningThreshold");
                 listGateTPRLWarningThreshold = DataMem.lstGateTPRLWarningThreshold;
-				Logger.ApiLog.Info($"End call GetGateTPRLWarningThreshold; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
-				LogStationFacade.RecordforPT("GetGateTPRLWarningThreshold", DateTime.Now.Ticks - t1, true, "ApiMonitorController");
-			}
-			catch (Exception ex)
-			{
-				Logger.log.Error($"Error call GetGateTPRLWarningThreshold() in ApiMonitorController, Exception: {ex?.ToString()}");
-			}
+                Logger.ApiLog.Info($"End call GetGateTPRLWarningThreshold; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
+                LogStationFacade.RecordforPT("GetGateTPRLWarningThreshold", DateTime.Now.Ticks - t1, true, "ApiMonitorController");
+            }
+            catch (Exception ex)
+            {
+                Logger.log.Error($"Error call GetGateTPRLWarningThreshold() in ApiMonitorController, Exception: {ex?.ToString()}");
+            }
             return listGateTPRLWarningThreshold;
-		}
+        }
 
-		[HttpPost]
+        [HttpPost]
         [Route("change-gateway-sequence")]
         public int ChangeGatewaySequence([FromQuery] string sequence, [FromQuery] string lastProcessSequence)
         {

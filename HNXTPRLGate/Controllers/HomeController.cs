@@ -100,21 +100,7 @@ namespace HNXTPRLGate.Controllers
 				//request.AddParameter("param", _value);
 				//
 				var response = client.Execute(request);
-				_boxConnect = JsonConvert.DeserializeObject<BoxConnectModel>(response?.Content ?? "");
-                var clientLogError = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
-                var requestLog = new RestRequest("api/ApiMonitor/GetApplicationError", Method.Get);
-                var responseLog = clientLogError.Execute(requestLog);
-                var applicationLog = JsonConvert.DeserializeObject<ApplicationErrorModel>(responseLog?.Content ?? "");
-
-				if(_boxConnect != null)
-				{
-                    int? countPageIndexMaxError = applicationLog?.ListAllErrors?.Count;
-                    _boxConnect.ApplicationError = applicationLog ?? new();
-                    _boxConnect.ApplicationError.ListAllErrors = applicationLog?.ListAllErrors ?? new();
-                    _boxConnect.ApplicationError.ListDisplayErrors = applicationLog?.ListAllErrors.Skip(0).Take(RecordInPage).ToList() ?? new();
-                    _boxConnect.ApplicationError.PageIndexMaxpplicationError = (countPageIndexMaxError % RecordInPage == 0) ? countPageIndexMaxError / RecordInPage : countPageIndexMaxError / RecordInPage + 1;
-                    _boxConnect.ApplicationError.PageIndexApplicationError = 1;
-                }
+				_boxConnect = JsonConvert.DeserializeObject<BoxConnectModel>(response?.Content ?? "");    
             }
 			catch (Exception ex)
 			{
@@ -255,12 +241,12 @@ namespace HNXTPRLGate.Controllers
 				{
 					var listAllErrors = applicationLog?.ListAllErrors;
 					int ? countPageIndexMaxError = listAllErrors?.Count;
-                    _boxConnect.ApplicationError = applicationLog;
+                    _boxConnect.ApplicationError = applicationLog ?? new();
                     _boxConnect.ApplicationError.ListAllErrors = listAllErrors ?? new();
                     _boxConnect.ApplicationError.ListDisplayErrors = listAllErrors?.Skip((pageIndex - 1) * RecordInPage).Take(RecordInPage).ToList() ?? new();
                     _boxConnect.ApplicationError.PageIndexMaxpplicationError = (countPageIndexMaxError % RecordInPage == 0) 
 						? countPageIndexMaxError / RecordInPage : countPageIndexMaxError / RecordInPage + 1;
-                    _boxConnect.ApplicationError.PageIndexApplicationError = pageIndex;
+                    _boxConnect.ApplicationError.PageIndexApplicationError = countPageIndexMaxError > 0 ? pageIndex : 0;
                 }
                 Logger.ApiLog.Info($"End call GetListApplicationErrorByPage with pageIndex: {pageIndex}; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
                 LogStationFacade.RecordforPT("GetListApplicationErrorByPage", DateTime.Now.Ticks - t1, true, "HomeController");

@@ -4,9 +4,9 @@
 @model BoxConnectModel;
 @{
     BoxConnectModel boxConnect = new BoxConnectModel();
-    boxConnect._HNXSystemConnect = Model._HNXSystemConnect != null ? Model._HNXSystemConnect : new HNXSystemConnectModel();
-    boxConnect.GateTPRLMonitor = Model.GateTPRLMonitor != null ? Model.GateTPRLMonitor : new GateTPRLMonitorModel();
-    boxConnect._KafkaSystemConnect = Model._KafkaSystemConnect != null ? Model._KafkaSystemConnect : new KafkaSystemConnectModel();
+    boxConnect._HNXSystemConnect = Model?._HNXSystemConnect != null ? Model._HNXSystemConnect : new HNXSystemConnectModel();
+    boxConnect.GateTPRLMonitor = Model?.GateTPRLMonitor != null ? Model.GateTPRLMonitor : new GateTPRLMonitorModel();
+    boxConnect._KafkaSystemConnect = Model?._KafkaSystemConnect != null ? Model._KafkaSystemConnect : new KafkaSystemConnectModel();
 }
 
 <div class="group__box">

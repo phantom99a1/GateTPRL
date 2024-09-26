@@ -29,10 +29,10 @@ namespace CommonLib
             }
         }
 
-		/// <summary>
-		/// Function Add thông tin trả về cho phần thông báo khi gặp vượt ngưỡng, hệ thống bị lỗi
-		/// </summary>
-		/// <param name="message"></param>
+        /// <summary>
+        /// Function Add thông tin trả về cho phần thông báo khi gặp vượt ngưỡng, hệ thống bị lỗi
+        /// </summary>
+        /// <param name="message"></param>
         public static void FuncAddGateTPRLWarningThreshold(FIXMessageBase message)
         {
             try
@@ -40,27 +40,25 @@ namespace CommonLib
                 //2024.09.25 add data on memory
                 double maxSeqBusinessSend = ConfigData.MaxSeqBusinessSend;
                 double seqBusinessAchieve = message.LastMsgSeqNumProcessed;
-                double threshold = Math.Round((seqBusinessAchieve/ maxSeqBusinessSend) * 100,2);
-				DateTime utcTime = DateTime.ParseExact(message.TimeRecv, "yyyyMMdd-HH:mm:ss", CultureInfo.InvariantCulture);
-				TimeZoneInfo vietNamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-				string vietNamTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, vietNamTimeZone).ToString("yyyy/MM/dd HH:mm:ss");
+                double threshold = Math.Round((seqBusinessAchieve / maxSeqBusinessSend) * 100, 2);
+                var sendingTime = message.GetSendingTime;                
                 var warningPointPercent = ConfigData.WarningPointPercent;
-				var warningThreshold = new GateTPRLWarningThreshold()
+                var warningThreshold = new GateTPRLWarningThreshold()
                 {
                     MaxSeqBusinessSend = ConfigData.MaxSeqBusinessSend,
                     SeqBusinessAchieve = message.LastMsgSeqNumProcessed,
                     Threshold = threshold,
-                    Description = threshold >= warningPointPercent ? $"Số lệnh đã đạt ngưỡng {warningPointPercent} của phiên đang giao dịch" 
+                    Description = threshold >= warningPointPercent ? $"Số lệnh đã đạt ngưỡng {warningPointPercent} của phiên đang giao dịch"
                     : "Số lượng lệnh vẫn chưa đạt ngưỡng của phiên giao dịch",
-                    ProcessingTime = vietNamTime
-				};
+                    ProcessingTime = string.Format("{0:yyyy/MM/dd HH:mm:ss}", sendingTime)
+                };
                 DataMem.lstGateTPRLWarningThreshold.Add(warningThreshold);
                 //End 2024/09/25
             }
             catch (Exception ex)
             {
-				Logger.log.Error(ex.Message.ToString());
-			}
+                Logger.log.Error(ex.Message.ToString());
+            }
         }
-	}
+    }
 }
