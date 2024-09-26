@@ -40,7 +40,7 @@ namespace CommonLib
                 //2024.09.25 add data on memory
                 double maxSeqBusinessSend = ConfigData.MaxSeqBusinessSend;
                 double seqBusinessAchieve = message.LastMsgSeqNumProcessed;
-                double threshold = Math.Round((seqBusinessAchieve / maxSeqBusinessSend) * 100, 2);
+                double threshold = Math.Round((seqBusinessAchieve / maxSeqBusinessSend) * 100, 4);
                 var sendingTime = message.GetSendingTime;                
                 var warningPointPercent = ConfigData.WarningPointPercent;
                 var warningThreshold = new GateTPRLWarningThreshold()
