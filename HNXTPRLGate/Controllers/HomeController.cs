@@ -168,7 +168,7 @@ namespace HNXTPRLGate.Controllers
 					int? countPageIndexMaxSecurities = listSecuritiesSearch?.ToList().Count;
 
 					_boxConnect.DataMem.PageIndexMaxSecurities = (countPageIndexMaxSecurities % RecordInPage == 0) ? countPageIndexMaxSecurities / RecordInPage : countPageIndexMaxSecurities / RecordInPage + 1;
-					_boxConnect.DataMem.PageIndexSecurities = 1;
+					_boxConnect.DataMem.PageIndexSecurities = _boxConnect.DataMem.PageIndexMaxSecurities >= 1 ? 1 : 0;
 					_boxConnect.DataMem.ListSearchSecurities = listSecuritiesSearch?.OrderBy(item => item.Symbol).ToList() ?? new();
 					_boxConnect.DataMem.ListDisplaySecurities = listSecuritiesSearch?.OrderBy(item => item.Symbol)
 						.Skip(0).Take(RecordInPage).ToList() ?? new();

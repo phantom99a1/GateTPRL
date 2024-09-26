@@ -3,14 +3,22 @@ namespace CommonLib
 {
 	public class GateTPRLWarningThreshold
 	{
-		public int MaxSeqBusinessSend { get; set; } = 0;
+		public double MaxSeqBusinessSendDay { get; set; } = 0;
 
-		public int SeqBusinessAchieve { get; set; } = 0;
+		public double MaxSeqBusinessSendSession { get; set; } = 0;
 
-		public double Threshold { get; set; } = 0;
+		public double SeqBusinessAchieve { get; set; } = 0;
 
-        public string Description { get; set; } = string.Empty;
+		public string ThresholdSession { get; set; } = string.Empty;
+
+		public string ThresholdDay { get; set; } = string.Empty;
+
+        public string DescriptionSession { get; set; } = string.Empty;
+
+        public string DescriptionDay { get; set; } = string.Empty;
 
 		public string ProcessingTime { get; set; } = string.Empty;
-    }
+
+		public string Session { get; set; } = string.Empty;
+	}
 }

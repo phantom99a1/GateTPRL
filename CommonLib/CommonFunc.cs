@@ -37,22 +37,45 @@ namespace CommonLib
         {
             try
             {
-                //2024.09.25 add data on memory
-                double maxSeqBusinessSend = ConfigData.MaxSeqBusinessSend;
-                double seqBusinessAchieve = message.LastMsgSeqNumProcessed;
-                double threshold = Math.Round((seqBusinessAchieve / maxSeqBusinessSend) * 100, 4);
+                //2024.09.25 add data on memory               
+				double seqBusinessAchieveMorning = 0;
+				double seqBusinessAchieveAfternoon = 0;
+                double seqBusinessAchieveDay = 0;
+				double maxSeqBusinessSend = ConfigData.MaxSeqBusinessSend;
+                bool isMorningSession = message.GetSendingTime.TimeOfDay <= new TimeSpan(11, 30, 0);
+				string session = isMorningSession ? "Sáng" : "Chiều";
+				double maxSeqBusinessSendMorning = 60 * maxSeqBusinessSend /100;
+                double maxSeqBusinessSendAfternon = maxSeqBusinessSend - maxSeqBusinessSendMorning;
+                double maxSeqBusinessSendOfSession = isMorningSession ? maxSeqBusinessSendMorning : maxSeqBusinessSendAfternon;				
                 var sendingTime = message.GetSendingTime;                
                 var warningPointPercent = ConfigData.WarningPointPercent;
-                var warningThreshold = new GateTPRLWarningThreshold()
+                if (isMorningSession)
                 {
-                    MaxSeqBusinessSend = ConfigData.MaxSeqBusinessSend,
-                    SeqBusinessAchieve = message.LastMsgSeqNumProcessed,
-                    Threshold = threshold,
-                    Description = threshold >= warningPointPercent ? $"Số lệnh đã đạt ngưỡng {warningPointPercent} của phiên đang giao dịch"
-                    : "Số lượng lệnh vẫn chưa đạt ngưỡng của phiên giao dịch",
-                    ProcessingTime = string.Format("{0:yyyy/MM/dd HH:mm:ss}", sendingTime)
-                };
-                DataMem.lstGateTPRLWarningThreshold.Add(warningThreshold);
+                    seqBusinessAchieveMorning = message.LastMsgSeqNumProcessed;
+				}
+                else
+                {
+					seqBusinessAchieveDay = message.LastMsgSeqNumProcessed;
+				}
+                seqBusinessAchieveAfternoon = seqBusinessAchieveDay - seqBusinessAchieveMorning;
+				double seqBusinessAchieve = isMorningSession ? seqBusinessAchieveMorning : seqBusinessAchieveAfternoon;
+				double thresholdSession = Math.Round((seqBusinessAchieve / maxSeqBusinessSendOfSession) * 100, 4);
+				double thresholdDay = Math.Round((seqBusinessAchieveDay / maxSeqBusinessSend) * 100, 4);
+				var warningThreshold = new GateTPRLWarningThreshold()
+                {
+                    MaxSeqBusinessSendDay = maxSeqBusinessSend,
+					MaxSeqBusinessSendSession = maxSeqBusinessSendOfSession,
+                    SeqBusinessAchieve = isMorningSession ? seqBusinessAchieveMorning : seqBusinessAchieveAfternoon,
+					ThresholdSession = $"{thresholdSession}%",
+                    ThresholdDay = $"{thresholdDay}%",
+                    DescriptionSession = thresholdSession >= warningPointPercent ? $"Số lệnh đã đạt ngưỡng {warningPointPercent}% của phiên {session.ToLower()} đang giao dịch"
+                    : $"Số lượng lệnh vẫn chưa đạt ngưỡng của phiên {session.ToLower()} đang giao dịch",
+					DescriptionDay = thresholdDay >= warningPointPercent ? $"Số lệnh đã đạt ngưỡng {warningPointPercent}% của ngày đang giao dịch"
+					: $"Số lượng lệnh vẫn chưa đạt ngưỡng của ngày đang giao dịch",
+					ProcessingTime = string.Format("{0:yyyy/MM/dd HH:mm:ss}", sendingTime),
+                    Session = session,
+				};
+                DataMem.lstGateTPRLWarningThreshold?.Add(warningThreshold);
                 //End 2024/09/25
             }
             catch (Exception ex)
