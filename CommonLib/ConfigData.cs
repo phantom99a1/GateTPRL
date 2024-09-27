@@ -118,8 +118,9 @@ namespace CommonLib
         public static string HNXTPRLTCPErrorFilePath { get; set; } = string.Empty;
         public static int MaxSeqBusinessSend {  get; set; }
         public static int WarningPointPercent {  get; set; }
+        public static int SeqBusinessIncrementPeriod { get; set; }
 
-		public static void InitConfig(IConfiguration configuration)
+        public static void InitConfig(IConfiguration configuration)
         {
             if (configuration != null)
             {
@@ -256,6 +257,7 @@ namespace CommonLib
                 HNXTPRLTCPErrorFilePath = configuration["HNXTPRLTCPErrorFilePath"];
                 MaxSeqBusinessSend = int.Parse(configuration["MaxSeqBusinessSend"]);
                 WarningPointPercent = int.Parse(configuration["WarningPointPercent"]);
+                SeqBusinessIncrementPeriod = int.Parse(configuration["SeqBusinessIncrementPeriod"]);
 			}
         }
 

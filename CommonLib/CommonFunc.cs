@@ -105,5 +105,10 @@ namespace CommonLib
             }
             return warningThreshold;
         }
+
+        public static void ProcessConfirmPT()
+        {
+
+        }
     }
 }

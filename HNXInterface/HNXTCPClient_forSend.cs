@@ -2,6 +2,7 @@
 using HNX.FIXMessage;
 using LocalMemory;
 using StorageProcess;
+using System.Threading;
 
 namespace HNXInterface
 {
@@ -96,7 +97,11 @@ namespace HNXInterface
                     _lasttimeKeapAlive = DateTime.Now.Ticks;
                     DataMem.gateTPRLMonitorExchange.ExchangeSendMessageNum = Message.MsgSeqNum;
                     // #ITmonitor: thêm ghi chú về tăng seq gửi
-                    DataMem.gateTPRLWarningThreshold = CommonFunc.FuncGateTPRLWarningThreshold(Message);
+                    Thread threadConfirmPT = new Thread(CommonFunc.ProcessConfirmPT);
+                    threadConfirmPT.IsBackground = true;
+
+                    threadConfirmPT.Start();
+                    //DataMem.gateTPRLWarningThreshold = CommonFunc.FuncGateTPRLWarningThreshold(Message);
 
                     if (Message.TimeInit != 0)
                     {
