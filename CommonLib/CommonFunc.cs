@@ -29,12 +29,5 @@ namespace CommonLib
                 Logger.log.Error(ex.Message.ToString());
             }
         }
-
-       
-
-        public static void ProcessConfirmPT()
-        {
-
-        }
     }
 }
