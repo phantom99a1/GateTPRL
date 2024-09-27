@@ -39,7 +39,9 @@ namespace HNXTPRLGate.Controllers
 			BoxConnectModel _boxConnect = new BoxConnectModel();
 			try
 			{
-				var client = new RestClient(ConfigData.APIMonitorDomain + ":" + ConfigData.APIMonitorPort);
+				HttpContext.Session.Remove("SearchModel");
+				HttpContext.Session.Remove("SymbolID");
+				var client = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
 				var request = new RestRequest("api/ApiMonitor/get-boxconnect-info", Method.Get);
 				//
 				//request.AddParameter("param", _value);
