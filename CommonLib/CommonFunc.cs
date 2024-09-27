@@ -1,15 +1,8 @@
 ﻿using HNX.FIXMessage;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ObjectInfo;
 
 namespace CommonLib
 {
-    public class CommonFunc
+	public class CommonFunc
     {
         /// <summary>
         /// Function Add Log Hien thi len man hinh Gate ITMonitor
@@ -28,13 +21,6 @@ namespace CommonLib
             {
                 Logger.log.Error(ex.Message.ToString());
             }
-        }
-
-       
-
-        public static void ProcessConfirmPT()
-        {
-
         }
     }
 }
