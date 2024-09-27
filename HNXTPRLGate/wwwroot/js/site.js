@@ -63,6 +63,7 @@ function ReloadData() {
                 ReloadSessionFlag();
                 ReloadDataError();
                 ReloadDataRejection();
+                ReloadSearchListSecurities();
             } else {
                 document.getElementById("countdown").innerHTML = timeleft + " seconds auto refresh";
             }
@@ -326,6 +327,16 @@ function ReloadDataRejection() {
         },
         success: function (data) {
             $("#RejectAreaID").html(data);
+        }
+    });
+}
+
+function ReloadSearchListSecurities() {
+    $.ajax({
+        type: "GET",
+        url: "/Home/ReloadSearchListSecurities",        
+        success: function (data) {
+            $("#SecuritiesAreaID").html(data);
         }
     });
 }

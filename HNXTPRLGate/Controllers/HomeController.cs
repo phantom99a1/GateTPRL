@@ -173,6 +173,7 @@ namespace HNXTPRLGate.Controllers
 					_boxConnect.DataMem.ListDisplaySecurities = listSecuritiesSearch?.OrderBy(item => item.Symbol)
 						.Skip(0).Take(RecordInPage).ToList() ?? new();
 					HttpContext.Session.SetString("SearchModel", JsonConvert.SerializeObject(_boxConnect));
+					HttpContext.Session.SetString("SymbolID", symbolID);
 				}
                 Logger.ApiLog.Info($"End call SearchListSecurities with symbolID: {symbolID}; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
                 LogStationFacade.RecordforPT("SearchListSecurities", DateTime.Now.Ticks - t1, true, "HomeController");
@@ -182,7 +183,45 @@ namespace HNXTPRLGate.Controllers
 				Logger.log.Error($"Error call SearchListSecurities() in HomeController, Exception: {ex?.ToString()}");
 			}
 			return PartialView("par_SecuritiesInfo", _boxConnect?.DataMem);
-		}		
+		}
+		[HttpGet]
+		[Route("/Home/ReloadSearchListSecurities")]
+		public IActionResult ReloadSearchListSecurities()
+		{
+            var _boxConnect = new BoxConnectModel();
+            long t1 = DateTime.Now.Ticks;
+			try
+			{
+                Logger.ApiLog.Info($"Start call ReloadSearchListSecurities");
+				var symbolID = HttpContext.Session.GetString("SymbolID");
+                var client = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
+                var request = new RestRequest("api/ApiMonitor/get-boxconnect-info", Method.Get);
+                var response = client.Execute(request);
+                _boxConnect = JsonConvert.DeserializeObject<BoxConnectModel>(response.Content ?? "");
+                var listSecuritiesSearch = !string.IsNullOrEmpty(symbolID) ? _boxConnect?.DataMem?.ListSearchSecurities
+                    .Where(item => item.Symbol.Contains(symbolID.ToUpper()))
+                    : _boxConnect?.DataMem?.ListSearchSecurities;
+
+                if (_boxConnect != null && _boxConnect.DataMem != null)
+                {
+                    int? countPageIndexMaxSecurities = listSecuritiesSearch?.ToList().Count;
+
+                    _boxConnect.DataMem.PageIndexMaxSecurities = (countPageIndexMaxSecurities % RecordInPage == 0) ? countPageIndexMaxSecurities / RecordInPage : countPageIndexMaxSecurities / RecordInPage + 1;
+                    _boxConnect.DataMem.PageIndexSecurities = _boxConnect.DataMem.PageIndexMaxSecurities >= 1 ? 1 : 0;
+                    _boxConnect.DataMem.ListSearchSecurities = listSecuritiesSearch?.OrderBy(item => item.Symbol).ToList() ?? new();
+                    _boxConnect.DataMem.ListDisplaySecurities = listSecuritiesSearch?.OrderBy(item => item.Symbol)
+                        .Skip(0).Take(RecordInPage).ToList() ?? new();
+                    HttpContext.Session.SetString("SearchModel", JsonConvert.SerializeObject(_boxConnect));
+                }
+                Logger.ApiLog.Info($"End call ReloadSearchListSecurities; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
+                LogStationFacade.RecordforPT("ReloadSearchListSecurities", DateTime.Now.Ticks - t1, true, "HomeController");
+            }
+			catch (Exception ex)
+			{
+                Logger.log.Error($"Error call ReloadSearchListSecurities() in HomeController, Exception: {ex?.ToString()}");
+            }
+			return PartialView("par_SecuritiesInfo", _boxConnect?.DataMem);
+        }
 
         [HttpGet]
 		[Route("/Home/SecuritiesPaging")]
