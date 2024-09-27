@@ -139,14 +139,14 @@ namespace APIMonitor
 
         [HttpGet]
         [Route("GateTPRLWarningThreshold")]
-        public List<GateTPRLWarningThreshold> GetGateTPRLWarningThreshold()
+        public GateTPRLWarningThreshold GetGateTPRLWarningThreshold()
         {
-            var listGateTPRLWarningThreshold = new List<GateTPRLWarningThreshold>();
+            var gateTPRLWarningThreshold = new GateTPRLWarningThreshold();
             long t1 = DateTime.Now.Ticks;
             try
             {
                 Logger.ApiLog.Info($"Start call GetGateTPRLWarningThreshold");
-                listGateTPRLWarningThreshold = DataMem.lstGateTPRLWarningThreshold;
+                gateTPRLWarningThreshold = DataMem.gateTPRLWarningThreshold;
                 Logger.ApiLog.Info($"End call GetGateTPRLWarningThreshold; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
                 LogStationFacade.RecordforPT("GetGateTPRLWarningThreshold", DateTime.Now.Ticks - t1, true, "ApiMonitorController");
             }
@@ -154,7 +154,7 @@ namespace APIMonitor
             {
                 Logger.log.Error($"Error call GetGateTPRLWarningThreshold() in ApiMonitorController, Exception: {ex?.ToString()}");
             }
-            return listGateTPRLWarningThreshold;
+            return gateTPRLWarningThreshold;
         }
 
         [HttpPost]

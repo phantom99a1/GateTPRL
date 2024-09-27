@@ -95,7 +95,7 @@ namespace HNXInterface
                     GateSeqInfo.Set_CliSeq(Message.MsgSeqNum);
                     _lasttimeKeapAlive = DateTime.Now.Ticks;
                     DataMem.gateTPRLMonitorExchange.ExchangeSendMessageNum = Message.MsgSeqNum;
-					CommonFunc.FuncAddGateTPRLWarningThreshold(Message);
+					DataMem.gateTPRLWarningThreshold = CommonFunc.FuncGateTPRLWarningThreshold(Message);
 
 					if (Message.TimeInit != 0)
                     {

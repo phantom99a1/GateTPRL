@@ -22,10 +22,10 @@ namespace CommonLib
         /// </summary>
         public static GateTPRLMonitorExchange gateTPRLMonitorExchange = new();
 
-		/// <summary>
-		/// Lưu list thông tin cảnh báo cho đơn vị vận hành khi vượt ngưỡng, hệ thống gặp lỗi
-		///  Mục đích để sử dụng cho bên Core gọi vào sẽ nhận được thông tin
-		/// </summary>
-        public static List<GateTPRLWarningThreshold> lstGateTPRLWarningThreshold = new();
+        /// <summary>
+        /// Lưu list thông tin cảnh báo cho đơn vị vận hành khi vượt ngưỡng, hệ thống gặp lỗi
+        ///  Mục đích để sử dụng cho bên Core gọi vào sẽ nhận được thông tin
+        /// </summary>
+        public static GateTPRLWarningThreshold? gateTPRLWarningThreshold;
 	}
 }
