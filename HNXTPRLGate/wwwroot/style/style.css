@@ -131,21 +131,27 @@
     max-width: 1250px;
 }
 
-    .group__inner.v1 #mainData {
+    .group__inner.v1 #dataMem {
         display: grid;
-        gap: 24px;
+        gap: 20px;
     }
 
 .group__inner {
     height: 100%;
 }
 
+.group__inner:last-child {
+    height: unset;
+    min-height: 1114px;
+    max-height: 1114px;
+}
+
 .group__inner:last-child fieldset {
-    height: calc(100vh - 226px);
+    height: 100%;
 }
 
 .group__inner:last-child .box__body {
-    height: calc(100vh - 329px);
+    height: calc(100% - 54px);
 }
 
 .group__inner:last-child .box__body #popup-data {
@@ -175,6 +181,14 @@
 
     .group__box-list .box {
         flex: 1;
+    }
+
+    .group__box.infomation {
+        height: 100%;
+    }
+
+    .group__box.infomation .box {
+        height: 100%;
     }
 
     .group__box.infomation .box__head {
