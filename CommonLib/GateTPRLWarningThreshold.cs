@@ -7,7 +7,9 @@ namespace CommonLib
 
 		public double MaxSeqBusinessSendSession { get; set; }
 
-		public double SeqBusinessAchieve { get; set; }
+        public double SeqBusinessSendMorning { get; set; }
+
+        public double SeqBusinessAchieve { get; set; }
 
 		public string ThresholdSession { get; set; } = string.Empty;
 

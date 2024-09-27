@@ -154,7 +154,7 @@ namespace APIMonitor
             {
                 Logger.log.Error($"Error call GetGateTPRLWarningThreshold() in ApiMonitorController, Exception: {ex?.ToString()}");
             }
-            return gateTPRLWarningThreshold;
+            return gateTPRLWarningThreshold ?? new();
         }
 
         [HttpPost]

@@ -45,23 +45,27 @@ namespace CommonLib
                 double maxSeqBusinessSendMorning = 60 * maxSeqBusinessSend / 100;
                 double maxSeqBusinessSendAfternon = maxSeqBusinessSend - maxSeqBusinessSendMorning;
                 double maxSeqBusinessSendOfSession = isMorningSession ? maxSeqBusinessSendMorning : maxSeqBusinessSendAfternon;
-                var sendingTime = message.GetSendingTime;
+                double seqBusinessAchieveMorning = 0;
+                double seqBusinessAchieveAfternoon = 0;
+
+				var sendingTime = message.GetSendingTime;
                 var warningPointPercent = ConfigData.WarningPointPercent;
                 double seqBusinessAchieveDay = message.LastMsgSeqNumProcessed;
                 if (DataMem.gateTPRLWarningThreshold != null)
                 {
                     var gateTPRLWarningThreshold = DataMem.gateTPRLWarningThreshold;
                     bool isPrevMorningSession = DateTime.Parse(gateTPRLWarningThreshold.ProcessingTime).TimeOfDay <= new TimeSpan(11, 30, 0);
-                    double seqBusinessAchieveMorning = isPrevMorningSession ? message.LastMsgSeqNumProcessed : gateTPRLWarningThreshold.SeqBusinessAchieve;                    
-                    double seqBusinessAchieveAfternoon = seqBusinessAchieveDay - seqBusinessAchieveMorning;
-                    double seqBusinessAchieve = isMorningSession ? seqBusinessAchieveMorning : seqBusinessAchieveAfternoon;
+                    seqBusinessAchieveMorning = gateTPRLWarningThreshold.SeqBusinessSendMorning;
+                    seqBusinessAchieveAfternoon = message.LastMsgSeqNumProcessed - seqBusinessAchieveMorning;
+					double seqBusinessAchieve = isMorningSession ? seqBusinessAchieveMorning : seqBusinessAchieveAfternoon;
                     double thresholdSession = Math.Round((seqBusinessAchieve / maxSeqBusinessSendOfSession) * 100, 4);
                     double thresholdDay = Math.Round((seqBusinessAchieveDay / maxSeqBusinessSend) * 100, 4);
                     warningThreshold = new GateTPRLWarningThreshold()
                     {
                         MaxSeqBusinessSendDay = maxSeqBusinessSend,
                         MaxSeqBusinessSendSession = maxSeqBusinessSendOfSession,
-                        SeqBusinessAchieve = isMorningSession ? seqBusinessAchieveMorning : seqBusinessAchieveAfternoon,
+                        SeqBusinessSendMorning = seqBusinessAchieveMorning,
+                        SeqBusinessAchieve = seqBusinessAchieve,
                         ThresholdSession = $"{thresholdSession}%",
                         ThresholdDay = $"{thresholdDay}%",
                         DescriptionSession = thresholdSession >= warningPointPercent ? $"Số lệnh đã đạt ngưỡng {warningPointPercent}% của phiên {session.ToLower()} đang giao dịch"
@@ -81,6 +85,7 @@ namespace CommonLib
                     {
                         MaxSeqBusinessSendDay = maxSeqBusinessSend,
                         MaxSeqBusinessSendSession = maxSeqBusinessSendOfSession,
+                        SeqBusinessSendMorning = isMorningSession ? seqBusinessAchieve : 0,
                         SeqBusinessAchieve = seqBusinessAchieve,
                         ThresholdSession = $"{thresholdSession}%",
                         ThresholdDay = $"{thresholdDay}%",

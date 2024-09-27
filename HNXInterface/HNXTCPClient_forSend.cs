@@ -95,9 +95,10 @@ namespace HNXInterface
                     GateSeqInfo.Set_CliSeq(Message.MsgSeqNum);
                     _lasttimeKeapAlive = DateTime.Now.Ticks;
                     DataMem.gateTPRLMonitorExchange.ExchangeSendMessageNum = Message.MsgSeqNum;
-					DataMem.gateTPRLWarningThreshold = CommonFunc.FuncGateTPRLWarningThreshold(Message);
+                    // #ITmonitor: thêm ghi chú về tăng seq gửi
+                    DataMem.gateTPRLWarningThreshold = CommonFunc.FuncGateTPRLWarningThreshold(Message);
 
-					if (Message.TimeInit != 0)
+                    if (Message.TimeInit != 0)
                     {
                         LastProcessedTime = _lasttimeKeapAlive - Message.TimeInit;
                         Logger.HNXTcpLog.Info("Time to process message {0} from Api {1} in {2} ns", Message.GetMsgType, Message.APIBussiness, LastProcessedTime);
