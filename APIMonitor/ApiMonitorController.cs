@@ -9,6 +9,7 @@ using LocalMemory;
 using LogStation;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using ObjectInfo;
 
 namespace APIMonitor
 {
@@ -146,7 +147,10 @@ namespace APIMonitor
             try
             {
                 Logger.ApiLog.Info($"Start call GetGateTPRLWarningThreshold");
-                gateTPRLWarningThreshold = DataMem.gateTPRLWarningThreshold;
+                lock (DataMem.lockObj)
+                {
+                    gateTPRLWarningThreshold = DataMem.warningThreshold;
+                }
                 Logger.ApiLog.Info($"End call GetGateTPRLWarningThreshold; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
                 LogStationFacade.RecordforPT("GetGateTPRLWarningThreshold", DateTime.Now.Ticks - t1, true, "ApiMonitorController");
             }

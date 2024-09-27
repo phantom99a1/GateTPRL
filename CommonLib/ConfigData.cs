@@ -42,7 +42,7 @@ namespace CommonLib
         public static string MainBoard = string.Empty; //Bảng chính - vì hệ thống trái phiếu chỉ có 1 bảng, nên sẽ dùng phiên, của bảng này cho việc check phiên
 
         //Security
-        public static string NameCTCK = ""; 
+        public static string NameCTCK = "";
         public static string AES_Key = ""; // 87c580ef1e5dfe7f89c3b869eb00c67c
 
         public static string AES_IV = ""; //eb00c67cd56bd758
@@ -105,7 +105,7 @@ namespace CommonLib
         public static bool EnableSaveDB { get; set; } = false;
         //Gửi lấy thông tin chứng khoán khi start 
         public static bool GetStockinfo { get; set; } = true;
-        
+
 
         public static string gConnectionString { get; set; } = string.Empty;
         public static int TimeDelaySaveDB = 1000;
@@ -116,149 +116,161 @@ namespace CommonLib
         public static string LogApplicationError { get; set; } = string.Empty;
         public static string HNXTPRLGateErrorFilePath { get; set; } = string.Empty;
         public static string HNXTPRLTCPErrorFilePath { get; set; } = string.Empty;
-        public static int MaxSeqBusinessSend {  get; set; }
-        public static int WarningPointPercent {  get; set; }
+        public static int MaxSeqBusinessSend { get; set; }
+        public static int WarningPointPercent { get; set; }
         public static int SeqBusinessIncrementPeriod { get; set; }
+
+        public static bool GetMsgForITMonitor = true;
+
 
         public static void InitConfig(IConfiguration configuration)
         {
-            if (configuration != null)
+            try
             {
-                NameCTCK = configuration["NameCTCK"].ToString();
-                AES_Key = configuration["AES_Key"].ToString();
-                AES_IV = configuration["AES_IV"].ToString();
-                //
-                APIBusinessPort = CommonLib.Utils.ParseInt(configuration["Kestrel:Endpoints:APIBusiness:Url"]?.Split(':')?.Last());
-                //
-                APIMonitorDomain = configuration["APIDomain"];
-                APIMonitorPort = CommonLib.Utils.ParseInt(configuration["Kestrel:Endpoints:APIMonitor:Url"]?.Split(':')?.Last());
-
-                LogHNXDataPath = configuration["LogHNXDataPath"];
-                LogOrderPath = configuration["LogOrderDataPath"];
-                //
-
-                IPServer = configuration["HNXConfig:IPServer"];
-                if (configuration["HNXConfig:PortServer"] != null) { PortServer = CommonLib.Utils.ParseInt(configuration["HNXConfig:PortServer"]); }
-                FirmID = configuration["HNXConfig:FirmID"];
-                Username = configuration["HNXConfig:Username"];
-                PasswordInConfig = Utils.DecryptAES(configuration["HNXConfig:Password"], AES_Key, AES_IV);
-                TraderID = configuration["HNXConfig:TraderID"];
-
-                DefaultBufferSize = Utils.ParseInt(configuration["HNXConfig:DefaultBufferSize"]);
-                Heartbeat = Utils.ParseInt(configuration["HNXConfig:Heartbeat"]);
-                SafeWindowSize = Utils.ParseInt(configuration["HNXConfig:SafeWindowSize"]);
-                BackupCapacity = Utils.ParseInt(configuration["HNXConfig:BackupCapacity"]);
-                //
-
-                TokenSecret = configuration["TokenSecret"].ToString();
-                // Kafka
-
-                KafkaConfig = new KafkaConfig()
+                if (configuration != null)
                 {
-                    KafkaAuth = configuration["KafkaConfig:KafkaAuth"]?.ToString().ToUpper() == "TRUE" ? true : false,
-                    KafkaIp = configuration["KafkaConfig:KafkaIP"],
-                    KafkaPort = configuration["KafkaConfig:KafkaPort"],
-                    KafkaUser = configuration["KafkaConfig:KafkaUser"].ToString(),
-                    KafkaPassword = Utils.DecryptAES(configuration["KafkaConfig:KafkaPassword"].ToString(), AES_Key, AES_IV),
-                    KafkaCALocation = configuration["KafkaConfig:KafkaCALocation"],
-                    KafkaTopic_HNXTPRL_OrderStatus = configuration["KafkaConfig:KafkaTopic_HNXTPRL_OrderStatus"],
-                    KafkaTopic_HNXTPRL_OrderExecution = configuration["KafkaConfig:KafkaTopic_HNXTPRL_OrderExecution"],
-                    KafkaTopic_HNXTPRL_TradingInfo = configuration["KafkaConfig:KafkaTopic_HNXTPRL_TradingInfo"],
-                    EnableKafka = bool.Parse(configuration["KafkaConfig:EnableKafka"]),
-                    sslKafka = bool.Parse(configuration["KafkaConfig:sslKafka"]),
-                };
-                // default Acks
-                KafkaConfig.Kafka_Acks = Acks.All;
-                //
-                if (configuration["KafkaConfig:Acks"] == "0")
-                {
-                    KafkaConfig.Kafka_Acks = Acks.None;
+                    NameCTCK = configuration["NameCTCK"].ToString();
+                    AES_Key = configuration["AES_Key"].ToString();
+                    AES_IV = configuration["AES_IV"].ToString();
+                    //
+                    APIBusinessPort = CommonLib.Utils.ParseInt(configuration["Kestrel:Endpoints:APIBusiness:Url"]?.Split(':')?.Last());
+                    //
+                    APIMonitorDomain = configuration["APIDomain"];
+                    APIMonitorPort = CommonLib.Utils.ParseInt(configuration["Kestrel:Endpoints:APIMonitor:Url"]?.Split(':')?.Last());
+
+                    LogHNXDataPath = configuration["LogHNXDataPath"];
+                    LogOrderPath = configuration["LogOrderDataPath"];
+                    //
+
+                    IPServer = configuration["HNXConfig:IPServer"];
+                    if (configuration["HNXConfig:PortServer"] != null) { PortServer = CommonLib.Utils.ParseInt(configuration["HNXConfig:PortServer"]); }
+                    FirmID = configuration["HNXConfig:FirmID"];
+                    Username = configuration["HNXConfig:Username"];
+                    PasswordInConfig = Utils.DecryptAES(configuration["HNXConfig:Password"], AES_Key, AES_IV);
+                    TraderID = configuration["HNXConfig:TraderID"];
+
+                    DefaultBufferSize = Utils.ParseInt(configuration["HNXConfig:DefaultBufferSize"]);
+                    Heartbeat = Utils.ParseInt(configuration["HNXConfig:Heartbeat"]);
+                    SafeWindowSize = Utils.ParseInt(configuration["HNXConfig:SafeWindowSize"]);
+                    BackupCapacity = Utils.ParseInt(configuration["HNXConfig:BackupCapacity"]);
+                    //
+
+                    TokenSecret = configuration["TokenSecret"].ToString();
+                    // Kafka
+
+                    KafkaConfig = new KafkaConfig()
+                    {
+                        KafkaAuth = configuration["KafkaConfig:KafkaAuth"]?.ToString().ToUpper() == "TRUE" ? true : false,
+                        KafkaIp = configuration["KafkaConfig:KafkaIP"],
+                        KafkaPort = configuration["KafkaConfig:KafkaPort"],
+                        KafkaUser = configuration["KafkaConfig:KafkaUser"].ToString(),
+                        KafkaPassword = Utils.DecryptAES(configuration["KafkaConfig:KafkaPassword"].ToString(), AES_Key, AES_IV),
+                        KafkaCALocation = configuration["KafkaConfig:KafkaCALocation"],
+                        KafkaTopic_HNXTPRL_OrderStatus = configuration["KafkaConfig:KafkaTopic_HNXTPRL_OrderStatus"],
+                        KafkaTopic_HNXTPRL_OrderExecution = configuration["KafkaConfig:KafkaTopic_HNXTPRL_OrderExecution"],
+                        KafkaTopic_HNXTPRL_TradingInfo = configuration["KafkaConfig:KafkaTopic_HNXTPRL_TradingInfo"],
+                        EnableKafka = bool.Parse(configuration["KafkaConfig:EnableKafka"]),
+                        sslKafka = bool.Parse(configuration["KafkaConfig:sslKafka"]),
+                    };
+                    // default Acks
+                    KafkaConfig.Kafka_Acks = Acks.All;
+                    //
+                    if (configuration["KafkaConfig:Acks"] == "0")
+                    {
+                        KafkaConfig.Kafka_Acks = Acks.None;
+                    }
+                    else if (configuration["KafkaConfig:Acks"] == "1")
+                    {
+                        KafkaConfig.Kafka_Acks = Acks.Leader;
+                    }
+
+                    // default CompressionType
+                    KafkaConfig.Kafka_CompressionType = CompressionType.None;
+                    //
+                    if (configuration["KafkaConfig:CompressionType"] == "1")
+                    {
+                        KafkaConfig.Kafka_CompressionType = CompressionType.Gzip;
+                    }
+                    else if (configuration["KafkaConfig:CompressionType"] == "2")
+                    {
+                        KafkaConfig.Kafka_CompressionType = CompressionType.Snappy;
+                    }
+                    else if (configuration["KafkaConfig:CompressionType"] == "3")
+                    {
+                        KafkaConfig.Kafka_CompressionType = CompressionType.Lz4;
+                    }
+                    else if (configuration["KafkaConfig:CompressionType"] == "4")
+                    {
+                        KafkaConfig.Kafka_CompressionType = CompressionType.Zstd;
+                    }
+                    // LingerMs
+                    if (configuration["KafkaConfig:LingerMs"] != null)
+                    {
+                        KafkaConfig.Kafka_LingerMs = Utils.ParseDoubleSpan(configuration["KafkaConfig:LingerMs"]);
+                    }
+                    // BatchSize
+                    if (configuration["KafkaConfig:BatchSize"] != null)
+                    {
+                        KafkaConfig.Kafka_BatchSize = Utils.ParseInt(configuration["KafkaConfig:BatchSize"]);
+                    }
+                    QueueSize = Utils.ParseInt(configuration["QueueSize"]);
+                    PendingQueueTime = Utils.ParseInt(configuration["PendingQueueTime"]);
+                    RetryQ.Enable = bool.Parse(configuration["RetryQueue:Enable"]);
+                    RetryQ.Interval = Utils.ParseInt(configuration["RetryQueue:Interval"]);
+                    RetryQ.MaxTimes = Utils.ParseInt(configuration["RetryQueue:MaxTimes"]);
+                    MainBoard = configuration["MainBoard"].ToString();
+                    //
+                    //List<UserInfo> myTestUsers = configuration.GetSection("UserListInfo").GetSection("ListUser").Get<List<UserInfo>>();
+                    listUsers = configuration.GetSection("Users").Get<List<UserInfo>>();
+                    int ModeWaitStrategy = Utils.ParseInt(configuration["ModeStrategy"]);
+                    switch (ModeWaitStrategy)
+                    {
+                        case 0:
+                            StrategyMode = new BlockingSpinWaitWaitStrategy();
+                            break;
+
+                        case 1:
+                            StrategyMode = new YieldingWaitStrategy();
+                            break;
+
+                        case 2:
+                            StrategyMode = new BusySpinWaitStrategy();
+                            break;
+
+                        default:
+                            StrategyMode = new BlockingSpinWaitWaitStrategy();
+                            break;
+                    }
+                    VaultAddress = configuration["VaultAppSettings:Address"];
+                    VaultUsername = configuration["VaultAppSettings:Username"];
+                    VaultPassword = Utils.DecryptAES(configuration["VaultAppSettings:Password"], AES_Key, AES_IV);
+                    VaultPath = configuration["VaultAppSettings:Path"];
+                    EnableVault = bool.Parse(configuration["VaultAppSettings:EnableVault"]);
+                    EnableMaskSensitiveData = bool.Parse(configuration["EnableMaskSensitiveData"]);
+
+                    ConnectExchange = bool.Parse(configuration["ConnectExchange"]);
+
+                    gConnectionString = Utils.DecryptAES(configuration["ConnectionString"].ToString(), AES_Key, AES_IV);
+                    EnableSaveDB = bool.Parse(configuration["EnableSaveDB"]);
+
+                    GetStockinfo = bool.Parse(configuration["GetStockinfo"]);
+
+                    RecordInPage = int.Parse(configuration["RecordInPage"]);
+                    MaxLinesReader = int.Parse(configuration["MaxLinesReader"]);
+                    LogApplicationError = configuration["LogApplicationError"];
+                    HNXTPRLGateErrorFilePath = configuration["HNXTPRLGateErrorFilePath"];
+                    HNXTPRLTCPErrorFilePath = configuration["HNXTPRLTCPErrorFilePath"];
+                    MaxSeqBusinessSend = int.Parse(configuration["MaxSeqBusinessSend"]);
+                    WarningPointPercent = int.Parse(configuration["WarningPointPercent"]);
+                    SeqBusinessIncrementPeriod = int.Parse(configuration["SeqBusinessIncrementPeriod"]);
+                    GetMsgForITMonitor = bool.Parse(configuration["GetMsgForITMonitor"]);
+
                 }
-                else if (configuration["KafkaConfig:Acks"] == "1")
-                {
-                    KafkaConfig.Kafka_Acks = Acks.Leader;
-                }
-
-                // default CompressionType
-                KafkaConfig.Kafka_CompressionType = CompressionType.None;
-                //
-                if (configuration["KafkaConfig:CompressionType"] == "1")
-                {
-                    KafkaConfig.Kafka_CompressionType = CompressionType.Gzip;
-                }
-                else if (configuration["KafkaConfig:CompressionType"] == "2")
-                {
-                    KafkaConfig.Kafka_CompressionType = CompressionType.Snappy;
-                }
-                else if (configuration["KafkaConfig:CompressionType"] == "3")
-                {
-                    KafkaConfig.Kafka_CompressionType = CompressionType.Lz4;
-                }
-                else if (configuration["KafkaConfig:CompressionType"] == "4")
-                {
-                    KafkaConfig.Kafka_CompressionType = CompressionType.Zstd;
-                }
-                // LingerMs
-                if (configuration["KafkaConfig:LingerMs"] != null)
-                {
-                    KafkaConfig.Kafka_LingerMs = Utils.ParseDoubleSpan(configuration["KafkaConfig:LingerMs"]);
-                }
-                // BatchSize
-                if (configuration["KafkaConfig:BatchSize"] != null)
-                {
-                    KafkaConfig.Kafka_BatchSize = Utils.ParseInt(configuration["KafkaConfig:BatchSize"]);
-                }
-                QueueSize = Utils.ParseInt(configuration["QueueSize"]);
-                PendingQueueTime = Utils.ParseInt(configuration["PendingQueueTime"]);
-                RetryQ.Enable = bool.Parse(configuration["RetryQueue:Enable"]);
-                RetryQ.Interval = Utils.ParseInt(configuration["RetryQueue:Interval"]);
-                RetryQ.MaxTimes = Utils.ParseInt(configuration["RetryQueue:MaxTimes"]);
-                MainBoard = configuration["MainBoard"].ToString();
-                //
-                //List<UserInfo> myTestUsers = configuration.GetSection("UserListInfo").GetSection("ListUser").Get<List<UserInfo>>();
-                listUsers = configuration.GetSection("Users").Get<List<UserInfo>>();
-                int ModeWaitStrategy = Utils.ParseInt(configuration["ModeStrategy"]);
-                switch (ModeWaitStrategy)
-                {
-                    case 0:
-                        StrategyMode = new BlockingSpinWaitWaitStrategy();
-                        break;
-
-                    case 1:
-                        StrategyMode = new YieldingWaitStrategy();
-                        break;
-
-                    case 2:
-                        StrategyMode = new BusySpinWaitStrategy();
-                        break;
-
-                    default:
-                        StrategyMode = new BlockingSpinWaitWaitStrategy();
-                        break;
-                }
-                VaultAddress = configuration["VaultAppSettings:Address"];
-                VaultUsername = configuration["VaultAppSettings:Username"];
-                VaultPassword = Utils.DecryptAES(configuration["VaultAppSettings:Password"], AES_Key, AES_IV);
-                VaultPath = configuration["VaultAppSettings:Path"];
-                EnableVault = bool.Parse(configuration["VaultAppSettings:EnableVault"]);
-                EnableMaskSensitiveData = bool.Parse(configuration["EnableMaskSensitiveData"]);
-
-                ConnectExchange = bool.Parse(configuration["ConnectExchange"]);
-
-                gConnectionString = Utils.DecryptAES(configuration["ConnectionString"].ToString(), AES_Key, AES_IV);
-                EnableSaveDB = bool.Parse(configuration["EnableSaveDB"]);
-
-                GetStockinfo = bool.Parse(configuration["GetStockinfo"]);
-
-                RecordInPage = int.Parse(configuration["RecordInPage"]);
-                MaxLinesReader = int.Parse(configuration["MaxLinesReader"]);
-                LogApplicationError = configuration["LogApplicationError"];
-                HNXTPRLGateErrorFilePath = configuration["HNXTPRLGateErrorFilePath"];
-                HNXTPRLTCPErrorFilePath = configuration["HNXTPRLTCPErrorFilePath"];
-                MaxSeqBusinessSend = int.Parse(configuration["MaxSeqBusinessSend"]);
-                WarningPointPercent = int.Parse(configuration["WarningPointPercent"]);
-                SeqBusinessIncrementPeriod = int.Parse(configuration["SeqBusinessIncrementPeriod"]);
-			}
+            }
+            catch (Exception ex)
+            {
+                Logger.log.Error(ex);
+            }
         }
 
         public class UserInfo

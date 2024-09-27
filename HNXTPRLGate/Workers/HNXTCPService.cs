@@ -1,4 +1,5 @@
-﻿using BusinessProcessAPIReq;
+﻿using APIMonitor;
+using BusinessProcessAPIReq;
 using CommonLib;
 using HNXInterface;
 using KafkaInterface;
@@ -12,6 +13,7 @@ namespace HNXTPRLGate.Workers
         private readonly iHNXClient __HNXEntity;
         private IKafkaClient _kafkaClient;
         private IProcessRevBussiness _processRevBussiness;
+
 
         public HNXTCPService(iHNXClient p_HNXEntity, IKafkaClient kafkaClient, IProcessRevBussiness processRevBussiness)
         {
@@ -40,6 +42,10 @@ namespace HNXTPRLGate.Workers
             __HNXEntity.Recovery();
             __HNXEntity.StartHNXTCPClient();
             _processRevBussiness.RecoverData();
+
+            //Start Funtion tinh toan nguong cua he thong
+            WorkerITMonitor.Start();
+
             return Task.CompletedTask;
         }
 

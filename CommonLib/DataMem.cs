@@ -1,4 +1,8 @@
-﻿using HNX.FIXMessage;
+﻿//2024.09.10
+//Class lưu các  List, Object sử dụng cho phần ITMOnitor
+ 
+using HNX.FIXMessage;
+using ObjectInfo;
 
 namespace CommonLib
 {
@@ -23,9 +27,26 @@ namespace CommonLib
         public static GateTPRLMonitorExchange gateTPRLMonitorExchange = new();
 
         /// <summary>
+        /// Số msg Bussiness đã gửi lên Sở 
+        /// Phục vụ cho ITMonitor giám sát ngưỡng giao dịch.
+        /// </summary>
+        public static int NumMsgSend { get; set; } = 0;
+
+        /// <summary>
+        /// Thời gian gửi msg  gần nhất
+        /// </summary>
+        public static DateTime lastTimeMsgSend { get; set; } = DateTime.Now;
+
+
+        public static object lockObj = new object();
+
+        /// <summary>
         /// Lưu thông tin cảnh báo cho đơn vị vận hành khi vượt ngưỡng, hệ thống gặp lỗi
         ///  Mục đích để sử dụng cho bên Core gọi vào sẽ nhận được thông tin
         /// </summary>
-        public static GateTPRLWarningThreshold? gateTPRLWarningThreshold;
-	}
+        public static GateTPRLWarningThreshold warningThreshold = null;
+
+    }
+
+
 }
