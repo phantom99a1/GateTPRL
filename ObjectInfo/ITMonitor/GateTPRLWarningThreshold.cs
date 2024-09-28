@@ -6,14 +6,10 @@ namespace ObjectInfo
 
         public GateTPRLWarningThreshold()
         {
-
-
             MaxSeqBusinessSendDay = 0;
             MaxSeqBusinessSendSession = 0;
             SeqBusinessSendMorning = 0;
             SeqBusinessAchieve = 0;
-
-
         }
         public double MaxSeqBusinessSendDay { get; set; }
 

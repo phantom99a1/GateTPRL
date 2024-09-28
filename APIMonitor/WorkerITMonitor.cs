@@ -36,13 +36,14 @@ namespace APIMonitor
             bool isActive = true;
             int percent = 100;
             int numNumber = 4;
-            while (isActive == true)
+            var timeSpan = new TimeSpan(11, 30, 0);
+            while (isActive)
             {
-                var warningThreshold = new GateTPRLWarningThreshold();
+                GateTPRLWarningThreshold? warningThreshold;
                 try
                 {
                     //2024.09.25 add data on memory
-                    bool isMorningSession = DataMem.lastTimeMsgSend.TimeOfDay <= new TimeSpan(11, 30, 0);
+                    bool isMorningSession = DataMem.lastTimeMsgSend.TimeOfDay <= timeSpan;
                     double maxSeqBusinessSend = ConfigData.MaxSeqBusinessSend;
                     string session = isMorningSession ? "Sáng" : "Chiều";
                     double maxSeqBusinessSendMorning = 60 * maxSeqBusinessSend / percent;
@@ -58,7 +59,7 @@ namespace APIMonitor
                     {
                         var gateTPRLWarningThreshold = DataMem.warningThreshold;
                         bool isPrevMorningSession = DateTime.Parse(gateTPRLWarningThreshold.ProcessingTime).TimeOfDay <= new TimeSpan(11, 30, 0);
-                        seqBusinessAchieveMorning = gateTPRLWarningThreshold.SeqBusinessSendMorning;
+                        seqBusinessAchieveMorning = isMorningSession ? DataMem.NumMsgSend : gateTPRLWarningThreshold.SeqBusinessSendMorning;
                         seqBusinessAchieveAfternoon = DataMem.NumMsgSend - seqBusinessAchieveMorning;
                         double seqBusinessAchieve = isMorningSession ? seqBusinessAchieveMorning : seqBusinessAchieveAfternoon;
                         double thresholdSession = Math.Round((seqBusinessAchieve / maxSeqBusinessSendOfSession) * percent, numNumber);
@@ -106,7 +107,6 @@ namespace APIMonitor
                     {
                         DataMem.warningThreshold = warningThreshold;
                     }
-
                 }
                 catch (Exception ex)
                 {

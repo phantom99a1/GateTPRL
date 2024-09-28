@@ -37,16 +37,12 @@ namespace CommonLib
         /// </summary>
         public static DateTime lastTimeMsgSend { get; set; } = DateTime.Now;
 
-
         public static object lockObj = new object();
 
         /// <summary>
         /// Lưu thông tin cảnh báo cho đơn vị vận hành khi vượt ngưỡng, hệ thống gặp lỗi
         ///  Mục đích để sử dụng cho bên Core gọi vào sẽ nhận được thông tin
         /// </summary>
-        public static GateTPRLWarningThreshold warningThreshold = null;
-
+        public static GateTPRLWarningThreshold? warningThreshold;
     }
-
-
 }
