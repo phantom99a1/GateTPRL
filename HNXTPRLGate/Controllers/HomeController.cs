@@ -353,11 +353,11 @@ namespace HNXTPRLGate.Controllers
                 string userStatusText = ShareMemoryData.c_UserStatusText;
                 if (res > 0)
                 {
-                    return Json(new { code = 1, message = "Change Gateway Sequence request success!" });
+                    return Json(new { code = 1, message = "Change Gateway Sequence success!" });
                 }
                 else
                 {
-                    return Json(new { code = -1, message = "Error Change Gateway Sequence request!" });
+                    return Json(new { code = -1, message = "Error Change Gateway Sequence!" });
                 }
             }
 			catch (Exception ex)
