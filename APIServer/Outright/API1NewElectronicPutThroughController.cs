@@ -36,9 +36,19 @@ namespace APIServer
             API1NewElectronicPutThroughResponse _response = new API1NewElectronicPutThroughResponse();
             try
             {
+
+                #region Gán sử dụng cho ITMonitor
+                if (ConfigData.GetMsgForITMonitor == true)
+                {
+                    DataMem.NumMsgSend++;
+                    DataMem.lastTimeMsgSend = DateTime.Now;
+                    //Logger.HNXTcpLog.Info($"Số lệnh được gửi lên Sở là {DataMem.NumMsgSend}, số lệnh đã nhận là {DataMem.warningThreshold?.SeqBusinessAchieve}");
+                }
+                #endregion
+
                 long t1 = DateTime.Now.Ticks;
                 //
-                Logger.ApiLog.Info($"Start call api API1NewElectronicPutThrough with OrderNo: {request.OrderNo}, ClientID: {request.ClientID}, OrderType: {request.OrderType}, Side: {request.Side}, Symbol: {request.Symbol}, Price: {request.Price}, OrderQty: {request.OrderQty}, SettleDate: {request.SettleDate}, SettleMethod: {request.SettleMethod}, RegistID: {request.RegistID}, IsVisible: {request.IsVisible}");
+                Logger.ApiLog.Info($"Start call api API1NewElectronicPutThrough with OrderNo: {request.OrderNo}, ClientID: {request.ClientID}, OrderType: {request.OrderType}, Side: {request.Side}, Symbol: {request.Symbol}, Price: {request.Price}, OrderQty: {request.OrderQty}, SettleDate: {request.SettleDate}, SettleMethod: {request.SettleMethod}, RegistID: {request.RegistID}, IsVisible: {request.IsVisible} ,DataMem.NumMsgSend:{DataMem.NumMsgSend.ToString()}");
                 //
                 request.TrimStringProperty();
                 //
@@ -47,7 +57,8 @@ namespace APIServer
                 {
                     _response.ReturnCode = validatorResponse.ErrorCode;
                     _response.Message = validatorResponse.ErrorMessage;
-					Logger.ApiLog.Info($"Số lệnh mà gửi lên sở là {DataMem.NumMsgSend}, số lệnh đã nhận được là {DataMem.warningThreshold?.SeqBusinessAchieve}");
+
+					//Logger.ApiLog.Info($"Số lệnh mà gửi lên sở là {DataMem.NumMsgSend}, số lệnh đã nhận được là {DataMem.warningThreshold?.SeqBusinessAchieve}");
 					//
 					Logger.ApiLog.Info($"End call api API1NewElectronicPutThrough with OrderNo: {request.OrderNo}; Repsonse =>   ReturnCode: {_response.ReturnCode}, Message: {_response.Message}");
                     //

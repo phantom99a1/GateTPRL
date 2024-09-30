@@ -92,14 +92,14 @@ namespace HNXInterface
                     // BacND: bổ sung thêm ghi vào DB sau khi gửi sở và save file xong
                     SharedStorageProcess.c_DataStorageProcess.EnqueueData(Message, Data_SoR.Send);
 
-                    #region Gán sử dụng cho ITMonitor
-                    if (ConfigData.GetMsgForITMonitor == true)
-                    {
-                        DataMem.NumMsgSend = GateSeqInfo.LastCliProcessSeq;
-                        DataMem.lastTimeMsgSend = Message.GetSendingTime;
-                        Logger.HNXTcpLog.Info($"Số lệnh được gửi lên Sở là {DataMem.NumMsgSend}, số lệnh đã nhận là {DataMem.warningThreshold?.SeqBusinessAchieve}");
-                    }
-                    #endregion
+                    //#region Gán sử dụng cho ITMonitor
+                    //if (ConfigData.GetMsgForITMonitor == true)
+                    //{
+                    //    DataMem.NumMsgSend = GateSeqInfo.LastCliProcessSeq;
+                    //    DataMem.lastTimeMsgSend = Message.GetSendingTime;
+                    //    //Logger.HNXTcpLog.Info($"Số lệnh được gửi lên Sở là {DataMem.NumMsgSend}, số lệnh đã nhận là {DataMem.warningThreshold?.SeqBusinessAchieve}");
+                    //}
+                    //#endregion
                     GateSeqInfo.Set_CliSeq(Message.MsgSeqNum);
                     _lasttimeKeapAlive = DateTime.Now.Ticks;
                     DataMem.gateTPRLMonitorExchange.ExchangeSendMessageNum = Message.MsgSeqNum;
