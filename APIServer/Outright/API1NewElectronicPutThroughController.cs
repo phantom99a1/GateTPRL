@@ -47,16 +47,18 @@ namespace APIServer
                 {
                     _response.ReturnCode = validatorResponse.ErrorCode;
                     _response.Message = validatorResponse.ErrorMessage;
-                    //
-                    Logger.ApiLog.Info($"End call api API1NewElectronicPutThrough with OrderNo: {request.OrderNo}; Repsonse =>   ReturnCode: {_response.ReturnCode}, Message: {_response.Message}");
+					Logger.ApiLog.Info($"Số lệnh mà gửi lên sở là {DataMem.NumMsgSend}, số lệnh đã nhận được là {DataMem.warningThreshold?.SeqBusinessAchieve}");
+					//
+					Logger.ApiLog.Info($"End call api API1NewElectronicPutThrough with OrderNo: {request.OrderNo}; Repsonse =>   ReturnCode: {_response.ReturnCode}, Message: {_response.Message}");
                     //
                     return _response;
                 }
                 //
                 _response.InData = request;
                 _response = await c_processRevBussiness.API1NewElectronicPutThrough_BU(request, _response);
-                //
-                Logger.ApiLog.Info($"End call api API1NewElectronicPutThrough with OrderNo: {request.OrderNo}; Repsonse =>   ReturnCode: {_response.ReturnCode}, Message: {_response.Message}, Processed in {(DateTime.Now.Ticks - t1) *10} us");
+				Logger.ApiLog.Info($"Số lệnh mà gửi lên sở là {DataMem.NumMsgSend}, số lệnh đã nhận được là {DataMem.warningThreshold?.SeqBusinessAchieve}");
+				//
+				Logger.ApiLog.Info($"End call api API1NewElectronicPutThrough with OrderNo: {request.OrderNo}; Repsonse =>   ReturnCode: {_response.ReturnCode}, Message: {_response.Message}, Processed in {(DateTime.Now.Ticks - t1) *10} us");
                 LogStationFacade.RecordforPT("API1NewElectronicPutThrough_BU", DateTime.Now.Ticks - t1, true, "ApiServer");
                 //
                 return _response;
