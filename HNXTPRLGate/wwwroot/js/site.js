@@ -3,7 +3,7 @@
 
 // Write your JavaScript code.
 var _countSpinLoading = 0;
-
+var showPopup = false;
 window.SpinLoading = function ($create) {
     try {
         if ($create) {
@@ -61,7 +61,7 @@ function ReloadData() {
                 document.getElementById("countdown").innerHTML = timeleft + " seconds auto refresh";
                 ReloadData();
                 ReloadSessionFlag();
-                ReloadDataError();
+                ReloadDataError(showPopup);
                 ReloadDataRejection();
                 ReloadSearchListSecurities();
             } else {
@@ -303,7 +303,7 @@ function fnLogOut()
     }
 }
 
-function ReloadDataError() {
+function ReloadDataError(showPopup) {
     const pageIndex = 1;
     $.ajax({
         type: "GET",
@@ -312,7 +312,9 @@ function ReloadDataError() {
             "pageIndex": pageIndex,
         },       
         success: function (data) {
-            $("#ApplicationErrorID").html(data);
+            if (showPopup == false) {
+                $("#ApplicationErrorID").html(data);
+            }
         }        
     });
 }
