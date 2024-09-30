@@ -151,7 +151,6 @@ namespace APIMonitor
                 {
                     gateTPRLWarningThreshold = DataMem.warningThreshold;
                 }
-                Logger.ApiLog.Info($"Số lệnh mà gửi lên sở là {DataMem.NumMsgSend}, số lệnh đã nhận được là {DataMem.warningThreshold?.SeqBusinessAchieve}");
                 Logger.ApiLog.Info($"End call GetGateTPRLWarningThreshold; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
                 LogStationFacade.RecordforPT("GetGateTPRLWarningThreshold", DateTime.Now.Ticks - t1, true, "ApiMonitorController");
             }

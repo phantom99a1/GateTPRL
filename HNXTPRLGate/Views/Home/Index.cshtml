@@ -44,7 +44,7 @@
             clearInterval(downloadTimer);
             document.getElementById("countdown").innerHTML = timeleft + " seconds auto refresh";
             ReloadData();
-            ReloadDataError();
+            ReloadDataError(showPopup);
             ReloadDataRejection();
             ReloadSearchListSecurities();
         } else {
