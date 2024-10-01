@@ -34,6 +34,13 @@ namespace APIServer
         {
             long t1 = DateTime.Now.Ticks;
             API5NewCommonPutThroughResponse _response = new API5NewCommonPutThroughResponse();
+
+            #region Gán sử dụng cho ITMonitor
+            if (ConfigData.GetMsgForITMonitor == true)
+            {
+                DataMem.NumMsgSendApi2++;
+            }
+            #endregion
             try
             {
                 Logger.ApiLog.Info($"Start call api API5NewCommonPutThrough with OrderNo: {request.OrderNo}, ClientID: {request.ClientID}, ClientIDCounterfirm: {request.ClientIDCounterFirm}, MemberCounterFirm: {request.MemberCounterFirm}, OrderType: {request.OrderType}, Side: {request.Side}, Symbol: {request.Symbol}, Price: {request.Price}, OrderQty: {request.OrderQty}, SettleDate: {request.SettleDate}, SettleMethod: {request.SettleMethod}, CrossType: {request.CrossType}, EffectiveTime: {request.EffectiveTime}");

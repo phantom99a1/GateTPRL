@@ -52,7 +52,7 @@ namespace APIMonitor
                     double seqBusinessAchieveMorning = 0;
                     double seqBusinessAchieveAfternoon = 0;
                     var warningPointPercent = ConfigData.WarningPointPercent;
-                    double seqBusinessAchieveDay = DataMem.NumMsgSend;
+                    double seqBusinessAchieveDay =( DataMem.NumMsgSend + DataMem.NumMsgSendApi2);
                     if (maxSeqBusinessSendOfSession == 0) { maxSeqBusinessSendOfSession = 1; };
                     if (maxSeqBusinessSend == 0) { maxSeqBusinessSend = 1; };
                     if (DataMem.warningThreshold != null)
@@ -82,7 +82,7 @@ namespace APIMonitor
                     }
                     else
                     {
-                        double seqBusinessAchieve = DataMem.NumMsgSend;
+                        double seqBusinessAchieve = (DataMem.NumMsgSend + DataMem.NumMsgSendApi2);
                         double thresholdSession = Math.Round((seqBusinessAchieve / maxSeqBusinessSendOfSession) * percent, numNumber);
                         double thresholdDay = Math.Round((seqBusinessAchieveDay / maxSeqBusinessSend) * percent, numNumber);
                         warningThreshold = new GateTPRLWarningThreshold()
