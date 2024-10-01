@@ -37,6 +37,9 @@
 </div>
 
 <script type="text/javascript">
+    window.addEventListener('beforeunload', function () {
+        sessionStorage.removeItem('SymbolID');
+    });
     var timeleft = 5;
     var downloadTimer = setInterval(function () {
         //console.log("--init", timeleft);

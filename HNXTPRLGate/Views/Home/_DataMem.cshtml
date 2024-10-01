@@ -45,6 +45,7 @@
     </div>
 </div>
 <script type="text/javascript">
+    const symbolID = document.getElementById("SymbolID");
     function GetRejectionListByPage(pageIndex) {
         $.ajax({
             type: "GET",
@@ -74,6 +75,7 @@
 
     function SearchListSecurities(){
         var SymbolID = $('#SymbolID').val().trim() || '';
+        sessionStorage.setItem("SymbolID", symbolID.value);
         $.ajax({
             type: "GET",
             url: "/Home/SearchListSecurities",

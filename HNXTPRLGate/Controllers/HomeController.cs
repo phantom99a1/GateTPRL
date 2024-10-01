@@ -175,7 +175,13 @@ namespace HNXTPRLGate.Controllers
 					_boxConnect.DataMem.ListDisplaySecurities = listSecuritiesSearch?.OrderBy(item => item.Symbol)
 						.Skip(0).Take(RecordInPage).ToList() ?? new();
 					HttpContext.Session.SetString("SearchModel", JsonConvert.SerializeObject(_boxConnect));
-					HttpContext.Session.SetString("SymbolID", symbolID);
+					if (symbolID != null) {
+						HttpContext.Session.SetString("SymbolID", symbolID);
+					}
+					else
+					{
+						HttpContext.Session.Remove("SymbolID");
+                    }
 				}
                 Logger.ApiLog.Info($"End call SearchListSecurities with symbolID: {symbolID}; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
                 LogStationFacade.RecordforPT("SearchListSecurities", DateTime.Now.Ticks - t1, true, "HomeController");
@@ -195,7 +201,7 @@ namespace HNXTPRLGate.Controllers
 			try
 			{
                 Logger.ApiLog.Info($"Start call ReloadSearchListSecurities");
-				var symbolID = HttpContext.Session.GetString("SymbolID");
+				var symbolID = HttpContext.Session.GetString("SymbolID") ?? "";
                 var client = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
                 var request = new RestRequest("api/ApiMonitor/get-boxconnect-info", Method.Get);
                 var response = client.Execute(request);
