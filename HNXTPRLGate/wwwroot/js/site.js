@@ -54,7 +54,8 @@ function ReloadData() {
     }
     function countDown() {
         var timeleft = 5;
-        var downloadTimer = setInterval(function () {
+        var downloadTimer = setInterval(function ()
+        {
             //console.log("--callback", timeleft);
             if (timeleft <= 0) {
                 clearInterval(downloadTimer);

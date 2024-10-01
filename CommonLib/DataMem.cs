@@ -32,6 +32,8 @@ namespace CommonLib
         /// </summary>
         public static int NumMsgSend { get; set; } = 0;
 
+        public static int NumMsgSendApi2 { get; set; } = 0;
+
         /// <summary>
         /// Thời gian gửi msg  gần nhất
         /// </summary>

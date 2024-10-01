@@ -215,7 +215,8 @@ namespace HNXTPRLGate.Controllers
                         .Skip(0).Take(RecordInPage).ToList() ?? new();
                     HttpContext.Session.SetString("SearchModel", JsonConvert.SerializeObject(_boxConnect));
                 }
-                Logger.ApiLog.Info($"End call ReloadSearchListSecurities; Processed in {(DateTime.Now.Ticks - t1) * 10} us");
+                Logger.ApiLog.Info($"End call ReloadSearchListSecurities; Processed in {(DateTime.Now.Ticks - t1) * 10} us" + "|listSecuritiesSearch count:" + listSecuritiesSearch.Count().ToString());
+
                 LogStationFacade.RecordforPT("ReloadSearchListSecurities", DateTime.Now.Ticks - t1, true, "HomeController");
             }
 			catch (Exception ex)
