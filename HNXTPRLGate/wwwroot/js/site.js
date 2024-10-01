@@ -335,6 +335,7 @@ function ReloadDataRejection() {
 }
 
 function ReloadSearchListSecurities() {
+    $("#SymbolID").val(sessionStorage.getItem("SymbolID"));
     $.ajax({
         type: "GET",
         url: "/Home/ReloadSearchListSecurities",        

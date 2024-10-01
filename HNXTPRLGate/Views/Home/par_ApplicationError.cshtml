@@ -65,13 +65,11 @@
 }
 
 <div id="popup" class="popup">
-    <div class="popup-content">
-        <div class="popup-border">
-            <span class="popup-header">Error Detail</span>
-            <span class="close-btn">&times;</span>
-        </div>        
-        <div id="popup-data"></div>
+    <div class="popup-header">
+        <span>Error Detail</span>
+        <span class="close-btn">&times;</span>
     </div>
+    <div id="popup-data"></div>
 </div>
 <style>    
     table {
@@ -97,49 +95,32 @@
     .popup {
         display: none;
         position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    .popup-content {
-        position: relative;
-        background-color: #313b45;
-        margin: 15% auto;
-        padding: 20px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         width: 70%;
-        color: #fff;
-        white-space:pre-line;
-        bottom: 0;
-        border: 2px solid white;
-        box-sizing: border-box;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        background: #212b36;
+        border: 1px solid rgba(145, 158, 171, 0.24);
+        border-radius: 16px;
     }
 
-    .popup-border {
-        position: absolute;
-        top: 0;
-        bottom: 100px;
-        left: 0;
-        right: 0;
-        border: 2px solid white;
+    .popup-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 10px;
         box-sizing: border-box;
-    }
-
-    .popup-header{
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        font-size: 16px;
-    }
+        background-color: rgba(145, 158, 171, 0.16);
+        width: 100%;
+    }   
 
     .close-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 20px;
         cursor: pointer;
+        font-size: 20px;
+        font-weight: bold;
     }
 </style>
 <script type="text/javascript">
