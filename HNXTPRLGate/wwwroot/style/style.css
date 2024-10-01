@@ -209,13 +209,13 @@
     .group__box.infomation .popup-header {
         padding: 12px 16px 14px;
         border-radius: 16px 16px 0 0;
-        font-size: 14px;
+        font-size: 20px;
         font-weight: 700;
     }
 
     .group__box.infomation .popup-header .close-btn {
         line-height: 0;
-        font-size: 22px;
+        font-size: 24px;
     }
 
     .group__box.infomation .border-css {

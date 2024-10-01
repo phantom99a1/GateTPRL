@@ -63,7 +63,7 @@
         </div>
     </div>
 }
-
+<div id="overlay" class="overlay"></div>
 <div id="popup" class="popup">
     <div class="popup-header">
         <span>Error Detail</span>
@@ -107,6 +107,17 @@
         border-radius: 16px;
     }
 
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 1;
+    }
+
     .popup-header {
         display: flex;
         justify-content: space-between;
@@ -115,7 +126,7 @@
         box-sizing: border-box;
         background-color: rgba(145, 158, 171, 0.16);
         width: 100%;
-    }   
+    }
 
     .close-btn {
         cursor: pointer;
@@ -136,17 +147,20 @@
                 document.getElementById("popup-data").innerHTML = dataDisplay;
             }
         });
+        document.getElementById("overlay").style.display = "block";
         document.getElementById("popup").style.display = "block";
         showPopup = true;
     }
 
     document.querySelector(".close-btn").onclick = function () {
+        document.getElementById("overlay").style.display = "none";
         document.getElementById("popup").style.display = "none";
         showPopup = false;
     }
 
     window.onclick = function (event) {
         if (event.target == document.getElementById("popup")) {
+            document.getElementById("overlay").style.display = "none";
             document.getElementById("popup").style.display = "none";
             showPopup = false;
         }
