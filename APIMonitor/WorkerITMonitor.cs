@@ -58,7 +58,6 @@ namespace APIMonitor
                     if (DataMem.warningThreshold != null)
                     {
                         var gateTPRLWarningThreshold = DataMem.warningThreshold;
-                        bool isPrevMorningSession = DateTime.Parse(gateTPRLWarningThreshold.ProcessingTime).TimeOfDay <= new TimeSpan(11, 30, 0);
                         seqBusinessAchieveMorning = isMorningSession ? DataMem.NumMsgSend : gateTPRLWarningThreshold.SeqBusinessSendMorning;
                         seqBusinessAchieveAfternoon = DataMem.NumMsgSend - seqBusinessAchieveMorning;
                         double seqBusinessAchieve = isMorningSession ? seqBusinessAchieveMorning : seqBusinessAchieveAfternoon;
