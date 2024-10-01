@@ -157,6 +157,10 @@
 .group__inner:last-child .box__body #popup-data {
     overflow-wrap: break-word;
     word-break: break-all;
+    margin: 16px 16px 24px;
+    padding: 16px;
+    background: #323a45;
+    border-radius: 8px;
 }
 
 .group__box {
@@ -199,6 +203,19 @@
 
     .group__box.infomation .popup {
         z-index: 999;
+        padding: 0;
+    }
+
+    .group__box.infomation .popup-header {
+        padding: 12px 16px 14px;
+        border-radius: 16px 16px 0 0;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .group__box.infomation .popup-header .close-btn {
+        line-height: 0;
+        font-size: 22px;
     }
 
     .group__box.infomation .border-css {
