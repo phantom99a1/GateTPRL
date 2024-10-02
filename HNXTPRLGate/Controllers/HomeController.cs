@@ -42,10 +42,7 @@ namespace HNXTPRLGate.Controllers
 				HttpContext.Session.Remove("SearchModel");
 				HttpContext.Session.Remove("SymbolID");
 				var client = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
-				var request = new RestRequest("api/ApiMonitor/get-boxconnect-info", Method.Get);
-				//
-				//request.AddParameter("param", _value);
-				//
+				var request = new RestRequest("api/ApiMonitor/get-boxconnect-info", Method.Get);				
 				var response = client.Execute(request);                
                 _boxConnect = JsonConvert.DeserializeObject<BoxConnectModel>(response?.Content ?? "");
                 var clientLogError = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
@@ -96,11 +93,8 @@ namespace HNXTPRLGate.Controllers
 			BoxConnectModel _boxConnect = new BoxConnectModel();
 			try
 			{
-				var client = new RestClient(ConfigData.APIMonitorDomain + ":" + ConfigData.APIMonitorPort);
-				var request = new RestRequest("api/ApiMonitor/get-boxconnect-info", Method.Get);
-				//
-				//request.AddParameter("param", _value);
-				//
+				var client = new RestClient(APIMonitorDomain + ":" + APIMonitorPort);
+				var request = new RestRequest("api/ApiMonitor/get-boxconnect-info", Method.Get);				
 				var response = client.Execute(request);
 				_boxConnect = JsonConvert.DeserializeObject<BoxConnectModel>(response?.Content ?? "");    
             }

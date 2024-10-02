@@ -2,7 +2,6 @@
 using HNX.FIXMessage;
 using LocalMemory;
 using StorageProcess;
-using System.Threading;
 
 namespace HNXInterface
 {

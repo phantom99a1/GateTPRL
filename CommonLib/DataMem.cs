@@ -1,7 +1,4 @@
-﻿//2024.09.10
-//Class lưu các  List, Object sử dụng cho phần ITMOnitor
- 
-using HNX.FIXMessage;
+﻿using HNX.FIXMessage;
 using ObjectInfo;
 
 namespace CommonLib

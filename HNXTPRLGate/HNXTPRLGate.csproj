@@ -13,16 +13,20 @@
     <Compile Remove="LogHNXData\**" />
     <Compile Remove="LogMWData\**" />
     <Compile Remove="Views\Home\NewFolder\**" />
+    <Compile Remove="wwwroot\assets\image\img\**" />
     <Content Remove="LogHNXData\**" />
     <Content Remove="LogMWData\**" />
     <Content Remove="Views\Home\NewFolder\**" />
+    <Content Remove="wwwroot\assets\image\img\**" />
     <EmbeddedResource Remove="LogHNXData\**" />
     <EmbeddedResource Remove="LogMWData\**" />
     <EmbeddedResource Remove="Views\Home\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\assets\image\img\**" />
     <None Remove="LogHNXData\**" />
 	  <None Remove="LogMWData\**" />
 	  <None Remove="LogMWData\**" />
 	  <None Remove="Views\Home\NewFolder\**" />
+	  <None Remove="wwwroot\assets\image\img\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -156,10 +160,6 @@
     <None Update="ConfigApp\ErrorCodeText.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-	
-  <ItemGroup>
-    <Folder Include="wwwroot\assets\image\img\" />
   </ItemGroup>
   
 </Project>
