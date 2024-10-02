@@ -1,5 +1,4 @@
-﻿//class trả về thông tin cho bên core khi gọi vào api lấy thông tin thông báo khi vượt ngưỡng, hệ thống gặp lỗi
-namespace ObjectInfo
+﻿namespace ObjectInfo
 {
     public class GateTPRLWarningThreshold
     {

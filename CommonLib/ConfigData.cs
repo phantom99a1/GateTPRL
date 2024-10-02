@@ -20,9 +20,9 @@ namespace CommonLib
         public string KafkaTopic_HNXTPRL_TradingInfo { get; set; } = string.Empty;
 
         //
-        public Confluent.Kafka.Acks Kafka_Acks { get; set; }
+        public Acks Kafka_Acks { get; set; }
 
-        public Confluent.Kafka.CompressionType Kafka_CompressionType { get; set; }
+        public CompressionType Kafka_CompressionType { get; set; }
 
         public double Kafka_LingerMs { get; set; } = 5;
         public int Kafka_BatchSize { get; set; } = 1000000;

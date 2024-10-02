@@ -14,7 +14,7 @@ namespace HNXTPRLGate.Controllers
         [Route("login")]
         public IActionResult Login()
         {
-            var _user = this.HttpContext.GetCurrentUser();
+            var _user = HttpContext.GetCurrentUser();
             if (_user != null)
             {
                 return Redirect("/");
